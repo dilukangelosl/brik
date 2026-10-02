@@ -1,0 +1,119 @@
+/* Fallback tokens (the plugin prints the configured ones). */
+:root {
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --brik-container: 1200px;
+}
+
+/*
+ * Scoped reset. Kept before the utilities so utility classes win at equal specificity,
+ * and scoped to .brik so host themes are left alone.
+ */
+.brik,
+.brik *,
+.brik ::before,
+.brik ::after {
+  box-sizing: border-box;
+  border: 0 solid var(--border);
+}
+
+.brik {
+  color: var(--foreground);
+  font-family: var(--brik-font-body, ui-sans-serif, system-ui, sans-serif);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.brik :where(h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd, pre, hr) {
+  margin: 0;
+}
+
+.brik :where(h1, h2, h3, h4, h5, h6) {
+  font-size: inherit;
+  font-weight: inherit;
+  color: inherit;
+  line-height: 1.2;
+}
+
+.brik :where(ol, ul, menu) {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.brik :where(a) {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+.brik :where(b, strong) {
+  font-weight: bolder;
+}
+
+.brik :where(img, svg, video, canvas, audio, iframe, embed, object) {
+  display: block;
+  vertical-align: middle;
+}
+
+.brik :where(img, video) {
+  max-width: 100%;
+  height: auto;
+}
+
+.brik :where(button, input, select, optgroup, textarea) {
+  font: inherit;
+  font-feature-settings: inherit;
+  letter-spacing: inherit;
+  text-transform: none;
+  color: inherit;
+  background-color: transparent;
+  border-radius: 0;
+  margin: 0;
+  padding: 0;
+  box-shadow: none;
+  min-height: 0;
+}
+
+.brik :where(button, [role="button"]) {
+  cursor: pointer;
+}
+
+.brik ::placeholder {
+  color: var(--muted-foreground);
+  opacity: 1;
+}
+
+.brik :where(table) {
+  border-collapse: collapse;
+  text-indent: 0;
+}
+
+.brik :where(summary) {
+  display: list-item;
+}
+
+.brik :where([hidden]):where(:not([hidden="until-found"])) {
+  display: none !important;
+}
+
+.brik .font-heading {
+  font-family: var(--brik-font-heading, var(--brik-font-body, ui-sans-serif, system-ui, sans-serif));
+}

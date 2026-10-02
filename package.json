@@ -1,0 +1,26 @@
+{
+  "name": "brik",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Brik Builder plugin and Brik theme",
+  "author": "Diluk Angelo",
+  "license": "GPL-2.0-or-later",
+  "type": "module",
+  "scripts": {
+    "build": "npm run icons && npm run build:css && npm run build:js",
+    "build:css": "node tools/build-css.mjs",
+    "build:js": "node tools/build-js.mjs",
+    "watch": "node tools/build-js.mjs --watch",
+    "icons": "node tools/build-icons.mjs",
+    "shadcn": "node tools/fetch-shadcn.mjs",
+    "zip": "node tools/package.mjs"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.3.3",
+    "esbuild": "^0.28.2",
+    "lucide-static": "^1.49.0",
+    "playwright": "^1.63.0",
+    "simple-icons": "^16.33.0",
+    "tailwindcss": "^4.3.3"
+  }
+}

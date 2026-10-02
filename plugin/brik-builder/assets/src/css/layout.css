@@ -1,0 +1,301 @@
+/* Structure: sections, rows, columns. */
+.brik-section {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 5rem 1.5rem;
+}
+
+.brik-section.dark {
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+.brik-section > .brik-row {
+  width: 100%;
+  max-width: var(--brik-container, 1200px);
+  margin-inline: auto;
+}
+
+.brik-section--full > .brik-row,
+.brik-section > .brik-row--full {
+  max-width: none;
+}
+
+.brik-section--sticky {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+body.admin-bar .brik-section--sticky {
+  top: 32px;
+}
+
+.brik-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  column-gap: 2rem;
+  row-gap: 2rem;
+}
+
+.brik-column {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  min-width: 0;
+}
+
+.brik-column > .brik-row {
+  width: 100%;
+}
+
+.brik-column--sticky {
+  position: sticky;
+  top: 2rem;
+  align-self: start;
+}
+
+.brik-el {
+  min-width: 0;
+}
+
+.brik-has-link {
+  position: relative;
+}
+
+.brik-el-link {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+}
+
+/* Background video and shape dividers. */
+.brik-bg-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.brik-section > :not(.brik-bg-video, .brik-divider) {
+  position: relative;
+  z-index: 1;
+}
+
+.brik-divider {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 80px;
+  line-height: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.brik-divider svg {
+  width: 100%;
+  height: 100%;
+}
+
+.brik-divider-top {
+  top: -1px;
+  transform: scaleY(-1);
+}
+
+.brik-divider-bottom {
+  bottom: -1px;
+}
+
+.brik-divider--flip.brik-divider-top {
+  transform: scale(-1, -1);
+}
+
+.brik-divider--flip.brik-divider-bottom {
+  transform: scaleX(-1);
+}
+
+.brik-section > .brik-divider--front {
+  z-index: 2;
+}
+
+/* Rich text (shadcn typography). */
+.brik-prose {
+  line-height: 1.75;
+}
+
+.brik-prose > * + * {
+  margin-top: 1.25em;
+}
+
+.brik-prose :is(h1, h2, h3, h4) {
+  font-family: var(--brik-font-heading, inherit);
+  letter-spacing: -0.025em;
+  scroll-margin-top: 5rem;
+}
+
+.brik-prose h1 {
+  font-size: 2.25rem;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.brik-prose h2 {
+  font-size: 1.875rem;
+  font-weight: 600;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.brik-prose h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.brik-prose h4 {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.brik-prose * + :is(h2, h3, h4) {
+  margin-top: 2em;
+}
+
+.brik-prose a {
+  color: var(--primary);
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.brik-prose blockquote {
+  border-left: 2px solid var(--border);
+  padding-left: 1.5rem;
+  font-style: italic;
+}
+
+.brik-prose ul {
+  list-style: disc;
+  padding-left: 1.5rem;
+}
+
+.brik-prose ol {
+  list-style: decimal;
+  padding-left: 1.5rem;
+}
+
+.brik-prose li + li {
+  margin-top: 0.5rem;
+}
+
+.brik-prose :not(pre) > code {
+  background: var(--muted);
+  border-radius: 0.25rem;
+  padding: 0.2rem 0.3rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.875em;
+  font-weight: 600;
+}
+
+.brik-prose pre {
+  background: var(--muted);
+  padding: 1rem;
+  border-radius: var(--radius);
+  overflow: auto;
+  font-size: 0.875rem;
+}
+
+.brik-prose img {
+  border-radius: var(--radius);
+}
+
+.brik-prose hr {
+  border-top: 1px solid var(--border);
+}
+
+.brik-prose table {
+  width: 100%;
+  font-size: 0.875rem;
+}
+
+.brik-prose :is(th, td) {
+  border: 1px solid var(--border);
+  padding: 0.5rem 1rem;
+  text-align: left;
+}
+
+.brik-prose th {
+  font-weight: 700;
+}
+
+.brik-prose tr:nth-child(even) {
+  background: var(--muted);
+}
+
+.brik-dropcap > p:first-child::first-letter {
+  float: left;
+  font-size: 3.5em;
+  line-height: 0.9;
+  font-weight: 700;
+  margin: 0.05em 0.1em 0 0;
+}
+
+/* Entrance animations. Content stays visible when scripts don't run. */
+.brik-anim-ready [data-brik-anim]:not(.is-in) {
+  opacity: 0;
+}
+
+.brik-anim-ready [data-brik-anim].is-in {
+  animation: brik-fade var(--brik-anim-duration, 700ms) cubic-bezier(0.2, 0.7, 0.2, 1) var(--brik-anim-delay, 0ms) both;
+}
+
+.brik-anim-ready [data-brik-anim="slide-up"].is-in { animation-name: brik-slide-up; }
+.brik-anim-ready [data-brik-anim="slide-down"].is-in { animation-name: brik-slide-down; }
+.brik-anim-ready [data-brik-anim="slide-left"].is-in { animation-name: brik-slide-left; }
+.brik-anim-ready [data-brik-anim="slide-right"].is-in { animation-name: brik-slide-right; }
+.brik-anim-ready [data-brik-anim="zoom"].is-in { animation-name: brik-zoom; }
+.brik-anim-ready [data-brik-anim="zoom-out"].is-in { animation-name: brik-zoom-out; }
+.brik-anim-ready [data-brik-anim="flip"].is-in { animation-name: brik-flip; }
+.brik-anim-ready [data-brik-anim="bounce"].is-in { animation-name: brik-bounce; }
+.brik-anim-ready [data-brik-anim="blur"].is-in { animation-name: brik-blur; }
+
+@keyframes brik-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes brik-slide-up { from { opacity: 0; transform: translateY(2rem); } to { opacity: 1; transform: none; } }
+@keyframes brik-slide-down { from { opacity: 0; transform: translateY(-2rem); } to { opacity: 1; transform: none; } }
+@keyframes brik-slide-left { from { opacity: 0; transform: translateX(2rem); } to { opacity: 1; transform: none; } }
+@keyframes brik-slide-right { from { opacity: 0; transform: translateX(-2rem); } to { opacity: 1; transform: none; } }
+@keyframes brik-zoom { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: none; } }
+@keyframes brik-zoom-out { from { opacity: 0; transform: scale(1.1); } to { opacity: 1; transform: none; } }
+@keyframes brik-flip { from { opacity: 0; transform: perspective(800px) rotateX(-30deg); } to { opacity: 1; transform: none; } }
+@keyframes brik-bounce { 0% { opacity: 0; transform: scale(0.8); } 60% { opacity: 1; transform: scale(1.04); } 100% { transform: none; } }
+@keyframes brik-blur { from { opacity: 0; filter: blur(12px); } to { opacity: 1; filter: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .brik-anim-ready [data-brik-anim] {
+    opacity: 1 !important;
+    animation: none !important;
+  }
+}
+
+@media (max-width: 782px) {
+  body.admin-bar .brik-section--sticky {
+    top: 46px;
+  }
+}
+
+@media (max-width: 767px) {
+  .brik-section {
+    padding: 3rem 1rem;
+  }
+
+  .brik-row--reverse {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+}
