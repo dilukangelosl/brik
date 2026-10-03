@@ -1,0 +1,122 @@
+{
+ "title": "Animated — developer terminal",
+ "category": "animated",
+ "kind": "section",
+ "tree": [
+  {
+   "type": "section",
+   "attrs": {
+    "padding": "112px 24px",
+    "padding@mobile": "72px 16px"
+   },
+   "children": [
+    {
+     "type": "row",
+     "attrs": {
+      "columns": "1/2,1/2",
+      "gap": "56px"
+     },
+     "children": [
+      {
+       "type": "column",
+       "attrs": {
+        "gap": "20px",
+        "justify": "center"
+       },
+       "children": [
+        {
+         "type": "badge",
+         "attrs": {
+          "text": "For developers",
+          "variant": "secondary",
+          "icon": "terminal",
+          "animation": "fade"
+         }
+        },
+        {
+         "type": "animated_text",
+         "attrs": {
+          "effect": "scramble",
+          "before": "",
+          "text": "From zero to production in one command",
+          "after": "",
+          "tag": "h2",
+          "size": "h2",
+          "loop": false,
+          "animation": "slide-up",
+          "animation_delay": 100
+         }
+        },
+        {
+         "type": "text",
+         "attrs": {
+          "content": "<p>Scaffold a site, import a design system and deploy it, all from your terminal. Pages stay plain WordPress content you can version and review.</p>",
+          "size": "lead",
+          "animation": "slide-up",
+          "animation_delay": 200
+         }
+        },
+        {
+         "type": "animated_list",
+         "attrs": {
+          "list_height": "17rem",
+          "list_width": "100%",
+          "align": "left",
+          "interval": 2200,
+          "items": [
+           {
+            "icon": "git-branch",
+            "color": "#6366f1",
+            "title": "Preview deployed",
+            "text": "feature/pricing → pricing.my-site.dev",
+            "time": "now"
+           },
+           {
+            "icon": "circle-check",
+            "color": "#10b981",
+            "title": "Checks passed",
+            "text": "Lighthouse 100 · 0 PHP notices",
+            "time": "1m ago"
+           },
+           {
+            "icon": "rocket",
+            "color": "#f59e0b",
+            "title": "Released v2.4.0",
+            "text": "38 regions, zero downtime",
+            "time": "3m ago"
+           },
+           {
+            "icon": "message-square",
+            "color": "#ec4899",
+            "title": "Review requested",
+            "text": "Maya asked for a look at the hero",
+            "time": "6m ago"
+           }
+          ],
+          "animation": "slide-up",
+          "animation_delay": 300
+         }
+        }
+       ]
+      },
+      {
+       "type": "column",
+       "attrs": {
+        "justify": "center"
+       },
+       "children": [
+        {
+         "type": "terminal",
+         "attrs": {
+          "animation": "slide-left",
+          "animation_delay": 200
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

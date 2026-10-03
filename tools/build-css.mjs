@@ -8,10 +8,13 @@ const bin = fileURLToPath(new URL('../node_modules/.bin/tailwindcss', import.met
 const minify = !process.argv.includes('--dev');
 
 // Module stylesheets are picked up automatically.
+// effects*.css ships separately and only loads on pages that use an effect.
 const parts = (await readdir(`${root}src/css/modules`)).filter((f) => f.endsWith('.css')).sort();
-await writeFile(`${root}src/css/_modules.css`, parts.map((f) => `@import "./modules/${f}";`).join('\n') + '\n');
+const isFx = (f) => f.startsWith('effects');
+await writeFile(`${root}src/css/_modules.css`, parts.filter((f) => !isFx(f)).map((f) => `@import "./modules/${f}";`).join('\n') + '\n');
+await writeFile(`${root}src/css/_effects.css`, parts.filter(isFx).map((f) => `@import "./modules/${f}";`).join('\n') + '\n');
 
-for (const name of ['frontend', 'builder', 'canvas']) {
+for (const name of ['frontend', 'effects', 'builder', 'canvas', 'content']) {
   const args = ['-i', `${root}src/css/${name}.css`, '-o', `${root}build/${name}.css`];
   if (minify) args.push('--minify');
   execFileSync(bin, args, { stdio: 'inherit' });

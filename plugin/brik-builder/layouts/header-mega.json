@@ -1,0 +1,278 @@
+{
+	"title": "Header — mega menu",
+	"category": "header",
+	"kind": "section",
+	"tree": [
+		{
+			"type": "section",
+			"attrs": {
+				"tag": "header",
+				"sticky": true,
+				"padding": "12px 24px",
+				"bg_color": "color-mix(in oklab, var(--background) 85%, transparent)",
+				"backdrop_blur": 12,
+				"border_width": "0 0 1px 0",
+				"border_style": "solid",
+				"border_color": "var(--border)"
+			},
+			"children": [
+				{
+					"type": "row",
+					"attrs": {
+						"columns": "auto 1fr auto",
+						"columns@tablet": "1fr auto",
+						"columns@mobile": "1fr auto",
+						"gap": "24px",
+						"align_items": "center"
+					},
+					"children": [
+						{
+							"type": "column",
+							"children": [
+								{
+									"type": "site_logo",
+									"attrs": {
+										"max_height": "32px"
+									}
+								}
+							]
+						},
+						{
+							"type": "column",
+							"children": [
+								{
+									"type": "menu",
+									"attrs": {
+										"source": "custom",
+										"items": [
+											{
+												"label": "Products",
+												"type": "mega",
+												"mega_layout": "featured",
+												"mega_columns": 2,
+												"children": [
+													{
+														"label": "Analytics",
+														"icon": "chart-line",
+														"description": "Real-time dashboards for every metric that matters.",
+														"link": {
+															"url": "#"
+														}
+													},
+													{
+														"label": "Automation",
+														"icon": "workflow",
+														"badge": "New",
+														"badge_variant": "success",
+														"description": "Build flows that run while you sleep.",
+														"link": {
+															"url": "#"
+														}
+													},
+													{
+														"label": "Security",
+														"icon": "shield-check",
+														"description": "SSO, audit logs and granular roles.",
+														"link": {
+															"url": "#"
+														}
+													},
+													{
+														"label": "Integrations",
+														"icon": "blocks",
+														"description": "Connect the 200+ tools your team uses.",
+														"link": {
+															"url": "#"
+														}
+													},
+													{
+														"label": "Developer API",
+														"icon": "code",
+														"description": "Typed SDKs, webhooks and a GraphQL API.",
+														"link": {
+															"url": "#"
+														}
+													},
+													{
+														"label": "Assist",
+														"icon": "sparkles",
+														"badge": "Beta",
+														"badge_variant": "info",
+														"description": "Smart suggestions inside every workflow.",
+														"link": {
+															"url": "#"
+														}
+													}
+												],
+												"featured": {
+													"eyebrow": "What’s new",
+													"title": "Release 4.0 is here",
+													"text": "Faster pages, a new editor and dozens of improvements.",
+													"button_text": "See what changed",
+													"link": {
+														"url": "#"
+													}
+												}
+											},
+											{
+												"label": "Solutions",
+												"type": "mega",
+												"mega_layout": "grid",
+												"mega_columns": 3,
+												"children": [
+													{
+														"label": "Startups",
+														"icon": "rocket",
+														"description": "Launch fast and scale without rework.",
+														"link": {
+															"url": "#"
+														}
+													},
+													{
+														"label": "Enterprise",
+														"icon": "landmark",
+														"description": "Governance and support for large teams.",
+														"link": {
+															"url": "#"
+														}
+													},
+													{
+														"label": "Agencies",
+														"icon": "briefcase",
+														"description": "Manage every client site in one place.",
+														"link": {
+															"url": "#"
+														}
+													},
+													{
+														"label": "E-commerce",
+														"icon": "shopping-bag",
+														"description": "Storefronts that convert on every device.",
+														"link": {
+															"url": "#"
+														}
+													},
+													{
+														"label": "Education",
+														"icon": "graduation-cap",
+														"description": "Course sites with members and payments.",
+														"link": {
+															"url": "#"
+														}
+													},
+													{
+														"label": "Nonprofits",
+														"icon": "heart-pulse",
+														"description": "Campaign pages and donation forms.",
+														"link": {
+															"url": "#"
+														}
+													}
+												]
+											},
+											{
+												"label": "Resources",
+												"type": "dropdown",
+												"children": [
+													{
+														"label": "Documentation",
+														"icon": "book-open",
+														"description": "Guides and API reference.",
+														"link": {
+															"url": "#"
+														}
+													},
+													{
+														"label": "Blog",
+														"icon": "newspaper",
+														"description": "Product news and stories.",
+														"link": {
+															"url": "#"
+														}
+													},
+													{
+														"label": "Community",
+														"icon": "users",
+														"description": "Ask questions, share builds.",
+														"link": {
+															"url": "#"
+														}
+													},
+													{
+														"type": "divider"
+													},
+													{
+														"label": "Help center",
+														"icon": "life-buoy",
+														"description": "Answers within hours.",
+														"link": {
+															"url": "#"
+														}
+													}
+												]
+											},
+											{
+												"label": "Pricing",
+												"link": {
+													"url": "#"
+												}
+											}
+										],
+										"align": "center",
+										"align@tablet": "right",
+										"link_style": "ghost",
+										"trigger": "hover",
+										"dropdown_animation": "scale",
+										"cta": "mobile",
+										"cta_text": "Get started",
+										"breakpoint": "tablet",
+										"mobile_type": "drawer",
+										"sheet_side": "right",
+										"submenu_mode": "drilldown",
+										"mobile_stagger": true,
+										"toggle_style": "morph",
+										"mobile_socials": [
+											{
+												"network": "x",
+												"url": "#"
+											},
+											{
+												"network": "github",
+												"url": "#"
+											},
+											{
+												"network": "linkedin",
+												"url": "#"
+											}
+										]
+									}
+								}
+							]
+						},
+						{
+							"type": "column",
+							"attrs": {
+								"hide_on": [
+									"tablet",
+									"mobile"
+								]
+							},
+							"children": [
+								{
+									"type": "button",
+									"attrs": {
+										"text": "Get started",
+										"size": "sm",
+										"link": {
+											"url": "#"
+										}
+									}
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	]
+}

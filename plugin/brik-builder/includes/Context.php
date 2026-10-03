@@ -68,6 +68,22 @@ final class Context {
 	}
 
 	/**
+	 * Attribute marking an element as editable in place in the builder, e.g. inline( 'text' ).
+	 */
+	public function inline( $field ) {
+		return $this->canvas ? ' data-brik-inline="' . esc_attr( $field ) . '"' : '';
+	}
+
+	/**
+	 * Load an effect script (assets/build/fx/{name}.js) only on pages that use it.
+	 */
+	public function script( $name ) {
+		$name = sanitize_key( $name );
+		$this->renderer->scripts[ $name ] = true;
+		Frontend::fx( $name );
+	}
+
+	/**
 	 * Unique DOM id for elements inside this module (tabs, accordions, dialogs).
 	 */
 	public function uid( $suffix = '' ) {

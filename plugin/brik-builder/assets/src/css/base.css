@@ -23,6 +23,31 @@
 }
 
 /*
+ * Page palette as seen at the document root. Custom properties inherit their computed
+ * value, so these keep the page colors even inside dark sections (used by shape dividers).
+ */
+:root {
+  --brik-page-background: var(--background);
+  --brik-page-foreground: var(--foreground);
+  --brik-page-card: var(--card);
+  --brik-page-card-foreground: var(--card-foreground);
+  --brik-page-popover: var(--popover);
+  --brik-page-popover-foreground: var(--popover-foreground);
+  --brik-page-primary: var(--primary);
+  --brik-page-primary-foreground: var(--primary-foreground);
+  --brik-page-secondary: var(--secondary);
+  --brik-page-secondary-foreground: var(--secondary-foreground);
+  --brik-page-muted: var(--muted);
+  --brik-page-muted-foreground: var(--muted-foreground);
+  --brik-page-accent: var(--accent);
+  --brik-page-accent-foreground: var(--accent-foreground);
+  --brik-page-destructive: var(--destructive);
+  --brik-page-border: var(--border);
+  --brik-page-input: var(--input);
+  --brik-page-ring: var(--ring);
+}
+
+/*
  * Scoped reset. Kept before the utilities so utility classes win at equal specificity,
  * and scoped to .brik so host themes are left alone.
  */

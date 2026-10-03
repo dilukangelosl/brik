@@ -1,0 +1,119 @@
+{
+ "title": "Gallery — 3D image wall",
+ "category": "animated",
+ "kind": "section",
+ "tree": [
+  {
+   "type": "section",
+   "attrs": {
+    "dark": true,
+    "bg_gradient": "radial-gradient(ellipse at 50% 0%, #1e1b4b 0%, #09090b 60%)",
+    "padding": "112px 24px 48px",
+    "padding@mobile": "64px 16px 24px",
+    "gap": "40px"
+   },
+   "children": [
+    {
+     "type": "row",
+     "attrs": {
+      "columns": "1",
+      "max_width": "760px",
+      "self_align": "center"
+     },
+     "children": [
+      {
+       "type": "column",
+       "attrs": {
+        "gap": "20px",
+        "items": "center"
+       },
+       "children": [
+        {
+         "type": "badge",
+         "attrs": {
+          "text": "10,000+ photos",
+          "variant": "outline",
+          "icon": "camera",
+          "align": "center",
+          "animation": "fade"
+         }
+        },
+        {
+         "type": "heading",
+         "attrs": {
+          "text": "A library that never stops moving",
+          "level": "h2",
+          "style": "h1",
+          "title_text_align": "center",
+          "animation": "slide-up",
+          "animation_delay": 100
+         }
+        },
+        {
+         "type": "text",
+         "attrs": {
+          "content": "<p>Licensed, high-resolution imagery from photographers around the world. Search, drop in and publish.</p>",
+          "size": "lead",
+          "text_align": "center",
+          "animation": "slide-up",
+          "animation_delay": 200
+         }
+        },
+        {
+         "type": "button_group",
+         "attrs": {
+          "size": "lg",
+          "align": "center",
+          "buttons": [
+           {
+            "text": "Browse the library",
+            "link": {
+             "url": "#"
+            },
+            "variant": "default",
+            "icon": "arrow-right",
+            "icon_position": "end"
+           },
+           {
+            "text": "View pricing",
+            "link": {
+             "url": "#"
+            },
+            "variant": "outline"
+           }
+          ]
+         }
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "type": "row",
+     "attrs": {
+      "columns": "1",
+      "max_width": "1320px",
+      "self_align": "center"
+     },
+     "children": [
+      {
+       "type": "column",
+       "attrs": {},
+       "children": [
+        {
+         "type": "marquee_3d",
+         "attrs": {
+          "wall_height": "620px",
+          "wall_height@mobile": "420px",
+          "animation": "fade",
+          "animation_delay": 200
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

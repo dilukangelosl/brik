@@ -23,10 +23,47 @@
   max-width: none;
 }
 
+/* Header templates sit in wrapper elements; let sticky headers stick to the page instead. */
+.brik-location-header,
+.brik-location-header > .brik-root {
+  display: contents;
+}
+
 .brik-section--sticky {
   position: sticky;
   top: 0;
   z-index: 50;
+}
+
+/* Header over the first section (transparent hero headers). */
+.brik-section--overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+}
+
+.brik-section--overlay.brik-section--sticky {
+  position: fixed;
+}
+
+body.admin-bar .brik-section--overlay {
+  top: 32px;
+}
+
+/* Scroll effects, toggled by frontend/modules/scroll-effects.js. */
+.brik-section[data-brik-scroll] {
+  transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1), padding 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease, backdrop-filter 0.3s ease;
+}
+
+.brik-section[data-brik-scroll~="shrink"].is-scrolled {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.brik-section[data-brik-scroll~="hide"].is-hidden {
+  transform: translateY(-100%);
 }
 
 body.admin-bar .brik-section--sticky {
@@ -84,45 +121,45 @@ body.admin-bar .brik-section--sticky {
   pointer-events: none;
 }
 
-.brik-section > :not(.brik-bg-video, .brik-divider) {
+.brik-section > :not(.brik-bg-video, .brik-shape-divider, .brik-bg-effect) {
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 
-.brik-divider {
+.brik-shape-divider {
   position: absolute;
   left: 0;
   right: 0;
   height: 80px;
   line-height: 0;
-  z-index: 0;
+  z-index: 1;
   pointer-events: none;
 }
 
-.brik-divider svg {
+.brik-shape-divider svg {
   width: 100%;
   height: 100%;
 }
 
-.brik-divider-top {
+.brik-shape-divider-top {
   top: -1px;
   transform: scaleY(-1);
 }
 
-.brik-divider-bottom {
+.brik-shape-divider-bottom {
   bottom: -1px;
 }
 
-.brik-divider--flip.brik-divider-top {
+.brik-shape-divider--flip.brik-shape-divider-top {
   transform: scale(-1, -1);
 }
 
-.brik-divider--flip.brik-divider-bottom {
+.brik-shape-divider--flip.brik-shape-divider-bottom {
   transform: scaleX(-1);
 }
 
-.brik-section > .brik-divider--front {
-  z-index: 2;
+.brik-section > .brik-shape-divider--front {
+  z-index: 3;
 }
 
 /* Rich text (shadcn typography). */
@@ -292,10 +329,5 @@ body.admin-bar .brik-section--sticky {
 @media (max-width: 767px) {
   .brik-section {
     padding: 3rem 1rem;
-  }
-
-  .brik-row--reverse {
-    display: flex;
-    flex-direction: column-reverse;
   }
 }

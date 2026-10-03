@@ -233,6 +233,9 @@ final class Style {
 	private function composite( $kind, array $fields, array $attrs, $state ) {
 		$get = static function ( $key ) use ( $attrs, $state ) {
 			$v = Style::value( $attrs, $key, $state );
+			if ( is_array( $v ) ) {
+				$v = brik_image_url( $v, 'full' );
+			}
 			return null === $v ? '' : Style::clean( $v );
 		};
 

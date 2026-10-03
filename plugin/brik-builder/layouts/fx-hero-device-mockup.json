@@ -1,0 +1,115 @@
+{
+ "title": "Hero — floating device mockup",
+ "category": "animated",
+ "kind": "section",
+ "tree": [
+  {
+   "type": "section",
+   "attrs": {
+    "bg_gradient": "radial-gradient(ellipse at 80% 30%, color-mix(in oklab, #8b5cf6 18%, transparent) 0%, transparent 55%)",
+    "padding": "112px 24px",
+    "padding@mobile": "64px 16px"
+   },
+   "children": [
+    {
+     "type": "row",
+     "attrs": {
+      "columns": "5/12,7/12",
+      "align_items": "center",
+      "gap": "56px"
+     },
+     "children": [
+      {
+       "type": "column",
+       "attrs": {
+        "gap": "24px",
+        "justify": "center"
+       },
+       "children": [
+        {
+         "type": "badge",
+         "attrs": {
+          "text": "New: version 3 is here",
+          "variant": "secondary",
+          "icon": "sparkles",
+          "animation": "fade"
+         }
+        },
+        {
+         "type": "heading",
+         "attrs": {
+          "text": "Design the site.<br>Ship it the same day.",
+          "level": "h1",
+          "style": "h1",
+          "animation": "slide-up",
+          "animation_delay": 100
+         }
+        },
+        {
+         "type": "text",
+         "attrs": {
+          "content": "<p>A visual builder with a real design system underneath. Drag sections, tune tokens and publish clean, fast pages without touching a line of code.</p>",
+          "size": "lead",
+          "animation": "slide-up",
+          "animation_delay": 200
+         }
+        },
+        {
+         "type": "button_group",
+         "attrs": {
+          "size": "lg",
+          "align": "left",
+          "buttons": [
+           {
+            "text": "Start building",
+            "link": {
+             "url": "#"
+            },
+            "variant": "default",
+            "icon": "arrow-right",
+            "icon_position": "end"
+           },
+           {
+            "text": "See templates",
+            "link": {
+             "url": "#"
+            },
+            "variant": "outline"
+           }
+          ]
+         }
+        },
+        {
+         "type": "star_rating",
+         "attrs": {
+          "rating": 4.9,
+          "show_value": true,
+          "label": "from 2,400 reviews",
+          "animation": "fade",
+          "animation_delay": 400
+         }
+        }
+       ]
+      },
+      {
+       "type": "column",
+       "attrs": {},
+       "children": [
+        {
+         "type": "device_mockup",
+         "attrs": {
+          "device": "browser",
+          "angle": "left",
+          "url": "yourbrand.com",
+          "animation": "zoom",
+          "animation_delay": 200
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,87 @@
+{
+ "title": "Hero \u2014 centered with buttons",
+ "category": "hero",
+ "kind": "section",
+ "tree": [
+  {
+   "type": "section",
+   "attrs": {
+    "padding": "128px 24px",
+    "padding@mobile": "72px 16px"
+   },
+   "children": [
+    {
+     "type": "row",
+     "attrs": {
+      "max_width": "860px",
+      "columns": "1"
+     },
+     "children": [
+      {
+       "type": "column",
+       "attrs": {
+        "items": "center",
+        "gap": "24px"
+       },
+       "children": [
+        {
+         "type": "badge",
+         "attrs": {
+          "text": "New: version 2.0 is here",
+          "variant": "secondary",
+          "icon": "sparkles",
+          "align": "center"
+         }
+        },
+        {
+         "type": "heading",
+         "attrs": {
+          "text": "Build beautiful websites without writing code",
+          "level": "h1",
+          "style": "display",
+          "title_text_align": "center"
+         }
+        },
+        {
+         "type": "text",
+         "attrs": {
+          "content": "<p>A visual builder with a modern component library, responsive controls and a design system that keeps every page consistent.</p>",
+          "size": "lead",
+          "text_align": "center"
+         }
+        },
+        {
+         "type": "button_group",
+         "attrs": {
+          "align": "center",
+          "size": "lg",
+          "buttons": [
+           {
+            "text": "Get started",
+            "link": {
+             "url": "#"
+            },
+            "variant": "default",
+            "icon": "arrow-right",
+            "icon_position": "end"
+           },
+           {
+            "text": "Live demo",
+            "link": {
+             "url": "#"
+            },
+            "variant": "outline",
+            "icon": "play",
+            "icon_position": "start"
+           }
+          ]
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

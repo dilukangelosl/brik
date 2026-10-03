@@ -1,0 +1,118 @@
+{
+ "title": "Animated — hero with rotating headline",
+ "category": "animated",
+ "kind": "section",
+ "tree": [
+  {
+   "type": "section",
+   "attrs": {
+    "dark": true,
+    "padding": "144px 24px 112px",
+    "padding@mobile": "88px 16px 64px",
+    "bg_gradient": "radial-gradient(ellipse 80% 60% at 50% 0%, rgb(99 102 241 / 0.28), transparent 70%)",
+    "bg_color": "#09090b"
+   },
+   "children": [
+    {
+     "type": "row",
+     "attrs": {
+      "max_width": "960px",
+      "columns": "1"
+     },
+     "children": [
+      {
+       "type": "column",
+       "attrs": {
+        "items": "center",
+        "gap": "24px"
+       },
+       "children": [
+        {
+         "type": "badge",
+         "attrs": {
+          "text": "Introducing Brik 2.0",
+          "variant": "outline",
+          "icon": "sparkles",
+          "align": "center",
+          "animation": "fade"
+         }
+        },
+        {
+         "type": "animated_text",
+         "attrs": {
+          "effect": "rotate",
+          "before": "Build websites that feel",
+          "words": "fast\npolished\neffortless\nalive",
+          "tag": "h1",
+          "size": "display",
+          "align": "center",
+          "rotate_style": "slide",
+          "accent_style": "gradient",
+          "animation": "blur",
+          "animation_delay": 100
+         }
+        },
+        {
+         "type": "animated_text",
+         "attrs": {
+          "effect": "generate",
+          "before": "",
+          "text": "A visual builder with a real design system, motion that respects your visitors, and an MCP server so your favourite tools can build pages for you.",
+          "after": "",
+          "tag": "p",
+          "size": "lead",
+          "align": "center",
+          "trigger": "load",
+          "loop": false,
+          "max_width": "640px",
+          "self_align": "center",
+          "animation": "fade",
+          "animation_delay": 250
+         }
+        },
+        {
+         "type": "column",
+         "attrs": {
+          "layout": "inline",
+          "justify": "center",
+          "gap": "12px",
+          "animation": "slide-up",
+          "animation_delay": 400
+         },
+         "children": [
+          {
+           "type": "fancy_button",
+           "attrs": {
+            "text": "Start building",
+            "style": "shimmer",
+            "size": "lg",
+            "icon": "arrow-right"
+           }
+          },
+          {
+           "type": "fancy_button",
+           "attrs": {
+            "text": "See it in action",
+            "style": "arrow_slide",
+            "size": "lg",
+            "icon": "arrow-right"
+           }
+          }
+         ]
+        },
+        {
+         "type": "dock",
+         "attrs": {
+          "margin": "40px 0 0 0",
+          "animation": "slide-up",
+          "animation_delay": 550
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

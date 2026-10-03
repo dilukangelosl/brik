@@ -12,6 +12,32 @@ for (const [name, children] of Object.entries(nodes)) {
   icons[name] = children.map(([tag, a]) => `<${tag} ${attr(a)}/>`).join('');
 }
 
+// Older icon names (e.g. trash-2) still resolve through Lucide's alias exports.
+const kebab = (name) => name.replace(/([a-z0-9])([A-Z])/g, '$1-$2').replace(/([a-zA-Z])(\d)/g, '$1-$2').toLowerCase();
+const exportsFile = await readFile(new URL('../node_modules/lucide/dist/esm/iconsAndAliases.mjs', import.meta.url), 'utf8');
+const aliases = {};
+for (const [, name, file] of exportsFile.matchAll(/default as (\w+) \} from '\.\/icons\/([\w-]+)\.mjs'/g)) {
+  const alias = kebab(name.replace(/Icon$/, ''));
+  if (alias !== file && !icons[alias] && icons[file] && !name.startsWith('Lucide')) aliases[alias] = file;
+}
+
+// Names people commonly reach for that are no longer in Lucide.
+const legacy = {
+  text: 'type', 'check-circle': 'circle-check', 'check-circle-2': 'circle-check-big', 'alert-triangle': 'triangle-alert',
+  'alert-circle': 'circle-alert', 'x-circle': 'circle-x', 'info-circle': 'info', edit: 'pencil', 'edit-2': 'pencil',
+  'edit-3': 'pen-line', 'more-horizontal': 'ellipsis', 'more-vertical': 'ellipsis-vertical', 'play-circle': 'circle-play',
+  'plus-circle': 'circle-plus', 'minus-circle': 'circle-minus', 'arrow-right-circle': 'circle-arrow-right',
+  'user-circle': 'circle-user', 'help-circle': 'circle-question-mark', 'bar-chart': 'chart-no-axes-column',
+  'bar-chart-2': 'chart-bar', 'line-chart': 'chart-line', 'pie-chart': 'chart-pie', 'sliders': 'sliders-vertical',
+  'unlock': 'lock-open', 'home': 'house', 'mail-open': 'mail-open', 'smile-plus': 'smile', 'loader-2': 'loader-circle',
+  'grid': 'grid-3x3', 'layout': 'panels-top-left', 'shield-check': 'shield-check', 'zap': 'zap', 'twitter': 'brand:x',
+  'facebook': 'brand:facebook', 'instagram': 'brand:instagram', 'linkedin': 'brand:linkedin', 'github': 'brand:github',
+  'youtube': 'brand:youtube',
+};
+for (const [from, to] of Object.entries(legacy)) {
+  if (!icons[from] && !aliases[from] && (icons[to] || to.startsWith('brand:'))) aliases[from] = to;
+}
+
 const brands = [
   'facebook', 'x', 'instagram', 'youtube', 'tiktok', 'github', 'gitlab', 'dribbble', 'behance',
   'pinterest', 'whatsapp', 'discord', 'telegram', 'threads', 'reddit', 'twitch', 'spotify', 'medium',
@@ -34,6 +60,7 @@ brand.linkedin = {
 };
 
 await writeFile(new URL('icons.json', out), JSON.stringify(icons));
+await writeFile(new URL('icon-aliases.json', out), JSON.stringify(aliases));
 await writeFile(new URL('icon-tags.json', out), JSON.stringify(tags));
 await writeFile(new URL('brands.json', out), JSON.stringify(brand));
-console.log(`${Object.keys(icons).length} icons, ${Object.keys(brand).length} brands`);
+console.log(`${Object.keys(icons).length} icons, ${Object.keys(aliases).length} aliases, ${Object.keys(brand).length} brands`);

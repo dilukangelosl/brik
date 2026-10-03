@@ -1,1 +1,222 @@
-/* canvas */
+/* Builder canvas: overlays drawn inside the page preview. */
+#brik-ui {
+  --bk-section: #3b82f6;
+  --bk-row: #10b981;
+  --bk-column: #f59e0b;
+  --bk-module: #6366f1;
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2147483000;
+  font: 500 11px/1 Inter, ui-sans-serif, system-ui, sans-serif;
+}
+
+#brik-ui .bk-box {
+  position: fixed;
+  display: none;
+  border: 1px solid var(--bk-c, var(--bk-module));
+  border-radius: 2px;
+}
+
+#brik-ui .is-section { --bk-c: var(--bk-section); }
+#brik-ui .is-row { --bk-c: var(--bk-row); }
+#brik-ui .is-column { --bk-c: var(--bk-column); }
+#brik-ui .is-module { --bk-c: var(--bk-module); }
+
+#brik-ui .bk-hover {
+  border-style: dashed;
+}
+
+#brik-ui .bk-select {
+  border-width: 2px;
+}
+
+#brik-ui .bk-tag {
+  position: absolute;
+  top: -18px;
+  left: -1px;
+  padding: 3px 6px;
+  border-radius: 3px 3px 0 0;
+  background: var(--bk-c);
+  color: #fff;
+  white-space: nowrap;
+}
+
+#brik-ui .bk-bar {
+  position: absolute;
+  top: -30px;
+  left: -2px;
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  height: 28px;
+  padding: 0 2px;
+  border-radius: 6px 6px 6px 0;
+  background: var(--bk-c);
+  color: #fff;
+  pointer-events: auto;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.15);
+  white-space: nowrap;
+}
+
+#brik-ui .bk-bar-inside .bk-bar {
+  top: 2px;
+  left: 2px;
+  border-radius: 6px;
+}
+
+#brik-ui .bk-bar button,
+#brik-ui .bk-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 24px;
+  min-width: 24px;
+  justify-content: center;
+  padding: 0 4px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+#brik-ui .bk-name {
+  padding: 0 6px 0 2px;
+  cursor: grab;
+}
+
+#brik-ui .bk-bar button:hover,
+#brik-ui .bk-name:hover {
+  background: rgb(255 255 255 / 0.2);
+}
+
+#brik-ui .bk-drop {
+  position: fixed;
+  display: none;
+  background: var(--bk-module);
+  border-radius: 4px;
+  box-shadow: 0 0 0 2px rgb(255 255 255 / 0.8);
+}
+
+#brik-ui .bk-drop.is-fill {
+  background: rgb(99 102 241 / 0.12);
+  border: 2px dashed var(--bk-module);
+  box-shadow: none;
+}
+
+#brik-ui .bk-textbar {
+  position: fixed;
+  display: none;
+  gap: 1px;
+  padding: 3px;
+  border-radius: 8px;
+  background: #18181b;
+  color: #fff;
+  pointer-events: auto;
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.25);
+}
+
+#brik-ui .bk-textbar button {
+  display: inline-flex;
+  width: 28px;
+  height: 28px;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+#brik-ui .bk-textbar button:hover {
+  background: rgb(255 255 255 / 0.15);
+}
+
+.brik-canvas-mode .bk-editing {
+  outline: 2px solid #6366f1;
+  outline-offset: 4px;
+  cursor: text;
+}
+
+.brik-canvas-mode [data-brik-inline] {
+  cursor: text;
+}
+
+.brik-canvas-empty {
+  display: flex;
+  min-height: 88px;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px dashed rgb(99 102 241 / 0.45);
+  border-radius: 8px;
+  background: rgb(99 102 241 / 0.04);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.brik-canvas-empty::before {
+  content: "+";
+  display: flex;
+  width: 32px;
+  height: 32px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #6366f1;
+  color: #fff;
+  font: 400 22px/1 ui-sans-serif, system-ui, sans-serif;
+}
+
+.brik-canvas-empty:hover {
+  background: rgb(99 102 241 / 0.1);
+}
+
+.brik-canvas-empty[data-brik-empty="root"] {
+  min-height: 60vh;
+  margin: 2rem;
+}
+
+.brik-canvas-empty[data-brik-empty="root"]::after {
+  content: "Add your first section";
+  margin-left: 12px;
+  color: #6366f1;
+  font: 500 15px/1 ui-sans-serif, system-ui, sans-serif;
+}
+
+.brik-placeholder {
+  display: flex;
+  min-height: 72px;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  background: var(--muted);
+  color: var(--muted-foreground);
+  font-size: 13px;
+  text-align: center;
+}
+
+.brik-missing {
+  padding: 1rem;
+  border: 1px dashed #ef4444;
+  color: #ef4444;
+  font: 13px ui-sans-serif, system-ui, sans-serif;
+}
+
+.brik-canvas-mode .brik-el-link {
+  display: none;
+}
+
+.brik-canvas-mode [data-brik-anim] {
+  opacity: 1 !important;
+  animation: none !important;
+}
+
+.brik-canvas-mode .brik-section--sticky {
+  position: relative;
+  top: auto;
+}

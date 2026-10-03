@@ -1,0 +1,77 @@
+{
+ "title": "Company timeline",
+ "category": "content",
+ "kind": "section",
+ "tree": [
+  {
+   "type": "section",
+   "attrs": {},
+   "children": [
+    {
+     "type": "row",
+     "attrs": {
+      "max_width": "720px",
+      "self_align": "center",
+      "columns": "1"
+     },
+     "children": [
+      {
+       "type": "column",
+       "attrs": {
+        "gap": "12px"
+       },
+       "children": [
+        {
+         "type": "heading",
+         "attrs": {
+          "text": "Our story",
+          "level": "p",
+          "style": "eyebrow",
+          "title_text_align": "center"
+         }
+        },
+        {
+         "type": "heading",
+         "attrs": {
+          "text": "How we got here",
+          "level": "h2",
+          "title_text_align": "center"
+         }
+        },
+        {
+         "type": "text",
+         "attrs": {
+          "content": "<p>A few milestones along the way.</p>",
+          "size": "lead",
+          "text_align": "center"
+         }
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "type": "row",
+     "attrs": {
+      "max_width": "900px",
+      "columns": "1"
+     },
+     "children": [
+      {
+       "type": "column",
+       "attrs": {},
+       "children": [
+        {
+         "type": "timeline",
+         "attrs": {
+          "layout": "alternate"
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

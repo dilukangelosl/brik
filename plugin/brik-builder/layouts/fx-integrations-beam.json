@@ -1,0 +1,113 @@
+{
+ "title": "Animated — integrations diagram",
+ "category": "animated",
+ "kind": "section",
+ "tree": [
+  {
+   "type": "section",
+   "attrs": {
+    "padding": "112px 24px",
+    "padding@mobile": "72px 16px"
+   },
+   "children": [
+    {
+     "type": "row",
+     "attrs": {
+      "columns": "1/2,1/2",
+      "gap": "56px"
+     },
+     "children": [
+      {
+       "type": "column",
+       "attrs": {
+        "gap": "20px",
+        "justify": "center"
+       },
+       "children": [
+        {
+         "type": "heading",
+         "attrs": {
+          "text": "Integrations",
+          "level": "p",
+          "style": "eyebrow",
+          "animation": "fade"
+         }
+        },
+        {
+         "type": "animated_text",
+         "attrs": {
+          "effect": "highlight",
+          "before": "Connect the tools",
+          "text": "you already use",
+          "after": "",
+          "tag": "h2",
+          "size": "h2",
+          "highlight_style": "marker",
+          "animation": "slide-up",
+          "animation_delay": 100
+         }
+        },
+        {
+         "type": "text",
+         "attrs": {
+          "content": "<p>Payments, design files, repositories and community channels flow into one place. Every event arrives in real time and fans out to your customers, inbox and database.</p>",
+          "size": "lead",
+          "animation": "slide-up",
+          "animation_delay": 200
+         }
+        },
+        {
+         "type": "icon_list",
+         "attrs": {
+          "items": [
+           {
+            "text": "Two-way sync with retries",
+            "icon": "refresh-cw"
+           },
+           {
+            "text": "Webhooks for every event",
+            "icon": "webhook"
+           },
+           {
+            "text": "Granular permissions per workspace",
+            "icon": "shield-check"
+           }
+          ],
+          "animation": "slide-up",
+          "animation_delay": 300
+         }
+        },
+        {
+         "type": "fancy_button",
+         "attrs": {
+          "text": "Browse integrations",
+          "style": "moving_border",
+          "size": "lg",
+          "icon": "arrow-right",
+          "animation": "slide-up",
+          "animation_delay": 400
+         }
+        }
+       ]
+      },
+      {
+       "type": "column",
+       "attrs": {
+        "justify": "center"
+       },
+       "children": [
+        {
+         "type": "animated_beam",
+         "attrs": {
+          "animation": "zoom",
+          "animation_delay": 200
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

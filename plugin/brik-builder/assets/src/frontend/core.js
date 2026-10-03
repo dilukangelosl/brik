@@ -1,4 +1,5 @@
 const handlers = [];
+let started = false;
 
 /**
  * Run init(element) for every element matching selector, now and whenever the
@@ -6,6 +7,8 @@ const handlers = [];
  */
 export function on(selector, init) {
   handlers.push({ selector, init });
+  // Effect scripts load later than the main bundle; mount them right away.
+  if (started) mount(document);
 }
 
 export function mount(root = document) {
@@ -24,7 +27,10 @@ export function mount(root = document) {
 }
 
 export function ready() {
-  const start = () => mount(document);
+  const start = () => {
+    started = true;
+    mount(document);
+  };
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', start);
   } else {

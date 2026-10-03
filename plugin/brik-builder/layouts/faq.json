@@ -1,0 +1,82 @@
+{
+ "title": "FAQ \u2014 accordion",
+ "category": "faq",
+ "kind": "section",
+ "tree": [
+  {
+   "type": "section",
+   "attrs": {},
+   "children": [
+    {
+     "type": "row",
+     "attrs": {
+      "gap": "64px",
+      "columns": "1/3,2/3"
+     },
+     "children": [
+      {
+       "type": "column",
+       "attrs": {
+        "gap": "12px"
+       },
+       "children": [
+        {
+         "type": "heading",
+         "attrs": {
+          "text": "FAQ",
+          "level": "p",
+          "style": "eyebrow"
+         }
+        },
+        {
+         "type": "heading",
+         "attrs": {
+          "text": "Frequently asked questions",
+          "level": "h2"
+         }
+        },
+        {
+         "type": "text",
+         "attrs": {
+          "content": "<p>Can\u2019t find the answer you\u2019re looking for? <a href=\"#\">Contact our team</a>.</p>",
+          "size": "muted"
+         }
+        }
+       ]
+      },
+      {
+       "type": "column",
+       "attrs": {},
+       "children": [
+        {
+         "type": "accordion",
+         "attrs": {
+          "faq_schema": true,
+          "items": [
+           {
+            "title": "Is it really free?",
+            "content": "<p>Yes. The builder and theme are open source under the GPL.</p>"
+           },
+           {
+            "title": "Does it work with my theme?",
+            "content": "<p>It works with any theme. The companion theme adds tighter integration for headers and footers.</p>"
+           },
+           {
+            "title": "What happens if I deactivate the plugin?",
+            "content": "<p>Your content is kept as clean HTML in the post, so pages stay readable.</p>"
+           },
+           {
+            "title": "Can AI tools build pages for me?",
+            "content": "<p>Yes. The built-in MCP server lets any compatible client create and edit pages, templates and menus.</p>"
+           }
+          ]
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

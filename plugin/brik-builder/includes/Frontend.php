@@ -34,11 +34,37 @@ final class Frontend {
 			array(
 				'rest'  => esc_url_raw( rest_url( 'brik/v1/' ) ),
 				'i18n'  => array(
-					'sent'  => __( 'Thanks! Your message has been sent.', 'brik' ),
-					'error' => __( 'Something went wrong. Please try again.', 'brik' ),
+					'sent'  => __( 'Thanks! Your message has been sent.', 'brik-builder' ),
+					'error' => __( 'Something went wrong. Please try again.', 'brik-builder' ),
 				),
 			)
 		);
+	}
+
+	/**
+	 * Stylesheet for effect modules and section background effects.
+	 */
+	public static function effects_css() {
+		if ( ! wp_style_is( 'brik-effects', 'enqueued' ) ) {
+			wp_enqueue_style( 'brik-effects', BRIK_URL . 'assets/build/effects.css', array( 'brik' ), self::ver( 'assets/build/effects.css' ) );
+		}
+	}
+
+	public static function fx_url( $name ) {
+		return BRIK_URL . 'assets/build/fx/' . sanitize_key( $name ) . '.js';
+	}
+
+	/**
+	 * Enqueue an effect script. Safe to call while rendering the body; it prints in the footer.
+	 */
+	public static function fx( $name ) {
+		$name   = sanitize_key( $name );
+		$handle = 'brik-fx-' . $name;
+		if ( ! wp_script_is( $handle, 'registered' ) ) {
+			wp_register_script( $handle, self::fx_url( $name ), array( 'brik' ), self::ver( 'assets/build/fx/' . $name . '.js' ), array( 'in_footer' => true, 'strategy' => 'defer' ) );
+		}
+		wp_enqueue_script( $handle );
+		self::effects_css();
 	}
 
 	public static function ver( $file ) {

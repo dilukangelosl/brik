@@ -1,16 +1,16 @@
 <?php
 /**
  * Plugin Name:       Brik Builder
- * Plugin URI:        https://github.com/dilukangelo/brik
+ * Plugin URI:        https://github.com/dilukangelosl/brik
  * Description:       Visual drag & drop site builder with a shadcn-inspired component library, theme builder and a built-in MCP server.
  * Version:           1.0.0
  * Requires at least: 6.3
  * Requires PHP:      7.4
  * Author:            Diluk Angelo
- * Author URI:        https://github.com/dilukangelo
+ * Author URI:        https://github.com/dilukangelosl
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       brik
+ * Text Domain:       brik-builder
  * Domain Path:       /languages
  *
  * @package Brik

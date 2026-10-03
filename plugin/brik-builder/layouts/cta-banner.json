@@ -1,0 +1,42 @@
+{
+ "title": "Call to action banner",
+ "category": "cta",
+ "kind": "section",
+ "tree": [
+  {
+   "type": "section",
+   "attrs": {
+    "padding": "64px 24px"
+   },
+   "children": [
+    {
+     "type": "row",
+     "attrs": {
+      "columns": "1"
+     },
+     "children": [
+      {
+       "type": "column",
+       "attrs": {},
+       "children": [
+        {
+         "type": "cta",
+         "attrs": {
+          "style": "primary",
+          "align": "center",
+          "title": "Ready to build something great?",
+          "text": "Join thousands of teams creating beautiful websites today.",
+          "primary_text": "Get started",
+          "primary_variant": "secondary",
+          "secondary_text": "Contact sales",
+          "secondary_variant": "ghost"
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

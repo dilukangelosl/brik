@@ -1,0 +1,56 @@
+{
+ "title": "Stats row",
+ "category": "social proof",
+ "kind": "section",
+ "tree": [
+  {
+   "type": "section",
+   "attrs": {
+    "bg_color": "var(--muted)",
+    "padding": "64px 24px"
+   },
+   "children": [
+    {
+     "type": "row",
+     "attrs": {
+      "columns": "1"
+     },
+     "children": [
+      {
+       "type": "column",
+       "attrs": {},
+       "children": [
+        {
+         "type": "stats",
+         "attrs": {
+          "columns": 4,
+          "style": "divided",
+          "align": "center",
+          "items": [
+           {
+            "value": "10k+",
+            "label": "Active sites"
+           },
+           {
+            "value": "99.9%",
+            "label": "Uptime"
+           },
+           {
+            "value": "4.9/5",
+            "label": "Average rating"
+           },
+           {
+            "value": "24/7",
+            "label": "Support"
+           }
+          ]
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

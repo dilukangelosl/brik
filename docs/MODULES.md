@@ -11,13 +11,13 @@ defined( 'ABSPATH' ) || exit;
 
 return array(
 	'type'        => 'badge',                // unique slug, [a-z0-9_]
-	'title'       => __( 'Badge', 'brik' ),
+	'title'       => __( 'Badge', 'brik-builder' ),
 	'category'    => 'basic',                // structure|basic|content|media|interactive|forms|site|post
 	'icon'        => 'tag',                  // Lucide icon name (resources/icons.json)
 	'description' => 'Short label. variant: default|secondary|outline|destructive.', // shown to AI clients too
 	'fields'      => array(
-		'text'    => Fields::field( 'text', __( 'Text', 'brik' ), 'content', array( 'default' => 'New' ) ),
-		'variant' => Fields::field( 'select', __( 'Variant', 'brik' ), 'content', array(
+		'text'    => Fields::field( 'text', __( 'Text', 'brik-builder' ), 'content', array( 'default' => 'New' ) ),
+		'variant' => Fields::field( 'select', __( 'Variant', 'brik-builder' ), 'content', array(
 			'default' => 'default',
 			'options' => Fields::opts( array( 'default' => 'Default', 'outline' => 'Outline' ) ),
 		) ),
@@ -55,7 +55,7 @@ custom CSS, visibility). Don't redeclare them.
 `brik_rich()`), `code`, `number`, `range` (`min`, `max`, `step`, `unit`), `unit` (CSS length,
 bare numbers become px), `select` (`options`), `toggle`, `color`, `gradient`, `image`
 (`['id'=>, 'url'=>, 'alt'=>]` or URL string), `gallery` (list of images), `video` (URL or
-`['url'=>]`), `link` (`['url'=>, 'new_tab'=>bool, 'nofollow'=>bool]`), `icon` (Lucide name or
+`['url'=>]`; add `'media_type' => 'audio'` to pick audio files), `link` (`['url'=>, 'new_tab'=>bool, 'nofollow'=>bool]`), `icon` (Lucide name or
 `brand:github`), `align`, `spacing` (CSS shorthand like `10px 20px`), `font`, `shadow`,
 `date`, `devices`, `columns`, `menu` (nav menu id), `post_type`, `taxonomy`, `library`,
 `repeater` (`fields` => sub-fields, `title_field` => sub-field shown as item label,
@@ -81,9 +81,9 @@ as `key@tablet` / `key@mobile`, hover values as `key@hover`.
 
 Helpers for element-level design groups:
 
-* `Fields::typography( 'title', __( 'Title', 'brik' ), Fields::WRAP . ' .brik-title' )` gives
+* `Fields::typography( 'title', __( 'Title', 'brik-builder' ), Fields::WRAP . ' .brik-title' )` gives
   `title_font_family`, `title_font_size`, `title_text_color`, … with responsive/hover support.
-* `Fields::box( 'card', __( 'Card', 'brik' ), Fields::WRAP . ' .brik-card' )` gives
+* `Fields::box( 'card', __( 'Card', 'brik-builder' ), Fields::WRAP . ' .brik-card' )` gives
   `card_bg`, `card_color`, `card_border_width`, `card_border_color`, `card_radius`,
   `card_padding`, `card_shadow`.
 
@@ -92,6 +92,8 @@ Helpers for element-level design groups:
 * Use the shadcn/ui class recipes (see `resources/shadcn/*.tsx`) with Tailwind utilities.
   Colors must come from tokens: `bg-primary`, `text-muted-foreground`, `border-border`, …
 * Write class names as complete literal strings — Tailwind scans the PHP files.
+* The wrapper already carries `brik-{type}` (and `brik-el`, `brik-n-{id}`), so don't reuse
+  `brik-{type}` for an inner element — its styles would also hit the wrapper.
 * Give the important inner elements a stable `brik-*` class so `css` selectors and users can
   target them.
 * Module-specific CSS that utilities can't express goes in `assets/src/css/modules/{name}.css`.
@@ -104,6 +106,10 @@ Helpers for element-level design groups:
 
   Prefer native elements first: `<details>` for disclosure, `<dialog>` for modals, CSS scroll
   snap for carousels.
+* Heavy effects (canvas, WebGL, scroll-driven animation) go in `assets/src/fx/{name}.js` and are
+  loaded only on pages that use them: call `$ctx->script( '{name}' )` from `render`. Inside, import
+  helpers from `./_api.js` (`on`, `loop` — an rAF loop that pauses off-screen, `fitCanvas`,
+  `cssColor`, `reducedMotion`, `inCanvas`). Always respect reduced motion and pause off-screen work.
 * `$ctx->canvas` is true inside the builder preview. Use `$ctx->placeholder( 'text' )` when a
   module has nothing to show yet (e.g. no image chosen).
 * `$ctx->uid( 'suffix' )` gives unique DOM ids; `$ctx->css( $selector, $declarations )` adds

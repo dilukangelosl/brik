@@ -1,0 +1,325 @@
+/*
+ * Media modules: image, gallery, video, audio, map, embed, image compare, marquee.
+ * Selectors use :where() where possible so utilities and per-element styles win.
+ */
+
+/* Gallery layouts. */
+:where(.brik-gallery-items) {
+  --brik-cols: 4;
+  --brik-gap: 12px;
+  --brik-row-h: 240px;
+}
+
+:where(.brik-gallery--grid) {
+  display: grid;
+  grid-template-columns: repeat(var(--brik-cols), minmax(0, 1fr));
+  gap: var(--brik-gap);
+}
+
+:where(.brik-gallery--masonry) {
+  columns: var(--brik-cols);
+  column-gap: var(--brik-gap);
+}
+
+:where(.brik-gallery--masonry > .brik-gallery-item) {
+  break-inside: avoid;
+  margin-bottom: var(--brik-gap);
+}
+
+:where(.brik-gallery--justified) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--brik-gap);
+}
+
+/* Each tile grows in proportion to its aspect ratio, so rows fill the width. */
+:where(.brik-gallery--justified > .brik-gallery-item) {
+  flex-grow: var(--brik-r, 1.5);
+  flex-basis: calc(var(--brik-row-h) * var(--brik-r, 1.5));
+  height: var(--brik-row-h);
+  min-width: 0;
+}
+
+/* Keeps the last row from stretching a lone image across the full width. */
+:where(.brik-gallery--justified)::after {
+  content: "";
+  flex-grow: 999;
+}
+
+@media (max-width: 767px) {
+  :where(.brik-gallery-items) {
+    --brik-row-h: 160px;
+  }
+}
+
+/* Lightbox (shared dialog created by lightbox.js). */
+.brik-lightbox {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  max-width: none;
+  height: 100dvh;
+  max-height: none;
+  margin: 0;
+  padding: 3.5rem 4.5rem;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  font-family: var(--brik-font-body, ui-sans-serif, system-ui, sans-serif);
+  opacity: 0;
+  transition: opacity 0.2s ease, overlay 0.2s allow-discrete, display 0.2s allow-discrete;
+}
+
+.brik-lightbox[open] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+}
+
+@starting-style {
+  .brik-lightbox[open] {
+    opacity: 0;
+  }
+}
+
+.brik-lightbox::backdrop {
+  background: rgb(0 0 0 / 0.9);
+}
+
+.brik-lightbox-figure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+.brik-lightbox-img {
+  display: block;
+  max-width: 100%;
+  max-height: calc(100% - 2.5rem);
+  object-fit: contain;
+  border-radius: calc(var(--radius) - 2px);
+  box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.5);
+  user-select: none;
+}
+
+.brik-lightbox-caption {
+  font-size: 0.875rem;
+  color: rgb(255 255 255 / 0.8);
+  text-align: center;
+}
+
+.brik-lightbox-count {
+  position: absolute;
+  top: 1.25rem;
+  left: 1.5rem;
+  font-size: 0.8125rem;
+  font-variant-numeric: tabular-nums;
+  color: rgb(255 255 255 / 0.7);
+}
+
+.brik-lightbox-btn {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  border: 1px solid rgb(255 255 255 / 0.15);
+  border-radius: 9999px;
+  background: rgb(255 255 255 / 0.1);
+  color: #fff;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: background-color 0.15s ease;
+}
+
+.brik-lightbox-btn:hover {
+  background: rgb(255 255 255 / 0.2);
+}
+
+.brik-lightbox-btn:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.brik-lightbox-btn svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.brik-lightbox-btn[hidden] {
+  display: none;
+}
+
+.brik-lightbox-close {
+  top: 0.75rem;
+  right: 0.75rem;
+}
+
+.brik-lightbox-prev,
+.brik-lightbox-next {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.brik-lightbox-prev {
+  left: 1rem;
+}
+
+.brik-lightbox-next {
+  right: 1rem;
+}
+
+@media (max-width: 767px) {
+  .brik-lightbox {
+    padding: 3.5rem 0.75rem 5rem;
+  }
+
+  .brik-lightbox-prev,
+  .brik-lightbox-next {
+    top: auto;
+    bottom: 1rem;
+    transform: none;
+  }
+
+  .brik-lightbox-prev {
+    left: calc(50% - 3.25rem);
+  }
+
+  .brik-lightbox-next {
+    right: calc(50% - 3.25rem);
+  }
+}
+
+html:has(.brik-lightbox[open]) {
+  overflow: hidden;
+}
+
+/* Image compare. --brik-pos is the divider position from the start edge. */
+:where(.brik-compare) {
+  --brik-pos: 50%;
+  --brik-line: #fff;
+  touch-action: pan-y;
+}
+
+:where(.brik-compare--v) {
+  touch-action: pan-x;
+}
+
+.brik-compare--h .brik-compare-clip {
+  clip-path: inset(0 calc(100% - var(--brik-pos)) 0 0);
+}
+
+.brik-compare--v .brik-compare-clip {
+  clip-path: inset(0 0 calc(100% - var(--brik-pos)) 0);
+}
+
+.brik-compare--h .brik-compare-line {
+  top: 0;
+  bottom: 0;
+  left: var(--brik-pos);
+  width: 2px;
+  margin-left: -1px;
+  background: var(--brik-line);
+  box-shadow: 0 0 8px rgb(0 0 0 / 0.25);
+}
+
+.brik-compare--v .brik-compare-line {
+  left: 0;
+  right: 0;
+  top: var(--brik-pos);
+  height: 2px;
+  margin-top: -1px;
+  background: var(--brik-line);
+  box-shadow: 0 0 8px rgb(0 0 0 / 0.25);
+}
+
+:where(.brik-compare-handle) {
+  transition: scale 0.15s ease, box-shadow 0.15s ease;
+}
+
+.brik-compare:has(.brik-compare-range:focus-visible) .brik-compare-handle {
+  box-shadow: 0 0 0 4px color-mix(in oklab, var(--ring) 60%, transparent);
+}
+
+.brik-compare.is-dragging .brik-compare-handle {
+  scale: 1.08;
+}
+
+/* Marquee: two identical groups, the track moves by exactly one group. */
+:where(.brik-marquee) {
+  --brik-gap: 3rem;
+  --brik-duration: 30s;
+}
+
+/* Plain class (not :where) so it beats the scoped list reset. */
+.brik-marquee-group {
+  gap: var(--brik-gap);
+  padding-inline-end: var(--brik-gap);
+}
+
+.brik-marquee-track {
+  animation: brik-marquee var(--brik-duration) linear infinite;
+}
+
+.brik-marquee--right .brik-marquee-track {
+  animation-direction: reverse;
+}
+
+.brik-marquee--pause:hover .brik-marquee-track,
+.brik-marquee--pause:focus-within .brik-marquee-track {
+  animation-play-state: paused;
+}
+
+.brik-marquee--fade {
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+}
+
+.brik-marquee--muted .brik-marquee-item {
+  filter: grayscale(1);
+  opacity: 0.6;
+}
+
+.brik-marquee--muted .brik-marquee-item:hover {
+  filter: none;
+  opacity: 1;
+}
+
+@keyframes brik-marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brik-marquee {
+    overflow-x: auto;
+    scrollbar-width: thin;
+  }
+
+  .brik-marquee-track {
+    animation: none;
+  }
+
+  .brik-marquee-clone {
+    display: none;
+  }
+}
+
+/* Native audio controls follow the color scheme. */
+:where(.brik-audio-player) {
+  height: 40px;
+  color-scheme: light;
+}
+
+:where(.dark) .brik-audio-player {
+  color-scheme: dark;
+}

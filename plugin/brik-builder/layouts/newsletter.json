@@ -1,0 +1,37 @@
+{
+ "title": "Newsletter signup",
+ "category": "cta",
+ "kind": "section",
+ "tree": [
+  {
+   "type": "section",
+   "attrs": {
+    "bg_color": "var(--muted)"
+   },
+   "children": [
+    {
+     "type": "row",
+     "attrs": {
+      "max_width": "720px",
+      "columns": "1"
+     },
+     "children": [
+      {
+       "type": "column",
+       "attrs": {},
+       "children": [
+        {
+         "type": "signup",
+         "attrs": {
+          "layout": "inline",
+          "align": "center"
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

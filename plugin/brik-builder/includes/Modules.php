@@ -14,14 +14,15 @@ final class Modules {
 		return apply_filters(
 			'brik/module_categories',
 			array(
-				'structure'   => __( 'Structure', 'brik' ),
-				'basic'       => __( 'Basic', 'brik' ),
-				'content'     => __( 'Content', 'brik' ),
-				'media'       => __( 'Media', 'brik' ),
-				'interactive' => __( 'Interactive', 'brik' ),
-				'forms'       => __( 'Forms', 'brik' ),
-				'site'        => __( 'Site', 'brik' ),
-				'post'        => __( 'Post', 'brik' ),
+				'structure'   => __( 'Structure', 'brik-builder' ),
+				'basic'       => __( 'Basic', 'brik-builder' ),
+				'content'     => __( 'Content', 'brik-builder' ),
+				'media'       => __( 'Media', 'brik-builder' ),
+				'interactive' => __( 'Interactive', 'brik-builder' ),
+				'effects'     => __( 'Effects', 'brik-builder' ),
+				'forms'       => __( 'Forms', 'brik-builder' ),
+				'site'        => __( 'Site', 'brik-builder' ),
+				'post'        => __( 'Post', 'brik-builder' ),
 			)
 		);
 	}
@@ -75,7 +76,14 @@ final class Modules {
 		}
 		unset( $field );
 
-		// Module fields win over shared ones with the same key.
+		// Module fields win over shared ones with the same key, which is rarely intended.
+		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+			$clash = array_intersect_key( $def['fields'], Fields::common() );
+			if ( $clash ) {
+				/* translators: 1: module type, 2: field keys */
+				_doing_it_wrong( __METHOD__, esc_html( sprintf( 'Module "%1$s" redefines shared design fields: %2$s.', $def['type'], implode( ', ', array_keys( $clash ) ) ) ), '1.0.0' );
+			}
+		}
 		$def['fields'] = $def['fields'] + Fields::common();
 		if ( null !== self::$modules ) {
 			self::$modules[ $def['type'] ] = $def;

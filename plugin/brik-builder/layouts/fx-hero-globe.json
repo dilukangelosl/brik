@@ -1,0 +1,125 @@
+{
+ "title": "Hero — interactive globe",
+ "category": "animated",
+ "kind": "section",
+ "tree": [
+  {
+   "type": "section",
+   "attrs": {
+    "dark": true,
+    "bg_gradient": "radial-gradient(ellipse at 75% 40%, #0c4a6e 0%, #0b1020 45%, #05060a 100%)",
+    "padding": "120px 24px",
+    "padding@mobile": "72px 16px"
+   },
+   "children": [
+    {
+     "type": "row",
+     "attrs": {
+      "columns": "1/2,1/2",
+      "align_items": "center",
+      "gap": "48px"
+     },
+     "children": [
+      {
+       "type": "column",
+       "attrs": {
+        "gap": "24px",
+        "justify": "center"
+       },
+       "children": [
+        {
+         "type": "badge",
+         "attrs": {
+          "text": "Now live in 42 regions",
+          "variant": "outline",
+          "icon": "globe",
+          "animation": "fade"
+         }
+        },
+        {
+         "type": "heading",
+         "attrs": {
+          "text": "Ship to every corner of the <span class=\"bg-linear-to-r from-cyan-400 to-violet-400 bg-clip-text text-transparent\">planet</span>",
+          "level": "h1",
+          "style": "display",
+          "animation": "slide-up",
+          "animation_delay": 100
+         }
+        },
+        {
+         "type": "text",
+         "attrs": {
+          "content": "<p>An edge network that puts your app a few milliseconds from every customer. Deploy once, serve everywhere, sleep through the traffic spikes.</p>",
+          "size": "lead",
+          "animation": "slide-up",
+          "animation_delay": 200
+         }
+        },
+        {
+         "type": "button_group",
+         "attrs": {
+          "size": "lg",
+          "align": "left",
+          "buttons": [
+           {
+            "text": "Start deploying",
+            "link": {
+             "url": "#"
+            },
+            "variant": "default",
+            "icon": "arrow-right",
+            "icon_position": "end"
+           },
+           {
+            "text": "Talk to sales",
+            "link": {
+             "url": "#"
+            },
+            "variant": "outline"
+           }
+          ]
+         }
+        },
+        {
+         "type": "icon_list",
+         "attrs": {
+          "layout": "inline",
+          "size": "sm",
+          "icon": "check",
+          "items": [
+           {
+            "text": "99.99% uptime"
+           },
+           {
+            "text": "300+ edge locations"
+           },
+           {
+            "text": "SOC 2 Type II"
+           }
+          ],
+          "animation": "fade",
+          "animation_delay": 400
+         }
+        }
+       ]
+      },
+      {
+       "type": "column",
+       "attrs": {},
+       "children": [
+        {
+         "type": "globe",
+         "attrs": {
+          "size": "620px",
+          "animation": "zoom",
+          "animation_delay": 150
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

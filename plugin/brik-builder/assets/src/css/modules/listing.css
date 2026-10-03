@@ -1,0 +1,268 @@
+/* Listings, listing filters, the Field module and loop item previews. */
+
+/* ---------------------------------------------------------------------------
+ * Listing layouts.
+ * ------------------------------------------------------------------------ */
+.brik-listing-items {
+  --brik-c: var(--brik-listing-cols, 3);
+  gap: var(--brik-listing-gap, 1.5rem);
+}
+
+@media (max-width: 980px) {
+  .brik-listing-items {
+    --brik-c: var(--brik-listing-cols-t, min(var(--brik-listing-cols, 3), 2));
+  }
+}
+
+@media (max-width: 767px) {
+  .brik-listing-items {
+    --brik-c: var(--brik-listing-cols-m, 1);
+  }
+}
+
+.brik-listing-items--grid {
+  display: grid;
+  grid-template-columns: repeat(var(--brik-c), minmax(0, 1fr));
+}
+
+.brik-listing-items--list {
+  display: flex;
+  flex-direction: column;
+}
+
+.brik-listing-items--masonry {
+  columns: var(--brik-c);
+  column-gap: var(--brik-listing-gap, 1.5rem);
+}
+
+.brik-listing-items--masonry > .brik-listing-item {
+  break-inside: avoid;
+  margin-bottom: var(--brik-listing-gap, 1.5rem);
+}
+
+/* Carousel: native scroll snapping, arrows only nudge the scroll position. */
+.brik-listing-items--carousel {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: calc((100% - (var(--brik-c) - 1) * var(--brik-listing-gap, 1.5rem)) / var(--brik-c));
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  padding-block: 0.25rem;
+}
+
+.brik-listing-items--carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.brik-listing-items--carousel > .brik-listing-item {
+  scroll-snap-align: start;
+}
+
+.brik-listing-items--carousel:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent);
+  border-radius: var(--radius);
+}
+
+@media (max-width: 767px) {
+  /* A peek of the next item tells people the row scrolls. */
+  .brik-listing-items--carousel {
+    grid-auto-columns: calc((100% - (var(--brik-c) - 1) * var(--brik-listing-gap, 1.5rem)) / var(--brik-c) - 2.5rem);
+  }
+}
+
+.brik-listing-arrows [disabled] {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+/* Equal height: every item stretches, and so does a loop item's outermost element. */
+.brik-listing-items.is-equal > .brik-listing-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.brik-listing-items.is-equal > .brik-listing-item > * {
+  flex: 1 1 auto;
+}
+
+.brik-listing-item {
+  min-width: 0;
+}
+
+/* The built-in card's title link covers it; badges stay clickable. */
+.brik-listing-card .brik-term {
+  position: relative;
+  z-index: 1;
+}
+
+/* ---------------------------------------------------------------------------
+ * Loading and entrance.
+ * ------------------------------------------------------------------------ */
+.brik-listing-results {
+  transition: opacity 0.2s ease;
+}
+
+[data-brik-listing][aria-busy="true"] .brik-listing-results {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.brik-listing-results.is-swapped {
+  animation: brik-listing-fade 0.35s ease both;
+}
+
+.brik-listing-items.is-stagger > .brik-listing-item,
+.brik-listing-items > .brik-listing-item.is-entering {
+  animation: brik-listing-in 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: calc(var(--brik-i, 0) * var(--brik-stagger, 60ms));
+}
+
+@keyframes brik-listing-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+@keyframes brik-listing-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brik-listing-results.is-swapped,
+  .brik-listing-items.is-stagger > .brik-listing-item,
+  .brik-listing-items > .brik-listing-item.is-entering {
+    animation: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * Listing filter.
+ * ------------------------------------------------------------------------ */
+.brik-lf [data-lf-reset][data-idle] {
+  display: none;
+}
+
+.brik-lf [data-lf-js-hide][hidden] {
+  display: none;
+}
+
+.brik-lf input[type="search"].brik-input::-webkit-search-cancel-button {
+  cursor: pointer;
+}
+
+/* Dual range slider: two native inputs share one track; only their thumbs take pointer events. */
+.brik-lf-range-track::before,
+.brik-lf-range-track::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  height: 0.375rem;
+  border-radius: 9999px;
+  transform: translateY(-50%);
+}
+
+.brik-lf-range-track::before {
+  inset-inline: 0;
+  background: var(--muted);
+}
+
+.brik-lf-range-track::after {
+  left: var(--lo, 0%);
+  right: calc(100% - var(--hi, 100%));
+  background: var(--primary);
+}
+
+.brik-lf-thumb {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  background: none;
+  pointer-events: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.brik-lf-thumb::-webkit-slider-runnable-track {
+  background: none;
+  border: 0;
+}
+
+.brik-lf-thumb::-moz-range-track {
+  background: none;
+  border: 0;
+}
+
+.brik-lf-thumb::-webkit-slider-thumb {
+  width: 1.125rem;
+  height: 1.125rem;
+  border: 2px solid var(--primary);
+  border-radius: 9999px;
+  background: var(--background);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.15);
+  cursor: grab;
+  pointer-events: auto;
+  -webkit-appearance: none;
+  appearance: none;
+  transition: box-shadow 0.15s ease;
+}
+
+.brik-lf-thumb::-moz-range-thumb {
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid var(--primary);
+  border-radius: 9999px;
+  background: var(--background);
+  cursor: grab;
+  pointer-events: auto;
+}
+
+.brik-lf-thumb:focus-visible {
+  outline: none;
+}
+
+.brik-lf-thumb:focus-visible::-webkit-slider-thumb {
+  box-shadow: 0 0 0 4px color-mix(in oklab, var(--ring) 50%, transparent);
+}
+
+.brik-lf-thumb:focus-visible::-moz-range-thumb {
+  box-shadow: 0 0 0 4px color-mix(in oklab, var(--ring) 50%, transparent);
+}
+
+/* ---------------------------------------------------------------------------
+ * Field module.
+ * ------------------------------------------------------------------------ */
+.brik-field-embed iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.brik-field-table th,
+.brik-field-table td {
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ---------------------------------------------------------------------------
+ * Loop item preview in the builder: shown at card width on a quiet backdrop.
+ * ------------------------------------------------------------------------ */
+.brik-loop-preview {
+  max-width: var(--brik-loop-width, 400px);
+  margin: 2.5rem auto;
+}
+
+body:has(.brik-loop-preview) {
+  background-color: color-mix(in oklab, var(--muted) 60%, var(--background));
+}

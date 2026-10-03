@@ -1,0 +1,133 @@
+{
+ "title": "Team grid",
+ "category": "team",
+ "kind": "section",
+ "tree": [
+  {
+   "type": "section",
+   "attrs": {},
+   "children": [
+    {
+     "type": "row",
+     "attrs": {
+      "max_width": "720px",
+      "self_align": "center",
+      "columns": "1"
+     },
+     "children": [
+      {
+       "type": "column",
+       "attrs": {
+        "gap": "12px"
+       },
+       "children": [
+        {
+         "type": "heading",
+         "attrs": {
+          "text": "Our team",
+          "level": "p",
+          "style": "eyebrow",
+          "title_text_align": "center"
+         }
+        },
+        {
+         "type": "heading",
+         "attrs": {
+          "text": "Meet the people behind the product",
+          "level": "h2",
+          "title_text_align": "center"
+         }
+        },
+        {
+         "type": "text",
+         "attrs": {
+          "content": "<p>A small team with big ambitions.</p>",
+          "size": "lead",
+          "text_align": "center"
+         }
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "type": "row",
+     "attrs": {
+      "gap": "24px",
+      "columns": "1/4,1/4,1/4,1/4"
+     },
+     "children": [
+      {
+       "type": "column",
+       "attrs": {},
+       "children": [
+        {
+         "type": "team_member",
+         "attrs": {
+          "name": "Alex Morgan",
+          "role": "CEO",
+          "photo": {
+           "url": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&q=80"
+          },
+          "style": "plain"
+         }
+        }
+       ]
+      },
+      {
+       "type": "column",
+       "attrs": {},
+       "children": [
+        {
+         "type": "team_member",
+         "attrs": {
+          "name": "Priya Patel",
+          "role": "CTO",
+          "photo": {
+           "url": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80"
+          },
+          "style": "plain"
+         }
+        }
+       ]
+      },
+      {
+       "type": "column",
+       "attrs": {},
+       "children": [
+        {
+         "type": "team_member",
+         "attrs": {
+          "name": "Jonas Weber",
+          "role": "Design Lead",
+          "photo": {
+           "url": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&q=80"
+          },
+          "style": "plain"
+         }
+        }
+       ]
+      },
+      {
+       "type": "column",
+       "attrs": {},
+       "children": [
+        {
+         "type": "team_member",
+         "attrs": {
+          "name": "Maya Torres",
+          "role": "Engineering",
+          "photo": {
+           "url": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&q=80"
+          },
+          "style": "plain"
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

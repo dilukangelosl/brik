@@ -1,0 +1,141 @@
+{
+	"title": "Header — centered pill menu",
+	"category": "header",
+	"kind": "section",
+	"tree": [
+		{
+			"type": "section",
+			"attrs": {
+				"tag": "header",
+				"sticky": true,
+				"padding": "12px 24px",
+				"bg_color": "color-mix(in oklab, var(--background) 85%, transparent)",
+				"backdrop_blur": 12,
+				"border_width": "0 0 1px 0",
+				"border_style": "solid",
+				"border_color": "var(--border)"
+			},
+			"children": [
+				{
+					"type": "row",
+					"attrs": {
+						"columns": "1fr auto 1fr",
+						"columns@tablet": "1fr auto",
+						"columns@mobile": "1fr auto",
+						"gap": "24px",
+						"align_items": "center"
+					},
+					"children": [
+						{
+							"type": "column",
+							"children": [
+								{
+									"type": "site_logo",
+									"attrs": {
+										"max_height": "32px"
+									}
+								}
+							]
+						},
+						{
+							"type": "column",
+							"children": [
+								{
+									"type": "menu",
+									"attrs": {
+										"source": "custom",
+										"items": [
+											{
+												"label": "Home",
+												"link": {
+													"url": "/"
+												}
+											},
+											{
+												"label": "Features",
+												"link": {
+													"url": "#"
+												}
+											},
+											{
+												"label": "Company",
+												"children": [
+													{
+														"label": "About",
+														"link": {
+															"url": "#"
+														}
+													},
+													{
+														"label": "Careers",
+														"badge": "Hiring",
+														"badge_variant": "info",
+														"link": {
+															"url": "#"
+														}
+													},
+													{
+														"label": "Press",
+														"link": {
+															"url": "#"
+														}
+													}
+												]
+											},
+											{
+												"label": "Blog",
+												"link": {
+													"url": "#"
+												}
+											},
+											{
+												"label": "Pricing",
+												"link": {
+													"url": "#"
+												}
+											}
+										],
+										"align": "center",
+										"align@tablet": "right",
+										"link_style": "pill-container",
+										"dropdown_animation": "slide",
+										"cta": "mobile",
+										"cta_text": "Sign up",
+										"breakpoint": "tablet",
+										"mobile_type": "fullscreen",
+										"mobile_animation": "fade",
+										"mobile_stagger": true,
+										"submenu_mode": "accordion",
+										"toggle_style": "morph"
+									}
+								}
+							]
+						},
+						{
+							"type": "column",
+							"attrs": {
+								"hide_on": [
+									"tablet",
+									"mobile"
+								]
+							},
+							"children": [
+								{
+									"type": "button",
+									"attrs": {
+										"text": "Sign up",
+										"size": "sm",
+										"link": {
+											"url": "#"
+										},
+										"align": "right"
+									}
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	]
+}

@@ -31,45 +31,60 @@ $brik_layouts = array(
 
 return array(
 	'type'        => 'row',
-	'title'       => __( 'Row', 'brik' ),
+	'title'       => __( 'Row', 'brik-builder' ),
 	'category'    => 'structure',
 	'icon'        => 'columns-3',
 	'structural'  => true,
 	'children'    => array( 'column' ),
-	'description' => 'Grid of columns. "columns" is a comma list of fractions matching the number of child columns, e.g. "1/3,2/3". On mobile columns stack unless columns@mobile is set.',
+	'description' => 'Holds columns. "columns" is a comma list of fractions matching the number of child columns, e.g. "1/3,2/3". direction: "" (auto: horizontal, stacked on phones)|horizontal|vertical|horizontal-reverse|vertical-reverse (responsive; set direction@mobile "horizontal" to keep columns side by side on phones). sizing: structure (use columns fractions) | equal | auto (columns fit their content or their own width). justify: start|center|end|space-between|space-around|space-evenly. align_items: start|center|end|stretch. wrap: toggle (auto/equal sizing).',
 	'fields'      => array(
-		'columns'     => Fields::field( 'columns', __( 'Column structure', 'brik' ), 'content', array( 'default' => '1', 'responsive' => true, 'options' => Fields::opts( $brik_layouts ) ) ),
-		'gap'         => Fields::field( 'unit', __( 'Column gap', 'brik' ), 'content', array( 'responsive' => true, 'css' => array( Fields::WRAP, 'column-gap' ) ) ),
-		'row_gap'     => Fields::field( 'unit', __( 'Row gap (when wrapped)', 'brik' ), 'content', array( 'responsive' => true, 'css' => array( Fields::WRAP, 'row-gap' ) ) ),
-		'align_items' => Fields::field( 'select', __( 'Vertical alignment', 'brik' ), 'content', array( 'responsive' => true, 'options' => Fields::opts( array( '' => __( 'Stretch', 'brik' ), 'start' => __( 'Top', 'brik' ), 'center' => __( 'Middle', 'brik' ), 'end' => __( 'Bottom', 'brik' ) ) ), 'css' => array( Fields::WRAP, 'align-items' ) ) ),
-		'reverse'     => Fields::field( 'toggle', __( 'Reverse column order on mobile', 'brik' ), 'content' ),
-		'full'        => Fields::field( 'toggle', __( 'Full width', 'brik' ), 'content', array( 'description' => __( 'Ignore the site container width.', 'brik' ) ) ),
+		'direction'   => Fields::field(
+			'select',
+			__( 'Direction', 'brik-builder' ),
+			'content',
+			array(
+				'responsive' => true,
+				'options'    => Fields::opts(
+					array(
+						''                   => __( 'Auto (horizontal, stacked on phones)', 'brik-builder' ),
+						'horizontal'         => __( 'Horizontal', 'brik-builder' ),
+						'vertical'           => __( 'Vertical (stacked)', 'brik-builder' ),
+						'horizontal-reverse' => __( 'Horizontal, reversed', 'brik-builder' ),
+						'vertical-reverse'   => __( 'Vertical, reversed', 'brik-builder' ),
+					)
+				),
+				'description' => __( 'Phones stack columns vertically unless you set a phone value.', 'brik-builder' ),
+			)
+		),
+		'columns'     => Fields::field( 'columns', __( 'Column structure', 'brik-builder' ), 'content', array( 'default' => '1', 'responsive' => true, 'options' => Fields::opts( $brik_layouts ) ) ),
+		'sizing'      => Fields::field( 'select', __( 'Column sizing', 'brik-builder' ), 'content', array( 'responsive' => true, 'options' => Fields::opts( array( '' => __( 'Use column structure', 'brik-builder' ), 'equal' => __( 'Equal widths', 'brik-builder' ), 'auto' => __( 'Fit content', 'brik-builder' ) ) ), 'description' => __( 'With "Fit content", a column\'s own width setting is respected.', 'brik-builder' ) ) ),
+		'justify'     => Fields::field( 'select', __( 'Horizontal alignment', 'brik-builder' ), 'content', array( 'responsive' => true, 'options' => Fields::opts( array( '' => __( 'Start', 'brik-builder' ), 'center' => __( 'Center', 'brik-builder' ), 'end' => __( 'End', 'brik-builder' ), 'space-between' => __( 'Space between', 'brik-builder' ), 'space-around' => __( 'Space around', 'brik-builder' ), 'space-evenly' => __( 'Space evenly', 'brik-builder' ) ) ) ) ),
+		'align_items' => Fields::field( 'select', __( 'Vertical alignment', 'brik-builder' ), 'content', array( 'responsive' => true, 'options' => Fields::opts( array( '' => __( 'Stretch', 'brik-builder' ), 'start' => __( 'Top', 'brik-builder' ), 'center' => __( 'Middle', 'brik-builder' ), 'end' => __( 'Bottom', 'brik-builder' ) ) ), 'css' => array( Fields::WRAP, 'align-items' ) ) ),
+		'wrap'        => Fields::field( 'toggle', __( 'Wrap columns onto new lines', 'brik-builder' ), 'content', array( 'responsive' => true, 'show_if' => array( 'sizing' => array( 'equal', 'auto' ) ) ) ),
+		'gap'         => Fields::field( 'unit', __( 'Column gap', 'brik-builder' ), 'content', array( 'responsive' => true, 'css' => array( Fields::WRAP, 'column-gap' ) ) ),
+		'row_gap'     => Fields::field( 'unit', __( 'Row gap', 'brik-builder' ), 'content', array( 'responsive' => true, 'css' => array( Fields::WRAP, 'row-gap' ) ) ),
+		'reverse'     => Fields::field( 'toggle', __( 'Reverse order when stacked on phones', 'brik-builder' ), 'content' ),
+		'full'        => Fields::field( 'toggle', __( 'Full width', 'brik-builder' ), 'content', array( 'description' => __( 'Ignore the site container width.', 'brik-builder' ) ) ),
 	),
 	'class'       => static function ( $a ) {
-		return brik_cls(
-			array(
-				'brik-row--full'    => ! empty( $a['full'] ),
-				'brik-row--reverse' => ! empty( $a['reverse'] ),
-			)
-		);
+		return ! empty( $a['full'] ) ? 'brik-row--full' : '';
 	},
-	'css'         => static function ( $a, $wrap ) {
+	'css'         => static function ( $a, $wrap, $node ) {
+		$ids   = array();
+		foreach ( isset( $node['children'] ) ? (array) $node['children'] : array() as $child ) {
+			if ( ! empty( $child['id'] ) ) {
+				$ids[] = $child['id'];
+			}
+		}
 		$out = '';
 		foreach ( array( 'desktop', 'tablet', 'mobile' ) as $state ) {
-			$v = Style::raw_value( $a, 'columns', $state );
-			if ( null === $v ) {
-				continue;
-			}
-			$rule = $wrap . '{grid-template-columns:' . brik_grid_template( $v ) . '}';
+			$css = brik_row_layout_css( $a, $state, $wrap, $ids );
 			if ( 'tablet' === $state ) {
-				$rule = '@media (max-width:' . Style::TABLET . 'px){' . $rule . '}';
+				$css = '@media (max-width:' . Style::TABLET . 'px){' . $css . '}';
 			} elseif ( 'mobile' === $state ) {
-				$rule = '@media (max-width:' . Style::MOBILE . 'px){' . $rule . '}';
-			} else {
-				// Columns stack on phones unless a mobile structure is set.
-				$rule = '@media (min-width:' . ( Style::MOBILE + 1 ) . 'px){' . $rule . '}';
+				$css = '@media (max-width:' . Style::MOBILE . 'px){' . $css . '}';
 			}
-			$out .= $rule;
+			$out .= $css;
 		}
 		return $out;
 	},

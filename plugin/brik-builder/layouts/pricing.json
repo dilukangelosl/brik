@@ -1,0 +1,77 @@
+{
+ "title": "Pricing \u2014 three plans",
+ "category": "pricing",
+ "kind": "section",
+ "tree": [
+  {
+   "type": "section",
+   "attrs": {},
+   "children": [
+    {
+     "type": "row",
+     "attrs": {
+      "max_width": "720px",
+      "self_align": "center",
+      "columns": "1"
+     },
+     "children": [
+      {
+       "type": "column",
+       "attrs": {
+        "gap": "12px"
+       },
+       "children": [
+        {
+         "type": "heading",
+         "attrs": {
+          "text": "Pricing",
+          "level": "p",
+          "style": "eyebrow",
+          "title_text_align": "center"
+         }
+        },
+        {
+         "type": "heading",
+         "attrs": {
+          "text": "Simple, transparent pricing",
+          "level": "h2",
+          "title_text_align": "center"
+         }
+        },
+        {
+         "type": "text",
+         "attrs": {
+          "content": "<p>Start free and upgrade when you are ready. No hidden fees.</p>",
+          "size": "lead",
+          "text_align": "center"
+         }
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "type": "row",
+     "attrs": {
+      "columns": "1"
+     },
+     "children": [
+      {
+       "type": "column",
+       "attrs": {},
+       "children": [
+        {
+         "type": "pricing_table",
+         "attrs": {
+          "columns": 3,
+          "billing_toggle": true
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

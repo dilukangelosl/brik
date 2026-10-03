@@ -1,0 +1,450 @@
+/*
+ * Interactive modules: accordion, toggle, tabs, modal, tooltip, hover card, carousel.
+ */
+
+/* Accordion / toggle: animate <details> where ::details-content is supported. */
+.brik-accordion {
+  interpolate-size: allow-keywords;
+}
+
+.brik-acc-item::details-content {
+  block-size: 0;
+  overflow: hidden;
+  transition: block-size 0.2s ease-out, content-visibility 0.2s allow-discrete;
+}
+
+.brik-acc-item[open]::details-content {
+  block-size: auto;
+}
+
+.brik-acc-trigger::marker {
+  content: "";
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brik-acc-item::details-content {
+    transition: none;
+  }
+}
+
+/* Show more. */
+:where(.brik-showmore) {
+  --brik-collapsed: 96px;
+}
+
+.brik-showmore[data-state="closed"]:not(.is-short) .brik-showmore-content {
+  max-height: var(--brik-collapsed);
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to bottom, #000 40%, transparent);
+  mask-image: linear-gradient(to bottom, #000 40%, transparent);
+}
+
+.brik-showmore[data-state="open"] .brik-showmore-icon {
+  rotate: 180deg;
+}
+
+.brik-showmore.is-short .brik-showmore-btn {
+  display: none;
+}
+
+/* Modal: a transparent <dialog> box around the styled panel. */
+.brik-dialog {
+  width: 100%;
+  max-width: min(32rem, calc(100% - 2rem));
+  max-height: calc(100dvh - 2rem);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--foreground);
+  overflow: visible;
+  opacity: 0;
+  scale: 0.95;
+  transition: opacity 0.2s ease, scale 0.2s ease, translate 0.3s ease, overlay 0.3s allow-discrete, display 0.3s allow-discrete;
+}
+
+.brik-dialog[open] {
+  opacity: 1;
+  scale: 1;
+}
+
+@starting-style {
+  .brik-dialog[open] {
+    opacity: 0;
+    scale: 0.95;
+  }
+}
+
+.brik-dialog::backdrop {
+  background-color: rgb(0 0 0 / 0.5);
+  opacity: 0;
+  transition: opacity 0.2s ease, overlay 0.3s allow-discrete, display 0.3s allow-discrete;
+}
+
+.brik-dialog[open]::backdrop {
+  opacity: 1;
+}
+
+@starting-style {
+  .brik-dialog[open]::backdrop {
+    opacity: 0;
+  }
+}
+
+.brik-modal-panel {
+  max-height: inherit;
+  overflow-y: auto;
+}
+
+.brik-dialog--sm {
+  max-width: min(24rem, calc(100% - 2rem));
+}
+
+.brik-dialog--lg {
+  max-width: min(42rem, calc(100% - 2rem));
+}
+
+.brik-dialog--xl {
+  max-width: min(56rem, calc(100% - 2rem));
+}
+
+.brik-dialog--full {
+  max-width: calc(100% - 2rem);
+  height: calc(100dvh - 2rem);
+}
+
+.brik-dialog--full .brik-modal-panel {
+  height: 100%;
+  align-content: start;
+}
+
+/* Sheet: pinned to an edge and sliding in from it. */
+.brik-dialog--sheet {
+  position: fixed;
+  margin: 0;
+  scale: 1;
+  opacity: 1;
+  max-height: none;
+}
+
+.brik-dialog--sheet .brik-modal-panel {
+  border-radius: 0;
+  max-height: none;
+}
+
+.brik-dialog--right,
+.brik-dialog--left {
+  top: 0;
+  bottom: 0;
+  width: 75%;
+  max-width: 24rem;
+  height: 100dvh;
+}
+
+.brik-dialog--right {
+  left: auto;
+  right: 0;
+  translate: 100% 0;
+}
+
+.brik-dialog--left {
+  left: 0;
+  right: auto;
+  translate: -100% 0;
+}
+
+.brik-dialog--top,
+.brik-dialog--bottom {
+  left: 0;
+  right: 0;
+  width: 100%;
+  max-width: none;
+  height: auto;
+  max-height: 85dvh;
+}
+
+.brik-dialog--top {
+  top: 0;
+  bottom: auto;
+  translate: 0 -100%;
+}
+
+.brik-dialog--bottom {
+  top: auto;
+  bottom: 0;
+  translate: 0 100%;
+}
+
+.brik-dialog--right .brik-modal-panel {
+  border-left: 1px solid var(--border);
+}
+
+.brik-dialog--left .brik-modal-panel {
+  border-right: 1px solid var(--border);
+}
+
+.brik-dialog--top .brik-modal-panel {
+  border-bottom: 1px solid var(--border);
+  max-height: 85dvh;
+}
+
+.brik-dialog--bottom .brik-modal-panel {
+  border-top: 1px solid var(--border);
+  border-radius: calc(var(--radius) + 4px) calc(var(--radius) + 4px) 0 0;
+  max-height: 85dvh;
+}
+
+.brik-dialog--sheet[open] {
+  translate: 0 0;
+}
+
+@starting-style {
+  .brik-dialog--right[open] {
+    translate: 100% 0;
+  }
+
+  .brik-dialog--left[open] {
+    translate: -100% 0;
+  }
+
+  .brik-dialog--top[open] {
+    translate: 0 -100%;
+  }
+
+  .brik-dialog--bottom[open] {
+    translate: 0 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brik-dialog,
+  .brik-dialog::backdrop {
+    transition: none;
+  }
+}
+
+html:has(.brik-dialog[open]) {
+  overflow: hidden;
+}
+
+/* Tooltip and hover card. --brik-shift nudges content back into the viewport. */
+.brik-pop {
+  position: relative;
+  display: inline-flex;
+  vertical-align: baseline;
+}
+
+.brik-pop-content {
+  position: absolute;
+  z-index: 50;
+  /* display:none while closed so hidden content never widens the page. */
+  display: none;
+  opacity: 0;
+  --brik-shift: 0px;
+  --brik-gap: 8px;
+  transition: opacity 0.15s ease, scale 0.15s ease, display 0.15s allow-discrete;
+  scale: 0.96;
+}
+
+.brik-hover-card .brik-pop-content {
+  --brik-gap: 10px;
+  transition-delay: 0s;
+}
+
+.brik-pop:hover .brik-pop-content,
+.brik-pop:has(:focus-visible) .brik-pop-content,
+.brik-pop[data-state="open"] .brik-pop-content {
+  display: block;
+  opacity: 1;
+  scale: 1;
+}
+
+@starting-style {
+  .brik-pop:hover .brik-pop-content,
+  .brik-pop:has(:focus-visible) .brik-pop-content,
+  .brik-pop[data-state="open"] .brik-pop-content {
+    opacity: 0;
+    scale: 0.96;
+  }
+}
+
+/* Hover cards wait a moment so passing the pointer over them doesn't flash a card. */
+.brik-hover-card:hover .brik-pop-content {
+  transition-delay: 0.3s;
+}
+
+.brik-pop[data-state="dismissed"] .brik-pop-content {
+  display: none;
+}
+
+/* Bridge the gap so the pointer can travel from trigger to card. */
+.brik-pop-content::before {
+  content: "";
+  position: absolute;
+  inset: calc(var(--brik-gap) * -1 - 2px);
+  z-index: -1;
+}
+
+.brik-pop[data-placed="top"] .brik-pop-content,
+.brik-pop:not([data-placed])[data-side="top"] .brik-pop-content {
+  bottom: calc(100% + var(--brik-gap));
+  left: 50%;
+  translate: calc(-50% + var(--brik-shift)) 0;
+  transform-origin: bottom center;
+}
+
+.brik-pop[data-placed="bottom"] .brik-pop-content,
+.brik-pop:not([data-placed])[data-side="bottom"] .brik-pop-content {
+  top: calc(100% + var(--brik-gap));
+  left: 50%;
+  translate: calc(-50% + var(--brik-shift)) 0;
+  transform-origin: top center;
+}
+
+.brik-pop[data-placed="left"] .brik-pop-content,
+.brik-pop:not([data-placed])[data-side="left"] .brik-pop-content {
+  right: calc(100% + var(--brik-gap));
+  top: 50%;
+  translate: 0 -50%;
+  transform-origin: center right;
+}
+
+.brik-pop[data-placed="right"] .brik-pop-content,
+.brik-pop:not([data-placed])[data-side="right"] .brik-pop-content {
+  left: calc(100% + var(--brik-gap));
+  top: 50%;
+  translate: 0 -50%;
+  transform-origin: center left;
+}
+
+/* Hover card alignment along the trigger for top/bottom placement. */
+.brik-hover-card[data-align="start"]:is([data-placed="top"], [data-placed="bottom"], :not([data-placed]):is([data-side="top"], [data-side="bottom"])) .brik-pop-content {
+  left: 0;
+  translate: var(--brik-shift) 0;
+}
+
+.brik-hover-card[data-align="end"]:is([data-placed="top"], [data-placed="bottom"], :not([data-placed]):is([data-side="top"], [data-side="bottom"])) .brik-pop-content {
+  left: auto;
+  right: 0;
+  translate: var(--brik-shift) 0;
+}
+
+.brik-pop-arrow {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: inherit;
+  border-radius: 2px;
+  rotate: 45deg;
+}
+
+.brik-pop[data-placed="top"] .brik-pop-arrow,
+.brik-pop:not([data-placed])[data-side="top"] .brik-pop-arrow {
+  top: 100%;
+  left: calc(50% - var(--brik-shift));
+  translate: -50% -50%;
+}
+
+.brik-pop[data-placed="bottom"] .brik-pop-arrow,
+.brik-pop:not([data-placed])[data-side="bottom"] .brik-pop-arrow {
+  bottom: 100%;
+  left: calc(50% - var(--brik-shift));
+  translate: -50% 50%;
+}
+
+.brik-pop[data-placed="left"] .brik-pop-arrow,
+.brik-pop:not([data-placed])[data-side="left"] .brik-pop-arrow {
+  left: 100%;
+  top: 50%;
+  translate: -50% -50%;
+}
+
+.brik-pop[data-placed="right"] .brik-pop-arrow,
+.brik-pop:not([data-placed])[data-side="right"] .brik-pop-arrow {
+  right: 100%;
+  top: 50%;
+  translate: 50% -50%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brik-pop-content {
+    transition: none;
+    scale: 1;
+  }
+}
+
+/* Carousel: native scroll snap; carousel.js adds arrows, dots and autoplay. */
+:where(.brik-carousel) {
+  --brik-per-view: 1;
+  --brik-gap: 1rem;
+}
+
+:where(.brik-carousel--cards) {
+  --brik-gap: 1.5rem;
+}
+
+.brik-carousel-track {
+  display: flex;
+  gap: var(--brik-gap);
+  margin: 0;
+  padding: 0;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  outline: none;
+}
+
+.brik-carousel-track::-webkit-scrollbar {
+  display: none;
+}
+
+.brik-carousel-track:focus-visible {
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent);
+  border-radius: var(--radius);
+}
+
+.brik-carousel-slide {
+  flex: 0 0 calc((100% - (var(--brik-per-view) - 1) * var(--brik-gap)) / var(--brik-per-view));
+  min-width: 0;
+  scroll-snap-align: start;
+}
+
+.brik-carousel--cards .brik-carousel-track {
+  /* Room for card shadows, which overflow clipping would cut off. */
+  padding-block: 4px 8px;
+}
+
+.brik-carousel-dot {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border-radius: 9999px;
+  background-color: color-mix(in oklab, var(--foreground) 20%, transparent);
+  cursor: pointer;
+  transition: width 0.25s ease, background-color 0.25s ease;
+}
+
+.brik-carousel-dot:hover {
+  background-color: color-mix(in oklab, var(--foreground) 40%, transparent);
+}
+
+.brik-carousel-dot[aria-current="true"] {
+  width: 24px;
+  background-color: var(--primary);
+}
+
+.brik-carousel-dot:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.brik-carousel.is-static .brik-carousel-nav,
+.brik-carousel.is-static .brik-carousel-arrow {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brik-carousel-dot {
+    transition: none;
+  }
+}

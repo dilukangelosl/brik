@@ -1,0 +1,1468 @@
+/* Menu module: bar, link styles, dropdowns, mega panels and the mobile menu. */
+
+.brik-menu {
+  --brik-menu-justify: flex-start;
+  --brik-menu-items: flex-start;
+  --brik-menu-highlight: var(--accent);
+  --brik-menu-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+
+.brik-menu-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  justify-content: var(--brik-menu-justify);
+}
+
+.brik-menu-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.brik-menu--horizontal .brik-menu-list {
+  justify-content: var(--brik-menu-justify);
+}
+
+.brik-menu--horizontal .brik-menu-bar > .brik-menu-list {
+  flex: var(--brik-menu-grow, 0) 1 auto;
+}
+
+.brik-menu-item {
+  position: relative;
+}
+
+.brik-menu-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  height: 2.25rem;
+  padding: 0 0.75rem;
+  border-radius: calc(var(--radius) - 2px);
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+  color: var(--foreground);
+  transition: color 0.15s, background-color 0.15s, box-shadow 0.15s;
+  outline: none;
+  cursor: pointer;
+}
+
+.brik-menu-licon {
+  color: var(--muted-foreground);
+  transition: color 0.15s;
+}
+
+.brik-menu-link:hover .brik-menu-licon,
+.brik-menu-link.is-current .brik-menu-licon {
+  color: currentColor;
+}
+
+.brik-menu-badge {
+  margin-left: 0.125rem;
+}
+
+.brik-menu-label {
+  cursor: default;
+  color: var(--muted-foreground);
+}
+
+.brik-menu-divider {
+  align-self: center;
+  width: 1px;
+  height: 1.25rem;
+  margin-inline: 0.375rem;
+  background-color: var(--border);
+}
+
+.brik-menu-item--button {
+  margin-left: 0.25rem;
+}
+
+.brik-menu-link:focus-visible,
+.brik-menu-split-link:focus-visible,
+.brik-menu-trigger:focus-visible,
+.brik-menu-sublink:focus-visible,
+.brik-menu-heading--link:focus-visible,
+.brik-mega-feature:focus-visible,
+.brik-sheet-link:focus-visible,
+.brik-mm-expand:focus-visible,
+.brik-mm-back:focus-visible,
+.brik-mm-social:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent);
+}
+
+.brik-menu-split {
+  gap: 0;
+  padding-right: 0.25rem;
+}
+
+.brik-menu-split-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  height: 100%;
+  border-radius: inherit;
+  outline: none;
+}
+
+.brik-menu-split .brik-menu-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: calc(var(--radius) - 4px);
+  cursor: pointer;
+}
+
+.brik-menu-chevron {
+  position: relative;
+  top: 1px;
+  margin-left: -0.125rem;
+  opacity: 0.7;
+  transition: rotate 0.3s var(--brik-menu-ease);
+}
+
+.brik-menu-split .brik-menu-chevron {
+  top: 0;
+  margin: 0;
+}
+
+.brik-menu-has-sub[data-state="open"] > :is(.brik-menu-trigger, .brik-menu-split) .brik-menu-chevron {
+  rotate: 180deg;
+}
+
+/* ---------------------------------------------------------------------------
+ * Link styles.
+ * ------------------------------------------------------------------------ */
+
+/* Pills (shadcn trigger style). */
+.brik-menu--ghost .brik-menu-link:hover,
+.brik-menu--ghost .brik-menu-has-sub[data-state="open"] > .brik-menu-link,
+.brik-menu--ghost .brik-menu-link.is-current {
+  background-color: var(--brik-menu-highlight);
+  color: var(--accent-foreground);
+}
+
+.brik-menu--ghost .brik-menu-label:hover {
+  background-color: transparent;
+}
+
+/* Underline: a static bar under the hovered and active link. */
+.brik-menu:is(.brik-menu--underline, .brik-menu--underline-animated) .brik-menu-link {
+  padding: 0 0.25rem;
+  border-radius: 0;
+  color: var(--muted-foreground);
+}
+
+.brik-menu:is(.brik-menu--underline, .brik-menu--underline-animated) .brik-menu-list {
+  gap: 1.25rem;
+}
+
+.brik-menu:is(.brik-menu--underline, .brik-menu--underline-animated) .brik-menu-link::after {
+  content: "";
+  position: absolute;
+  left: 0.25rem;
+  right: 0.25rem;
+  bottom: 0.125rem;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--brik-menu-underline, currentColor);
+  opacity: 0;
+  transition: opacity 0.15s, transform 0.35s var(--brik-menu-ease);
+}
+
+.brik-menu:is(.brik-menu--underline, .brik-menu--underline-animated) .brik-menu-label::after {
+  display: none;
+}
+
+.brik-menu:is(.brik-menu--underline, .brik-menu--underline-animated) :is(.brik-menu-link:hover, .brik-menu-link:is(.is-current, .is-ancestor), .brik-menu-has-sub[data-state="open"] > .brik-menu-link) {
+  color: var(--foreground);
+}
+
+.brik-menu--underline :is(.brik-menu-link:hover, .brik-menu-link.is-current, .brik-menu-has-sub[data-state="open"] > .brik-menu-link)::after {
+  opacity: 1;
+}
+
+/* Animated underline grows from the center. */
+.brik-menu.brik-menu--underline-animated .brik-menu-link::after {
+  opacity: 1;
+  transform: scaleX(0);
+  transform-origin: center;
+}
+
+.brik-menu--underline-animated :is(.brik-menu-link:hover, .brik-menu-link.is-current, .brik-menu-has-sub[data-state="open"] > .brik-menu-link)::after {
+  transform: scaleX(1);
+}
+
+/* Plain. */
+.brik-menu--plain .brik-menu-link {
+  padding: 0 0.5rem;
+  color: var(--muted-foreground);
+}
+
+.brik-menu--plain :is(.brik-menu-link:hover, .brik-menu-link:is(.is-current, .is-ancestor), .brik-menu-has-sub[data-state="open"] > .brik-menu-link) {
+  color: var(--foreground);
+}
+
+/* Pill container: links in a rounded muted track; the active one is raised. */
+.brik-menu--pill-container .brik-menu-bar > .brik-menu-list {
+  --brik-menu-highlight: var(--background);
+  position: relative;
+  isolation: isolate;
+  flex-grow: 0;
+  gap: 0.125rem;
+  padding: 0.25rem;
+  border: 1px solid var(--border);
+  border-radius: 9999px;
+  background-color: color-mix(in oklab, var(--muted) 80%, transparent);
+}
+
+.brik-menu--pill-container .brik-menu-link {
+  height: 2rem;
+  padding: 0 0.875rem;
+  border-radius: 9999px;
+  color: var(--muted-foreground);
+}
+
+.brik-menu--pill-container :is(.brik-menu-link:hover, .brik-menu-link:is(.is-current, .is-ancestor), .brik-menu-has-sub[data-state="open"] > .brik-menu-link) {
+  color: var(--foreground);
+}
+
+.brik-menu--pill-container .brik-menu-indicator {
+  border-radius: 9999px;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.08), 0 0 0 1px color-mix(in oklab, var(--border) 70%, transparent);
+}
+
+.brik-menu--pill-container .brik-menu-item--button {
+  margin-left: 0.125rem;
+}
+
+.brik-menu--pill-container .brik-menu-button {
+  border-radius: 9999px;
+}
+
+/* Without the script the active link is raised in place. */
+.brik-menu--pill-container:not([data-ready]) .brik-menu-link.is-current {
+  background-color: var(--background);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.08);
+}
+
+/* Sliding highlight. */
+.brik-menu--indicator .brik-menu-bar > .brik-menu-list {
+  position: relative;
+  isolation: isolate;
+}
+
+.brik-menu--indicator .brik-menu-link {
+  color: var(--muted-foreground);
+}
+
+.brik-menu--indicator :is(.brik-menu-link:hover, .brik-menu-link:is(.is-current, .is-ancestor), .brik-menu-has-sub[data-state="open"] > .brik-menu-link) {
+  color: var(--foreground);
+}
+
+.brik-menu--indicator:not([data-ready]) .brik-menu-link.is-current {
+  background-color: var(--brik-menu-highlight);
+}
+
+.brik-menu-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  width: var(--brik-ind-w, 0);
+  height: var(--brik-ind-h, 0);
+  border-radius: calc(var(--radius) - 2px);
+  background-color: var(--brik-menu-highlight);
+  opacity: 0;
+  transform: translate(var(--brik-ind-x, 0), var(--brik-ind-y, 0));
+  transition: transform 0.4s var(--brik-menu-ease), width 0.4s var(--brik-menu-ease), height 0.4s var(--brik-menu-ease), opacity 0.2s ease;
+  pointer-events: none;
+}
+
+.brik-menu-indicator.is-visible {
+  opacity: 1;
+}
+
+.brik-menu-indicator.is-instant {
+  transition: none;
+}
+
+/* ---------------------------------------------------------------------------
+ * Stacking: rows and sections sit at z-index 1–2, so lift the ones holding an
+ * open dropdown above whatever follows them.
+ * ------------------------------------------------------------------------ */
+.brik-section > :has(.brik-menu-has-sub:is(:hover, :focus-within, [data-state="open"])),
+.brik-column:has(.brik-menu-has-sub:is(:hover, :focus-within, [data-state="open"])),
+.brik-row:has(.brik-menu-has-sub:is(:hover, :focus-within, [data-state="open"])) {
+  z-index: 20;
+}
+
+.brik-section:not(.brik-section--sticky, .brik-section--overlay):has(.brik-menu-has-sub:is(:hover, :focus-within, [data-state="open"])) {
+  z-index: 45;
+}
+
+.brik-section--sticky:has(.brik-menu-has-sub[data-state="open"]),
+.brik-section--overlay:has(.brik-menu-has-sub[data-state="open"]) {
+  z-index: 55;
+}
+
+/* ---------------------------------------------------------------------------
+ * Dropdowns. The wrapper is invisible; its top padding bridges the gap to the
+ * trigger so the pointer can travel into the panel.
+ * ------------------------------------------------------------------------ */
+.brik-menu-sub {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 60;
+  padding-top: calc(0.5rem + var(--brik-sub-top, 0px));
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform-origin: top left;
+  transition: opacity 0.15s ease-in, transform 0.15s ease-in, visibility 0s linear 0.15s;
+}
+
+.brik-menu-sub[data-kind="mega"] {
+  transform-origin: top center;
+}
+
+.brik-menu-sub[data-state="open"] {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: none;
+  transition: opacity 0.2s ease-out, transform 0.25s var(--brik-menu-ease), visibility 0s;
+}
+
+.brik-menu--anim-slide .brik-menu-sub:not([data-state="open"]) {
+  transform: translateY(-8px);
+}
+
+.brik-menu--anim-scale .brik-menu-sub:not([data-state="open"]) {
+  transform: scale(0.96) translateY(-4px);
+}
+
+.brik-menu--anim-none .brik-menu-sub {
+  transition: none;
+}
+
+/* Without the script (or before it loads) hover and focus still open dropdowns. */
+.brik-menu:not([data-ready]) .brik-menu-has-sub:is(:hover, :focus-within) > .brik-menu-sub {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: none;
+  transition-delay: 0s;
+}
+
+.brik-menu-panel {
+  display: grid;
+  gap: 0.125rem;
+  width: max-content;
+  min-width: 12rem;
+  max-width: min(22rem, calc(100vw - 2rem));
+  padding: 0.375rem;
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) + 2px);
+  background-color: var(--popover);
+  color: var(--popover-foreground);
+  box-shadow: 0 16px 36px -12px rgb(0 0 0 / 0.18), 0 4px 10px -6px rgb(0 0 0 / 0.08);
+}
+
+.brik-menu-panel--rich {
+  width: 20rem;
+  max-width: calc(100vw - 2rem);
+  padding: 0.5rem;
+}
+
+.brik-menu-sublink {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.5rem 0.625rem;
+  border-radius: calc(var(--radius) - 2px);
+  font-size: 0.875rem;
+  line-height: 1.25;
+  transition: background-color 0.15s, color 0.15s;
+  outline: none;
+}
+
+.brik-menu-sublink:not(.has-icon, .has-desc) {
+  align-items: center;
+}
+
+.brik-menu-sublink:hover,
+.brik-menu-sublink:focus-visible {
+  background-color: var(--accent);
+  color: var(--accent-foreground);
+}
+
+.brik-menu-sublink.is-current {
+  background-color: color-mix(in oklab, var(--accent) 70%, transparent);
+}
+
+.brik-menu-icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) - 2px);
+  background-color: var(--background);
+  color: var(--foreground);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.04);
+  transition: color 0.15s, border-color 0.15s, background-color 0.15s;
+}
+
+.brik-menu-sublink:not(.has-desc) .brik-menu-icon {
+  width: 1.75rem;
+  height: 1.75rem;
+}
+
+.brik-menu-sublink:hover .brik-menu-icon {
+  border-color: color-mix(in oklab, var(--foreground) 18%, var(--border));
+}
+
+.brik-menu-subtext {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+  padding-top: 0.0625rem;
+}
+
+.brik-menu-subtitle {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.375rem;
+  font-weight: 500;
+}
+
+.brik-menu-sublink.has-icon:not(.has-desc) .brik-menu-subtext {
+  align-self: center;
+  padding: 0;
+}
+
+.brik-menu-desc {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  color: var(--muted-foreground);
+  font-size: 0.8125rem;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.brik-menu-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  margin: 0;
+  padding: 0.5rem 0.625rem 0.375rem;
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+}
+
+.brik-menu-heading--link {
+  width: fit-content;
+  border-radius: calc(var(--radius) - 4px);
+  outline: none;
+  transition: color 0.15s;
+}
+
+.brik-menu-heading--link:hover {
+  color: var(--foreground);
+}
+
+.brik-menu-sep {
+  height: 1px;
+  margin: 0.25rem -0.375rem;
+  background-color: var(--border);
+}
+
+.brik-menu-subitem--button {
+  padding: 0.25rem 0.125rem 0.125rem;
+}
+
+.brik-menu-nested {
+  margin: 0.125rem 0 0.25rem 0.625rem;
+  padding-left: 0.5rem;
+  border-left: 1px solid var(--border);
+}
+
+.brik-menu-nested .brik-menu-sublink {
+  padding-block: 0.375rem;
+  color: var(--muted-foreground);
+}
+
+.brik-menu-nested .brik-menu-sublink:hover {
+  color: var(--accent-foreground);
+}
+
+/* ---------------------------------------------------------------------------
+ * Mega panels.
+ * ------------------------------------------------------------------------ */
+.brik-menu-panel--mega {
+  display: block;
+  min-width: 0;
+  max-width: calc(var(--brik-vw, 100vw) - 1rem);
+  padding: 0.5rem;
+}
+
+.brik-mega-inner {
+  min-width: 0;
+}
+
+.brik-mega-cols,
+.brik-mega-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--brik-mega-cols, 2), minmax(0, 1fr));
+  gap: 0.25rem;
+}
+
+.brik-mega--columns .brik-mega-cols {
+  width: calc(var(--brik-mega-cols, 2) * 13.5rem);
+  max-width: 100%;
+  column-gap: 0.75rem;
+  row-gap: 0.5rem;
+  padding: 0.25rem;
+}
+
+.brik-mega-col {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.brik-mega-links {
+  display: grid;
+  gap: 0.125rem;
+}
+
+.brik-mega--grid .brik-mega-grid {
+  width: calc(var(--brik-mega-cols, 2) * 17rem);
+  max-width: 100%;
+}
+
+.brik-mega-span {
+  grid-column: 1 / -1;
+}
+
+.brik-mega-grid > .brik-menu-sep {
+  margin-inline: 0;
+}
+
+.brik-mega-card {
+  height: 100%;
+  padding: 0.75rem;
+}
+
+/* Featured: links on the left, a card on the right. */
+.brik-mega--featured .brik-mega-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 15rem;
+  gap: 0.5rem;
+}
+
+.brik-mega--featured .brik-mega-main > :is(.brik-mega-grid, .brik-mega-cols) {
+  width: calc(var(--brik-mega-cols, 2) * 16rem);
+  max-width: 100%;
+}
+
+.brik-mega-feature {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 14rem;
+  overflow: hidden;
+  border-radius: calc(var(--radius) - 2px);
+  background: linear-gradient(to bottom, color-mix(in oklab, var(--muted) 50%, transparent), var(--muted));
+  color: var(--foreground);
+  outline: none;
+  isolation: isolate;
+  transition: box-shadow 0.2s;
+}
+
+.brik-mega-feature-img {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s var(--brik-menu-ease);
+}
+
+.brik-mega-feature.has-image {
+  color: #fff;
+}
+
+.brik-mega-feature.has-image::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(to top, rgb(0 0 0 / 0.78), rgb(0 0 0 / 0.15) 65%, transparent);
+}
+
+a.brik-mega-feature:hover .brik-mega-feature-img {
+  transform: scale(1.04);
+}
+
+.brik-mega-feature-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  padding: 1.25rem;
+}
+
+.brik-mega-feature-eyebrow {
+  font-size: 0.75rem;
+  font-weight: 500;
+  opacity: 0.7;
+}
+
+.brik-mega-feature-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+}
+
+.brik-mega-feature-text {
+  font-size: 0.875rem;
+  line-height: 1.45;
+  opacity: 0.75;
+}
+
+.brik-mega-feature:not(.has-image) .brik-mega-feature-text {
+  color: var(--muted-foreground);
+  opacity: 1;
+}
+
+.brik-mega-feature-button svg {
+  transition: translate 0.2s var(--brik-menu-ease);
+}
+
+a.brik-mega-feature:hover .brik-mega-feature-button svg {
+  translate: 2px 0;
+}
+
+/* A library layout fills the panel edge to edge. */
+.brik-mega--layout {
+  padding: 0;
+  overflow: hidden;
+}
+
+.brik-mega--layout .brik-mega-inner > .brik-section {
+  border-radius: inherit;
+}
+
+/* Widths. "container" spans the site container, "full" the whole viewport under the header. */
+.brik-menu-sub[data-width="container"] .brik-menu-panel,
+.brik-menu-sub[data-width="full"] .brik-menu-panel {
+  width: min(var(--brik-container, 1200px), calc(var(--brik-vw, 100vw) - 2rem));
+  max-width: none;
+}
+
+.brik-menu-sub[data-width="full"] .brik-menu-panel {
+  width: var(--brik-vw, 100vw);
+  border-inline: 0;
+  border-radius: 0;
+  padding-block: 1rem;
+}
+
+.brik-menu-sub[data-width="full"] .brik-mega-inner {
+  max-width: var(--brik-container, 1200px);
+  margin-inline: auto;
+  padding-inline: 1rem;
+}
+
+.brik-menu-sub[data-width="full"] .brik-mega--layout,
+.brik-menu-sub[data-width="full"] .brik-mega--layout .brik-mega-inner {
+  max-width: none;
+  padding: 0;
+}
+
+.brik-menu-sub:is([data-width="container"], [data-width="full"]) :is(.brik-mega-cols, .brik-mega-grid, .brik-mega-main > *) {
+  width: auto;
+}
+
+.brik-menu-sub:is([data-width="container"], [data-width="full"]) .brik-mega--featured .brik-mega-inner {
+  grid-template-columns: minmax(0, 1fr) minmax(15rem, 28%);
+}
+
+/* ---------------------------------------------------------------------------
+ * Vertical menus (footers, sidebars).
+ * ------------------------------------------------------------------------ */
+.brik-menu--vertical .brik-menu-bar {
+  flex-direction: column;
+  align-items: var(--brik-menu-items);
+}
+
+.brik-menu--vertical .brik-menu-list {
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: var(--brik-menu-items);
+  gap: 0.125rem;
+}
+
+.brik-menu--vertical .brik-menu-link {
+  height: auto;
+  min-height: 2rem;
+  padding-block: 0.375rem;
+  line-height: 1.3;
+  white-space: normal;
+}
+
+.brik-menu--vertical:is(.brik-menu--plain, .brik-menu--underline, .brik-menu--underline-animated) .brik-menu-link {
+  padding-inline: 0;
+}
+
+.brik-menu--vertical:is(.brik-menu--underline, .brik-menu--underline-animated) .brik-menu-link::after {
+  left: 0;
+  right: 0;
+  bottom: 0.25rem;
+}
+
+.brik-menu--vertical .brik-menu-heading {
+  padding-inline: 0;
+}
+
+.brik-menu--vertical .brik-menu-sep {
+  align-self: stretch;
+  width: auto;
+  margin: 0.375rem 0;
+}
+
+.brik-menu--vertical .brik-menu-nested .brik-menu-link {
+  color: var(--muted-foreground);
+  font-weight: 400;
+}
+
+/* ---------------------------------------------------------------------------
+ * Menu button.
+ * ------------------------------------------------------------------------ */
+.brik-menu-toggle {
+  display: none;
+  position: relative;
+}
+
+@media (max-width: 980px) {
+  .brik-menu--bp-tablet .brik-menu-bar > :is(.brik-menu-list, .brik-menu-cta) {
+    display: none;
+  }
+
+  .brik-menu--bp-tablet .brik-menu-toggle {
+    display: inline-flex;
+  }
+}
+
+@media (max-width: 767px) {
+  .brik-menu--bp-mobile .brik-menu-bar > :is(.brik-menu-list, .brik-menu-cta) {
+    display: none;
+  }
+
+  .brik-menu--bp-mobile .brik-menu-toggle {
+    display: inline-flex;
+  }
+}
+
+/* Three lines that fold into an X: they meet in the middle first, then rotate. */
+.brik-burger {
+  position: relative;
+  display: block;
+  width: 1.125rem;
+  height: 0.75rem;
+}
+
+.brik-burger > span {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  border-radius: 2px;
+  background-color: currentColor;
+  transition: top 0.2s ease 0.2s, rotate 0.2s ease, opacity 0.1s ease 0.2s;
+}
+
+.brik-burger > span:nth-child(1) { top: 0; }
+.brik-burger > span:nth-child(2) { top: calc(50% - 1px); }
+.brik-burger > span:nth-child(3) { top: calc(100% - 2px); }
+
+[aria-expanded="true"] > .brik-burger > span {
+  top: calc(50% - 1px);
+  transition: top 0.2s ease, rotate 0.25s var(--brik-menu-ease) 0.18s, opacity 0.1s ease 0.1s;
+}
+
+[aria-expanded="true"] > .brik-burger > span:nth-child(1) { rotate: 45deg; }
+[aria-expanded="true"] > .brik-burger > span:nth-child(2) { opacity: 0; }
+[aria-expanded="true"] > .brik-burger > span:nth-child(3) { rotate: -45deg; }
+
+.brik-toggle-icons {
+  display: grid;
+}
+
+.brik-toggle-icons > span {
+  display: inline-flex;
+  grid-area: 1 / 1;
+  transition: opacity 0.2s, rotate 0.3s var(--brik-menu-ease), scale 0.3s var(--brik-menu-ease);
+}
+
+.brik-toggle-close,
+[aria-expanded="true"] .brik-toggle-open {
+  opacity: 0;
+  rotate: -90deg;
+  scale: 0.6;
+}
+
+[aria-expanded="true"] .brik-toggle-close {
+  opacity: 1;
+  rotate: 0deg;
+  scale: 1;
+}
+
+.brik-menu-toggle--text {
+  gap: 0.5rem;
+}
+
+.brik-menu-toggle--text .brik-toggle-icons svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* ---------------------------------------------------------------------------
+ * Mobile menu. The dialog covers the viewport and stays transparent; the
+ * backdrop and panel inside it animate with .is-open so closing can animate too.
+ * ------------------------------------------------------------------------ */
+.brik-mobile-menu {
+  --brik-mm-ease: cubic-bezier(0.32, 0.72, 0, 1);
+  --brik-mm-in: 0.5s;
+  --brik-mm-out: 0.3s;
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--foreground);
+  overflow: hidden;
+}
+
+.brik-mobile-menu::backdrop {
+  background: transparent;
+}
+
+html:has(.brik-mobile-menu[open]) {
+  overflow: hidden;
+}
+
+.brik-mm-backdrop {
+  position: absolute;
+  inset: var(--brik-mm-top, 0px) 0 0 0;
+  background-color: rgb(0 0 0 / 0.4);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  transition: opacity var(--brik-mm-out) ease;
+}
+
+.brik-mobile-menu.is-open .brik-mm-backdrop {
+  opacity: 1;
+  transition-duration: var(--brik-mm-in);
+}
+
+.brik-mm-panel {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: var(--background);
+  color: var(--foreground);
+  box-shadow: 0 24px 48px -12px rgb(0 0 0 / 0.25);
+  opacity: 0;
+  transition: transform var(--brik-mm-out) ease-in, opacity var(--brik-mm-out) ease-in, clip-path var(--brik-mm-out) ease-in;
+}
+
+.brik-mobile-menu.is-open .brik-mm-panel {
+  opacity: 1;
+  transform: none;
+  transition: transform var(--brik-mm-in) var(--brik-mm-ease), opacity calc(var(--brik-mm-in) * 0.6) ease-out, clip-path var(--brik-mm-in) var(--brik-mm-ease);
+}
+
+/* Drawer. */
+.brik-mobile-menu--drawer .brik-mm-panel {
+  top: 0;
+  bottom: 0;
+  width: min(24rem, 88vw);
+}
+
+.brik-mobile-menu--right .brik-mm-panel {
+  right: 0;
+  border-left: 1px solid var(--border);
+}
+
+.brik-mobile-menu--left .brik-mm-panel {
+  left: 0;
+  border-right: 1px solid var(--border);
+}
+
+.brik-mobile-menu--drawer.brik-mobile-menu--anim-slide .brik-mm-panel {
+  opacity: 1;
+}
+
+.brik-mobile-menu--right.brik-mobile-menu--anim-slide:not(.is-open) .brik-mm-panel { transform: translateX(100%); }
+.brik-mobile-menu--left.brik-mobile-menu--anim-slide:not(.is-open) .brik-mm-panel { transform: translateX(-100%); }
+.brik-mobile-menu--right.brik-mobile-menu--anim-scale:not(.is-open) .brik-mm-panel { transform: translateX(8%) scale(0.96); }
+.brik-mobile-menu--left.brik-mobile-menu--anim-scale:not(.is-open) .brik-mm-panel { transform: translateX(-8%) scale(0.96); }
+.brik-mobile-menu--right .brik-mm-panel { transform-origin: right center; }
+.brik-mobile-menu--left .brik-mm-panel { transform-origin: left center; }
+
+/* Full screen. */
+.brik-mobile-menu--fullscreen .brik-mm-panel {
+  inset: 0;
+  box-shadow: none;
+}
+
+.brik-mobile-menu--fullscreen.brik-mobile-menu--anim-slide:not(.is-open) .brik-mm-panel {
+  opacity: 1;
+  transform: translateY(-100%);
+}
+
+.brik-mobile-menu--fullscreen.brik-mobile-menu--anim-scale:not(.is-open) .brik-mm-panel {
+  transform: scale(1.04);
+}
+
+.brik-mobile-menu--fullscreen .brik-sheet-header {
+  padding: 1rem 1.25rem;
+}
+
+.brik-mobile-menu--fullscreen .brik-mm-body {
+  padding: 0.5rem 0.75rem 1rem;
+}
+
+.brik-mobile-menu--fullscreen .brik-mm-root > .brik-mm-item > .brik-sheet-link,
+.brik-mobile-menu--fullscreen .brik-mm-root > .brik-mm-item > .brik-mm-row > .brik-sheet-link {
+  padding-block: 0.75rem;
+  font-size: 1.625rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.brik-mobile-menu--fullscreen .brik-mm-root > .brik-mm-item .brik-mm-icon {
+  display: none;
+}
+
+.brik-mobile-menu--fullscreen .brik-sheet-footer {
+  padding: 1.25rem;
+}
+
+/* Drop down under the header; the header stays visible above it. */
+.brik-mobile-menu--dropdown .brik-mm-panel {
+  top: var(--brik-mm-top, 0px);
+  left: 0;
+  right: 0;
+  max-height: calc(100% - var(--brik-mm-top, 0px));
+  border-bottom: 1px solid var(--border);
+  border-radius: 0 0 calc(var(--radius) + 4px) calc(var(--radius) + 4px);
+  box-shadow: 0 24px 40px -20px rgb(0 0 0 / 0.3);
+}
+
+.brik-mobile-menu--dropdown.brik-mobile-menu--anim-slide:not(.is-open) .brik-mm-panel {
+  opacity: 1;
+  clip-path: inset(0 0 100% 0);
+  transform: translateY(-0.5rem);
+}
+
+.brik-mobile-menu--dropdown.brik-mobile-menu--anim-slide.is-open .brik-mm-panel {
+  clip-path: inset(0 0 -2rem 0);
+}
+
+.brik-mobile-menu--dropdown.brik-mobile-menu--anim-scale:not(.is-open) .brik-mm-panel {
+  transform: scaleY(0.94);
+}
+
+.brik-mobile-menu--dropdown .brik-mm-panel {
+  transform-origin: top center;
+}
+
+.brik-mobile-menu--dropdown .brik-mm-body {
+  padding-top: 0.75rem;
+}
+
+/* Bottom sheet. */
+.brik-mobile-menu--bottom .brik-mm-panel {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-height: 88%;
+  border-top: 1px solid var(--border);
+  border-radius: 1.25rem 1.25rem 0 0;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.brik-mobile-menu--bottom.brik-mobile-menu--anim-slide:not(.is-open) .brik-mm-panel {
+  opacity: 1;
+  transform: translateY(100%);
+}
+
+.brik-mobile-menu--bottom.brik-mobile-menu--anim-scale:not(.is-open) .brik-mm-panel {
+  transform: translateY(1.5rem) scale(0.96);
+}
+
+.brik-mobile-menu--bottom .brik-mm-panel {
+  transform-origin: bottom center;
+}
+
+.brik-mobile-menu--bottom.is-dragging .brik-mm-panel {
+  transition: none;
+}
+
+.brik-mm-handle {
+  display: flex;
+  justify-content: center;
+  padding: 0.625rem 0 0.25rem;
+  cursor: grab;
+  touch-action: none;
+}
+
+.brik-mm-handle > span {
+  width: 2.5rem;
+  height: 0.3125rem;
+  border-radius: 9999px;
+  background-color: color-mix(in oklab, var(--muted-foreground) 35%, transparent);
+}
+
+.brik-mobile-menu--bottom .brik-sheet-header {
+  padding-top: 0.25rem;
+}
+
+/* Fade only. */
+.brik-mobile-menu--anim-fade .brik-mm-panel {
+  transform: none;
+}
+
+/* Panel content. */
+.brik-sheet-header {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1rem 0.5rem;
+}
+
+.brik-sheet-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.brik-sheet-close {
+  margin-right: -0.5rem;
+}
+
+.brik-mm-body {
+  position: relative;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-height: 0;
+  padding: 0.25rem 0.75rem 0.75rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.brik-sheet-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.brik-sheet-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  width: 100%;
+  min-height: 2.75rem;
+  padding: 0.625rem 0.75rem;
+  border-radius: calc(var(--radius) - 2px);
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.3;
+  text-align: left;
+  transition: background-color 0.15s, color 0.15s;
+  cursor: pointer;
+  outline: none;
+}
+
+.brik-sheet-link:hover {
+  background-color: var(--accent);
+  color: var(--accent-foreground);
+}
+
+.brik-sheet-link:is(.is-current, .is-ancestor) {
+  background-color: var(--accent);
+  color: var(--accent-foreground);
+}
+
+.brik-mm-row .brik-sheet-link.is-ancestor,
+.brik-mm-next.is-ancestor {
+  background-color: transparent;
+  color: var(--foreground);
+}
+
+.brik-mm-text {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 0.125rem;
+  min-width: 0;
+}
+
+.brik-mm-title {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.brik-mm-desc {
+  overflow: hidden;
+  color: var(--muted-foreground);
+  font-size: 0.8125rem;
+  font-weight: 400;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.brik-sheet-link .brik-mm-icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) - 2px);
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+.brik-mm-heading {
+  margin: 0;
+  padding: 0.875rem 0.75rem 0.25rem;
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.brik-mm-sep {
+  height: 1px;
+  margin: 0.375rem 0.75rem;
+  background-color: var(--border);
+}
+
+.brik-mm-item--button {
+  padding: 0.5rem 0 0.25rem;
+}
+
+.brik-mm-chevron {
+  flex-shrink: 0;
+  color: var(--muted-foreground);
+  transition: rotate 0.3s var(--brik-mm-ease, ease);
+}
+
+/* Accordion. */
+.brik-mm-row {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.brik-mm-expand {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: calc(var(--radius) - 2px);
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.15s;
+}
+
+.brik-mm-expand:hover {
+  background-color: var(--accent);
+}
+
+[data-brik-mm-expand][aria-expanded="true"] .brik-mm-chevron {
+  rotate: 180deg;
+}
+
+.brik-mm-sub {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows 0.35s var(--brik-mm-ease, ease), opacity 0.25s ease;
+}
+
+.brik-mm-sub.is-open {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.brik-mm-sub-inner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.brik-mm-sub:not(.is-open) .brik-mm-sub-inner {
+  visibility: hidden;
+  transition: visibility 0s linear 0.35s;
+}
+
+.brik-sheet-sub {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  margin: 0.125rem 0 0.375rem 0.75rem;
+  padding-left: 0.5rem;
+  border-left: 1px solid var(--border);
+}
+
+.brik-sheet-sub .brik-sheet-link {
+  min-height: 2.5rem;
+  padding-block: 0.5rem;
+  font-size: 0.9375rem;
+  font-weight: 400;
+  color: var(--muted-foreground);
+}
+
+.brik-sheet-sub .brik-sheet-link:is(:hover, .is-current) {
+  color: var(--accent-foreground);
+}
+
+.brik-sheet-sub .brik-sheet-link .brik-mm-icon {
+  width: 1.75rem;
+  height: 1.75rem;
+}
+
+.brik-sheet-sub .brik-mm-title {
+  color: var(--foreground);
+}
+
+.brik-sheet-sub .brik-mm-heading {
+  padding-inline: 0.75rem;
+}
+
+/* Drilldown: levels sit on top of each other and slide sideways. */
+.brik-mm-levels {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: var(--brik-mm-h, 0px);
+  margin: 0 -0.75rem -0.75rem;
+  overflow: hidden;
+  transition: min-height 0.35s var(--brik-mm-ease);
+}
+
+.brik-mm-level {
+  position: absolute;
+  inset: 0;
+  padding: 0 0.75rem 0.75rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background-color: inherit;
+  transform: translateX(100%);
+  visibility: hidden;
+  transition: transform 0.4s var(--brik-mm-ease), opacity 0.4s var(--brik-mm-ease), visibility 0s linear 0.4s;
+}
+
+.brik-mm-level.is-active {
+  transform: none;
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+.brik-mm-level.is-behind {
+  opacity: 0;
+  transform: translateX(-30%);
+}
+
+.brik-mobile-menu--drilldown .brik-mm-body {
+  overflow: hidden;
+}
+
+.brik-mm-level-head {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+  padding: 0.25rem 0 0.5rem;
+  border-bottom: 1px solid var(--border);
+  background-color: var(--background);
+}
+
+.brik-mm-back {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0.25rem;
+  height: 2.25rem;
+  padding: 0 0.625rem 0 0.375rem;
+  border-radius: calc(var(--radius) - 2px);
+  color: var(--muted-foreground);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.brik-mm-back:hover {
+  background-color: var(--accent);
+  color: var(--accent-foreground);
+}
+
+.brik-mm-level-title {
+  margin: 0;
+  overflow: hidden;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.brik-mm-overview {
+  color: var(--muted-foreground);
+}
+
+.brik-mm-feature,
+.brik-mm-layout {
+  padding: 0.5rem 0.25rem 0.25rem;
+}
+
+.brik-mega-feature--compact {
+  min-height: 9rem;
+}
+
+.brik-mm-layout > .brik-section {
+  padding: 1rem;
+  border-radius: calc(var(--radius) + 2px);
+}
+
+/* Footer: button, social links, small print. */
+.brik-sheet-footer {
+  display: flex;
+  flex-shrink: 0;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+  border-top: 1px solid var(--border);
+}
+
+.brik-mm-socials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.brik-mm-social {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 1px solid var(--border);
+  border-radius: 9999px;
+  color: var(--muted-foreground);
+  outline: none;
+  transition: color 0.15s, background-color 0.15s, border-color 0.15s;
+}
+
+.brik-mm-social:hover {
+  background-color: var(--accent);
+  color: var(--foreground);
+}
+
+.brik-mm-text-block {
+  color: var(--muted-foreground);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+/* Links reveal one after another. */
+.brik-mobile-menu--stagger :is(.brik-mm-root > li, .brik-sheet-footer > *) {
+  opacity: 0;
+  translate: 0 0.5rem;
+  transition: opacity 0.2s ease, translate 0.2s ease;
+}
+
+.brik-mobile-menu--stagger.is-open :is(.brik-mm-root > li, .brik-sheet-footer > *) {
+  opacity: 1;
+  translate: 0 0;
+  transition: opacity 0.4s ease-out, translate 0.5s var(--brik-mm-ease);
+  transition-delay: calc(0.12s + var(--i, 0) * 0.045s);
+}
+
+.brik-mobile-menu--stagger.is-open .brik-sheet-footer > * {
+  transition-delay: 0.3s;
+}
+
+.brik-mobile-menu--fullscreen.brik-mobile-menu--stagger :is(.brik-mm-root > li) {
+  translate: 0 1rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brik-menu-sub,
+  .brik-menu-indicator,
+  .brik-menu-chevron,
+  .brik-burger > span,
+  .brik-toggle-icons > span,
+  .brik-mm-backdrop,
+  .brik-mm-panel,
+  .brik-mm-sub,
+  .brik-mm-level,
+  .brik-mm-levels,
+  .brik-mobile-menu--stagger :is(.brik-mm-root > li, .brik-sheet-footer > *) {
+    transition-duration: 1ms !important;
+    transition-delay: 0s !important;
+  }
+
+  .brik-menu-sub:not([data-state="open"]),
+  .brik-mm-panel,
+  .brik-mm-level.is-behind {
+    transform: none !important;
+  }
+}
+
+/* Shared by other modules (posts filter). */
+@keyframes brik-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes brik-fade-out { from { opacity: 1; } to { opacity: 0; } }

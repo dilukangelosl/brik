@@ -1,0 +1,115 @@
+{
+ "title": "Hero \u2014 text and image",
+ "category": "hero",
+ "kind": "section",
+ "tree": [
+  {
+   "type": "section",
+   "attrs": {
+    "padding": "96px 24px"
+   },
+   "children": [
+    {
+     "type": "row",
+     "attrs": {
+      "align_items": "center",
+      "gap": "64px",
+      "columns": "1/2,1/2"
+     },
+     "children": [
+      {
+       "type": "column",
+       "attrs": {
+        "gap": "24px"
+       },
+       "children": [
+        {
+         "type": "heading",
+         "attrs": {
+          "text": "Product",
+          "level": "p",
+          "style": "eyebrow"
+         }
+        },
+        {
+         "type": "heading",
+         "attrs": {
+          "text": "Ship your next idea in days, not months",
+          "level": "h1",
+          "style": "h1"
+         }
+        },
+        {
+         "type": "text",
+         "attrs": {
+          "content": "<p>Everything you need to design, launch and grow \u2014 in one place. Drag, drop and publish.</p>",
+          "size": "lead"
+         }
+        },
+        {
+         "type": "button_group",
+         "attrs": {
+          "buttons": [
+           {
+            "text": "Start free trial",
+            "link": {
+             "url": "#"
+            },
+            "variant": "default"
+           },
+           {
+            "text": "Talk to sales",
+            "link": {
+             "url": "#"
+            },
+            "variant": "ghost",
+            "icon": "arrow-right",
+            "icon_position": "end"
+           }
+          ]
+         }
+        },
+        {
+         "type": "icon_list",
+         "attrs": {
+          "layout": "inline",
+          "size": "sm",
+          "icon": "check",
+          "items": [
+           {
+            "text": "No credit card"
+           },
+           {
+            "text": "14-day trial"
+           },
+           {
+            "text": "Cancel anytime"
+           }
+          ]
+         }
+        }
+       ]
+      },
+      {
+       "type": "column",
+       "attrs": {},
+       "children": [
+        {
+         "type": "image",
+         "attrs": {
+          "image": {
+           "url": "https://images.unsplash.com/photo-1551434678-e076c223a692?w=1200&q=80"
+          },
+          "ratio": "4:3",
+          "rounded": "xl",
+          "img_shadow": "2xl"
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

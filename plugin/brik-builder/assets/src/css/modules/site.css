@@ -1,0 +1,472 @@
+/* Site and post modules: logo, posts loop, comments, sidebar widgets. Menus are in navigation.css. */
+
+/* ---------------------------------------------------------------------------
+ * Logo.
+ * ------------------------------------------------------------------------ */
+.brik-logo-img {
+  object-fit: contain;
+}
+
+.brik-logo-dark,
+.dark .brik-logo-light {
+  display: none;
+}
+
+.dark .brik-logo-dark {
+  display: block;
+}
+
+/* ---------------------------------------------------------------------------
+ * Comments (WordPress markup styled with shadcn inputs and buttons).
+ * ------------------------------------------------------------------------ */
+.brik-comments-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  font-size: 0.9375rem;
+}
+
+.brik-comments :is(.brik-comments-title, .comments-title, .comment-reply-title) {
+  font-family: var(--brik-font-heading, inherit);
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.brik-comments .comment-list,
+.brik-comments .comment-list .children {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.brik-comments .comment-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.brik-comments .comment-list .children {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+  margin-left: 1.25rem;
+  padding-left: 1.25rem;
+  border-left: 1px solid var(--border);
+}
+
+.brik-comments .comment-body {
+  display: grid;
+  grid-template-columns: 2.5rem minmax(0, 1fr);
+  column-gap: 0.875rem;
+  row-gap: 0.375rem;
+}
+
+.brik-comments .comment-meta {
+  display: contents;
+}
+
+.brik-comments .comment-author {
+  display: contents;
+}
+
+.brik-comments .comment-author :is(.avatar, .brik-avatar-initials) {
+  grid-row: 1 / span 3;
+  grid-column: 1;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 9999px;
+  background-color: var(--muted);
+  object-fit: cover;
+}
+
+.brik-comments .brik-avatar-initials {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted-foreground);
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+
+.brik-comments .comment-author .fn {
+  grid-column: 2;
+  grid-row: 1;
+  padding-right: 7rem;
+  font-weight: 600;
+  font-style: normal;
+  line-height: 1.3;
+}
+
+.brik-comments .comment-author .fn a:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.brik-comments .comment-author .says {
+  display: none;
+}
+
+.brik-comments .comment-metadata {
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: end;
+  color: var(--muted-foreground);
+  font-size: 0.8125rem;
+}
+
+.brik-comments .comment-metadata .edit-link {
+  margin-left: 0.5rem;
+}
+
+.brik-comments .comment-awaiting-moderation {
+  grid-column: 2;
+  color: var(--muted-foreground);
+  font-size: 0.8125rem;
+  font-style: italic;
+}
+
+.brik-comments .comment-content {
+  grid-column: 2;
+  line-height: 1.65;
+}
+
+.brik-comments .comment-content > * + * {
+  margin-top: 0.75em;
+}
+
+.brik-comments .comment-content a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.brik-comments .reply {
+  grid-column: 2;
+}
+
+.brik-comments :is(.comment-reply-link, #cancel-comment-reply-link) {
+  display: inline-flex;
+  align-items: center;
+  height: 1.75rem;
+  padding: 0 0.625rem;
+  margin-left: -0.625rem;
+  border-radius: calc(var(--radius) - 4px);
+  color: var(--muted-foreground);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.brik-comments :is(.comment-reply-link, #cancel-comment-reply-link):hover {
+  background-color: var(--accent);
+  color: var(--accent-foreground);
+}
+
+.brik-comments #cancel-comment-reply-link {
+  margin-left: 0.5rem;
+  font-family: var(--brik-font-body, inherit);
+  letter-spacing: normal;
+}
+
+.brik-comments .pingback .comment-body,
+.brik-comments .trackback .comment-body {
+  display: block;
+  color: var(--muted-foreground);
+}
+
+.brik-comments .comment-respond {
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background-color: var(--card);
+  color: var(--card-foreground);
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+
+.brik-comments .comment-list .comment-respond {
+  margin-top: 1.5rem;
+}
+
+.brik-comments .comment-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+
+.brik-comments .comment-form > p {
+  grid-column: 1 / -1;
+  margin: 0;
+}
+
+.brik-comments .comment-form :is(.comment-form-author, .comment-form-email) {
+  grid-column: span 1;
+}
+
+@media (max-width: 640px) {
+  .brik-comments .comment-form :is(.comment-form-author, .comment-form-email) {
+    grid-column: 1 / -1;
+  }
+}
+
+.brik-comments :is(.comment-notes, .logged-in-as, .no-comments) {
+  color: var(--muted-foreground);
+  font-size: 0.875rem;
+}
+
+.brik-comments .logged-in-as a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.brik-comments .comment-form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.brik-comments .comment-form .required {
+  color: var(--destructive);
+}
+
+.brik-comments :is(input[type="text"], input[type="email"], input[type="url"], textarea) {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  height: 2.25rem;
+  padding: 0.25rem 0.75rem;
+  border: 1px solid var(--input);
+  border-radius: calc(var(--radius) - 2px);
+  background-color: transparent;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  font-size: 0.875rem;
+  outline: none;
+  transition: color 0.15s, box-shadow 0.15s, border-color 0.15s;
+}
+
+.brik-comments textarea {
+  height: auto;
+  min-height: 7rem;
+  padding-block: 0.5rem;
+  resize: vertical;
+}
+
+.brik-comments :is(input[type="text"], input[type="email"], input[type="url"], textarea):focus-visible {
+  border-color: var(--ring);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent);
+}
+
+.brik-comments .comment-form-cookies-consent {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--muted-foreground);
+  font-size: 0.875rem;
+}
+
+.brik-comments .comment-form-cookies-consent label {
+  margin: 0;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.brik-comments input[type="checkbox"] {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+  accent-color: var(--primary);
+}
+
+.brik-comments .form-submit {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.brik-comments .comment-navigation .nav-links {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.875rem;
+}
+
+/* ---------------------------------------------------------------------------
+ * Sidebar widgets.
+ * ------------------------------------------------------------------------ */
+.brik-widgets .widget > * + * {
+  margin-top: 0.75rem;
+}
+
+.brik-widgets :is(.widget-title, .widgettitle, h2.wp-block-heading) {
+  font-family: var(--brik-font-heading, inherit);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--foreground);
+}
+
+.brik-widgets .widget ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.9375rem;
+}
+
+.brik-widgets .widget ul ul {
+  margin: 0.5rem 0 0 0.75rem;
+}
+
+.brik-widgets .widget a {
+  color: var(--muted-foreground);
+  transition: color 0.15s;
+}
+
+.brik-widgets .widget a:hover {
+  color: var(--foreground);
+}
+
+.brik-widgets :is(input[type="search"], input[type="text"], select) {
+  width: 100%;
+  height: 2.25rem;
+  padding: 0.25rem 0.75rem;
+  border: 1px solid var(--input);
+  border-radius: calc(var(--radius) - 2px);
+  font-size: 0.875rem;
+}
+
+.brik-widgets .wp-block-search__inside-wrapper {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.brik-widgets :is(.wp-block-search__button, .search-submit) {
+  display: inline-flex;
+  align-items: center;
+  height: 2.25rem;
+  padding: 0 1rem;
+  border-radius: calc(var(--radius) - 2px);
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+/* ---------------------------------------------------------------------------
+ * Posts loop.
+ * ------------------------------------------------------------------------ */
+.brik-posts-items {
+  --brik-c: var(--brik-posts-cols, 3);
+  gap: var(--brik-posts-gap, 1.5rem);
+}
+
+@media (max-width: 980px) {
+  .brik-posts-items {
+    --brik-c: var(--brik-posts-cols-t, min(var(--brik-posts-cols, 3), 2));
+  }
+}
+
+@media (max-width: 767px) {
+  .brik-posts-items {
+    --brik-c: var(--brik-posts-cols-m, 1);
+  }
+}
+
+.brik-posts-items--grid {
+  display: grid;
+  grid-template-columns: repeat(var(--brik-c), minmax(0, 1fr));
+}
+
+.brik-posts-items--list {
+  display: flex;
+  flex-direction: column;
+}
+
+.brik-posts-items--masonry {
+  columns: var(--brik-c);
+  column-gap: var(--brik-posts-gap, 1.5rem);
+}
+
+.brik-posts-items--masonry > * {
+  break-inside: avoid;
+  margin-bottom: var(--brik-posts-gap, 1.5rem);
+}
+
+.brik-posts-items--minimal {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.brik-posts-items--minimal > * + * {
+  border-top: 1px solid var(--border);
+}
+
+/* The title link covers the card; term and author links sit above it. */
+.brik-post-card :is(.brik-term, .brik-meta-link) {
+  position: relative;
+  z-index: 1;
+}
+
+.brik-post-card .brik-post-title a:focus-visible {
+  outline: none;
+}
+
+.brik-post-card:has(.brik-post-title a:focus-visible) {
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent);
+}
+
+.brik-post-excerpt {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.brik-posts-items [hidden] {
+  display: none !important;
+}
+
+.brik-posts-items > .is-entering {
+  animation: brik-fade-in 0.3s ease;
+}
+
+.brik-filter-btn {
+  display: inline-flex;
+  align-items: center;
+  height: 2rem;
+  padding: 0 0.875rem;
+  border: 1px solid var(--border);
+  border-radius: 9999px;
+  background-color: var(--background);
+  color: var(--muted-foreground);
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: background-color 0.15s, color 0.15s, border-color 0.15s;
+  cursor: pointer;
+}
+
+.brik-filter-btn:hover {
+  background-color: var(--accent);
+  color: var(--accent-foreground);
+}
+
+.brik-filter-btn[aria-pressed="true"] {
+  border-color: var(--primary);
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+}
+
+.brik-filter-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent);
+}
+
+.brik-posts-more [aria-busy="true"] {
+  opacity: 0.6;
+  pointer-events: none;
+}

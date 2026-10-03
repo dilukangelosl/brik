@@ -26,9 +26,9 @@ final class ThemeBuilder {
 
 	public static function areas() {
 		return array(
-			'header' => __( 'Header', 'brik' ),
-			'body'   => __( 'Body', 'brik' ),
-			'footer' => __( 'Footer', 'brik' ),
+			'header' => __( 'Header', 'brik-builder' ),
+			'body'   => __( 'Body', 'brik-builder' ),
+			'footer' => __( 'Footer', 'brik-builder' ),
 		);
 	}
 
@@ -37,10 +37,10 @@ final class ThemeBuilder {
 			self::POST_TYPE,
 			array(
 				'labels'              => array(
-					'name'          => __( 'Templates', 'brik' ),
-					'singular_name' => __( 'Template', 'brik' ),
-					'add_new_item'  => __( 'Add template', 'brik' ),
-					'edit_item'     => __( 'Edit template', 'brik' ),
+					'name'          => __( 'Templates', 'brik-builder' ),
+					'singular_name' => __( 'Template', 'brik-builder' ),
+					'add_new_item'  => __( 'Add template', 'brik-builder' ),
+					'edit_item'     => __( 'Edit template', 'brik-builder' ),
 				),
 				'public'              => false,
 				'show_ui'             => true,
@@ -92,18 +92,18 @@ final class ThemeBuilder {
 	 */
 	public static function rule_types() {
 		return array(
-			'entire_site' => __( 'Entire site', 'brik' ),
-			'front_page'  => __( 'Front page', 'brik' ),
-			'blog'        => __( 'Blog (posts page)', 'brik' ),
-			'singular'    => __( 'Single: post type', 'brik' ),
-			'post'        => __( 'Single: specific posts or pages', 'brik' ),
-			'archive'     => __( 'Archive: post type', 'brik' ),
-			'term'        => __( 'Archive: taxonomy terms', 'brik' ),
-			'in_term'     => __( 'Single: posts in terms', 'brik' ),
-			'author'      => __( 'Author archive', 'brik' ),
-			'date'        => __( 'Date archive', 'brik' ),
-			'search'      => __( 'Search results', 'brik' ),
-			'404'         => __( '404 page', 'brik' ),
+			'entire_site' => __( 'Entire site', 'brik-builder' ),
+			'front_page'  => __( 'Front page', 'brik-builder' ),
+			'blog'        => __( 'Blog (posts page)', 'brik-builder' ),
+			'singular'    => __( 'Single: post type', 'brik-builder' ),
+			'post'        => __( 'Single: specific posts or pages', 'brik-builder' ),
+			'archive'     => __( 'Archive: post type', 'brik-builder' ),
+			'term'        => __( 'Archive: taxonomy terms', 'brik-builder' ),
+			'in_term'     => __( 'Single: posts in terms', 'brik-builder' ),
+			'author'      => __( 'Author archive', 'brik-builder' ),
+			'date'        => __( 'Date archive', 'brik-builder' ),
+			'search'      => __( 'Search results', 'brik-builder' ),
+			'404'         => __( '404 page', 'brik-builder' ),
 		);
 	}
 
@@ -273,8 +273,8 @@ final class ThemeBuilder {
 
 	public static function page_templates( $templates, $theme, $post, $post_type ) {
 		if ( Plugin::supports( $post ) || in_array( $post_type, Plugin::post_types(), true ) ) {
-			$templates['brik-canvas.php']     = __( 'Brik Canvas (no header or footer)', 'brik' );
-			$templates['brik-full-width.php'] = __( 'Brik Full Width', 'brik' );
+			$templates['brik-canvas.php']     = __( 'Brik Canvas (no header or footer)', 'brik-builder' );
+			$templates['brik-full-width.php'] = __( 'Brik Full Width', 'brik-builder' );
 		}
 		return $templates;
 	}

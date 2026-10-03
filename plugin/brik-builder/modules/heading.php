@@ -11,39 +11,39 @@ defined( 'ABSPATH' ) || exit;
 
 return array(
 	'type'        => 'heading',
-	'title'       => __( 'Heading', 'brik' ),
+	'title'       => __( 'Heading', 'brik-builder' ),
 	'category'    => 'basic',
 	'icon'        => 'heading',
 	'description' => 'Title text. "text" accepts inline HTML (<strong>, <em>, <span class="text-primary">). "style" picks a preset size; leave empty to size by level.',
 	'fields'      => array_merge(
 		array(
-			'text'  => Fields::field( 'text', __( 'Text', 'brik' ), 'content', array( 'default' => __( 'Your heading here', 'brik' ), 'inline' => true ) ),
-			'level' => Fields::field( 'select', __( 'HTML tag', 'brik' ), 'content', array( 'default' => 'h2', 'options' => Fields::opts( array( 'h1' => 'H1', 'h2' => 'H2', 'h3' => 'H3', 'h4' => 'H4', 'h5' => 'H5', 'h6' => 'H6', 'p' => 'p', 'div' => 'div' ) ) ) ),
+			'text'  => Fields::field( 'text', __( 'Text', 'brik-builder' ), 'content', array( 'default' => __( 'Your heading here', 'brik-builder' ), 'inline' => true ) ),
+			'level' => Fields::field( 'select', __( 'HTML tag', 'brik-builder' ), 'content', array( 'default' => 'h2', 'options' => Fields::opts( array( 'h1' => 'H1', 'h2' => 'H2', 'h3' => 'H3', 'h4' => 'H4', 'h5' => 'H5', 'h6' => 'H6', 'p' => 'p', 'div' => 'div' ) ) ) ),
 			'style' => Fields::field(
 				'select',
-				__( 'Size', 'brik' ),
+				__( 'Size', 'brik-builder' ),
 				'content',
 				array(
 					'options' => Fields::opts(
 						array(
-							''        => __( 'By tag', 'brik' ),
-							'display' => __( 'Display', 'brik' ),
+							''        => __( 'By tag', 'brik-builder' ),
+							'display' => __( 'Display', 'brik-builder' ),
 							'h1'      => 'H1',
 							'h2'      => 'H2',
 							'h3'      => 'H3',
 							'h4'      => 'H4',
-							'lead'    => __( 'Lead', 'brik' ),
-							'eyebrow' => __( 'Eyebrow', 'brik' ),
+							'lead'    => __( 'Lead', 'brik-builder' ),
+							'eyebrow' => __( 'Eyebrow', 'brik-builder' ),
 						)
 					),
 				)
 			),
-			'link'  => Fields::field( 'link', __( 'Link', 'brik' ), 'content' ),
-			'gradient_text' => Fields::field( 'gradient', __( 'Gradient text', 'brik' ), 'text_effects', array( 'tab' => 'design', 'css' => array( 'selector' => Fields::WRAP . ' .brik-heading-text', 'prop' => 'background-image', 'value' => '{{v}};-webkit-background-clip:text;background-clip:text;color:transparent' ) ) ),
+			'link'  => Fields::field( 'link', __( 'Link', 'brik-builder' ), 'content' ),
+			'gradient_text' => Fields::field( 'gradient', __( 'Gradient text', 'brik-builder' ), 'text_effects', array( 'tab' => 'design', 'css' => array( 'selector' => Fields::WRAP . ' .brik-heading-text', 'prop' => 'background-image', 'value' => '{{v}};-webkit-background-clip:text;background-clip:text;color:transparent' ) ) ),
 		),
-		Fields::typography( 'title', __( 'Heading text', 'brik' ), Fields::WRAP . ' .brik-heading-text' )
+		Fields::typography( 'title', __( 'Heading text', 'brik-builder' ), Fields::WRAP . ' .brik-heading-text' )
 	),
-	'render'      => static function ( $a ) {
+	'render'      => static function ( $a, $ctx ) {
 		$styles = array(
 			'display' => 'text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-balance',
 			'h1'      => 'text-4xl md:text-5xl font-extrabold tracking-tight text-balance',
@@ -59,8 +59,11 @@ return array(
 		$style = ! empty( $a['style'] ) && isset( $styles[ $a['style'] ] ) ? $a['style'] : ( isset( $styles[ $tag ] ) ? $tag : 'h2' );
 		$text  = brik_inline( $a['text'] );
 		if ( ! empty( $a['link']['url'] ) ) {
-			$text = '<a' . brik_link_attrs( $a['link'], array( 'class' => 'hover:underline underline-offset-4' ) ) . '>' . $text . '</a>';
+			$text = '<a' . brik_link_attrs( $a['link'], array( 'class' => 'hover:underline underline-offset-4' ) ) . $ctx->inline( 'text' ) . '>' . $text . '</a>';
+			$edit = '';
+		} else {
+			$edit = $ctx->inline( 'text' );
 		}
-		return sprintf( '<%1$s class="brik-heading-text font-heading %2$s">%3$s</%1$s>', $tag, esc_attr( $styles[ $style ] ), $text );
+		return sprintf( '<%1$s class="brik-heading-text font-heading %2$s"%4$s>%3$s</%1$s>', $tag, esc_attr( $styles[ $style ] ), $text, $edit );
 	},
 );

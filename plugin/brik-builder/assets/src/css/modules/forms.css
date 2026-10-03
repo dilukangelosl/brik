@@ -1,0 +1,105 @@
+/* Forms, counters and the theme toggle. */
+
+/* Honeypot: off-screen instead of display:none, which some bots detect. */
+.brik .brik-hp {
+  position: absolute !important;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.brik .brik-form {
+  position: relative;
+}
+
+/* No empty grid row (and gap) while no message is showing. */
+.brik .brik-form-status:not(:has(> :not([hidden]))) {
+  display: none;
+}
+
+.brik .brik-textarea {
+  resize: vertical;
+}
+
+/* Strip the native search decorations so the input matches the others. */
+.brik input[type="search"].brik-input::-webkit-search-decoration,
+.brik input[type="search"].brik-input::-webkit-search-results-decoration {
+  -webkit-appearance: none;
+}
+
+.brik input[type="date"].brik-input {
+  min-height: 2.25rem;
+}
+
+.brik input[type="number"].brik-input {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+/* Floating labels: the label sits inside the field until it has focus or a value. */
+.brik .brik-float-box > .brik-input {
+  height: 3.25rem;
+  padding-top: 1.25rem;
+  padding-bottom: 0.25rem;
+}
+
+.brik .brik-float-box > .brik-textarea {
+  height: auto;
+  padding-top: 1.6rem;
+}
+
+.brik .brik-float-box > .relative > .brik-select {
+  height: 3.25rem;
+  padding-top: 1.1rem;
+}
+
+.brik .brik-float-box > .brik-form-label {
+  position: absolute;
+  left: 0.75rem;
+  top: 0.55rem;
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+  pointer-events: none;
+  transition: top 0.15s ease, font-size 0.15s ease, color 0.15s ease;
+}
+
+.brik .brik-float-box > .brik-input:placeholder-shown:not(:focus) + .brik-form-label {
+  top: 1.1rem;
+  font-size: 0.875rem;
+}
+
+.brik .brik-float-box > .brik-input:focus + .brik-form-label {
+  color: var(--foreground);
+}
+
+.brik .brik-float-box > .relative + .brik-form-label {
+  top: 0.5rem;
+}
+
+/* Loading state while the submission is in flight. */
+.brik .brik-form-submit[data-loading] {
+  opacity: 0.85;
+  cursor: progress;
+}
+
+.brik .brik-theme-control svg {
+  pointer-events: none;
+}
+
+/*
+ * Themes often style input[type=…] directly, which outranks single-class utilities.
+ * These restate the sizes the templates ask for at element+class specificity; generated
+ * design CSS is printed later with the same weight, so user settings still win.
+ */
+input.brik-input.h-10 {
+  height: 2.5rem;
+}
+
+input.brik-input.h-11 {
+  height: 2.75rem;
+}
+
+input.brik-input.pl-9 {
+  padding-left: 2.25rem;
+}

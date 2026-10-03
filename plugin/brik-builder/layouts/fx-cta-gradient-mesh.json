@@ -1,0 +1,90 @@
+{
+ "title": "Call to action — gradient mesh",
+ "category": "animated",
+ "kind": "section",
+ "tree": [
+  {
+   "type": "section",
+   "attrs": {
+    "dark": true,
+    "bg_effect": "gradient",
+    "bg_effect_intensity": 85,
+    "bg_effect_color": "#4f46e5",
+    "bg_effect_color2": "#db2777",
+    "padding": "112px 24px",
+    "padding@mobile": "80px 16px"
+   },
+   "children": [
+    {
+     "type": "row",
+     "attrs": {
+      "columns": "1",
+      "max_width": "760px"
+     },
+     "children": [
+      {
+       "type": "column",
+       "attrs": {
+        "items": "center",
+        "gap": "24px"
+       },
+       "children": [
+        {
+         "type": "heading",
+         "attrs": {
+          "text": "Ready to build something remarkable?",
+          "level": "h2",
+          "style": "h1",
+          "title_text_align": "center",
+          "title_text_color": "#ffffff",
+          "animation": "slide-up"
+         }
+        },
+        {
+         "type": "text",
+         "attrs": {
+          "content": "<p>Join thousands of designers and developers shipping faster with Brik. Start free and upgrade when you grow.</p>",
+          "text_align": "center",
+          "font_size": "20px",
+          "line_height": "1.6",
+          "text_color": "rgb(255 255 255 / 0.82)",
+          "max_width": "560px",
+          "animation": "slide-up",
+          "animation_delay": 140
+         }
+        },
+        {
+         "type": "button_group",
+         "attrs": {
+          "align": "center",
+          "size": "lg",
+          "buttons": [
+           {
+            "text": "Start for free",
+            "link": {
+             "url": "#"
+            },
+            "variant": "default",
+            "icon": "arrow-right",
+            "icon_position": "end"
+           },
+           {
+            "text": "Book a demo",
+            "link": {
+             "url": "#"
+            },
+            "variant": "ghost"
+           }
+          ],
+          "animation": "zoom",
+          "animation_delay": 280
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

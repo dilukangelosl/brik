@@ -1,0 +1,86 @@
+{
+ "title": "Hero \u2014 dark with gradient",
+ "category": "hero",
+ "kind": "section",
+ "tree": [
+  {
+   "type": "section",
+   "attrs": {
+    "dark": true,
+    "bg_gradient": "radial-gradient(circle at 50% 0%, #312e81 0%, #0b0b12 60%)",
+    "padding": "144px 24px",
+    "padding@mobile": "80px 16px",
+    "divider_bottom": "curve",
+    "divider_bottom_color": "var(--background)"
+   },
+   "children": [
+    {
+     "type": "row",
+     "attrs": {
+      "max_width": "900px",
+      "columns": "1"
+     },
+     "children": [
+      {
+       "type": "column",
+       "attrs": {
+        "items": "center",
+        "gap": "24px"
+       },
+       "children": [
+        {
+         "type": "badge",
+         "attrs": {
+          "text": "Trusted by 10,000+ teams",
+          "variant": "outline",
+          "align": "center"
+         }
+        },
+        {
+         "type": "heading",
+         "attrs": {
+          "text": "The <span class=\"bg-linear-to-r from-indigo-400 to-fuchsia-400 bg-clip-text text-transparent\">fastest way</span> to build for the web",
+          "level": "h1",
+          "style": "display",
+          "title_text_align": "center"
+         }
+        },
+        {
+         "type": "text",
+         "attrs": {
+          "content": "<p>Design systems, theme builder and an MCP server so your favourite tools can build pages for you.</p>",
+          "size": "lead",
+          "text_align": "center"
+         }
+        },
+        {
+         "type": "button_group",
+         "attrs": {
+          "align": "center",
+          "size": "lg",
+          "buttons": [
+           {
+            "text": "Get started",
+            "link": {
+             "url": "#"
+            },
+            "variant": "default"
+           },
+           {
+            "text": "Read the docs",
+            "link": {
+             "url": "#"
+            },
+            "variant": "outline"
+           }
+          ]
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

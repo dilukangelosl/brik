@@ -1,0 +1,540 @@
+/*
+ * Animated section backgrounds (includes/helpers/effects.php).
+ * Colors, speed and strength arrive as inline custom properties:
+ * --fx-color, --fx-color2, --fx-intensity (0-1), --fx-speed (multiplier), --fx-opacity.
+ */
+.brik-bg-effect {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  border-radius: inherit;
+  opacity: var(--fx-opacity, 1);
+  contain: strict;
+}
+
+.brik-bg-effect > canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+.brik-bg-effect--paused,
+.brik-bg-effect--paused * {
+  animation-play-state: paused !important;
+}
+
+/* Fades. */
+.brik-bg-effect--mask-fade-top {
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 45%);
+  mask-image: linear-gradient(to bottom, transparent, #000 45%);
+}
+.brik-bg-effect--mask-fade-bottom {
+  -webkit-mask-image: linear-gradient(to top, transparent, #000 45%);
+  mask-image: linear-gradient(to top, transparent, #000 45%);
+}
+.brik-bg-effect--mask-fade-edges {
+  -webkit-mask-image: radial-gradient(ellipse 75% 70% at 50% 50%, #000 40%, transparent 100%);
+  mask-image: radial-gradient(ellipse 75% 70% at 50% 50%, #000 40%, transparent 100%);
+}
+.brik-bg-effect--mask-radial {
+  -webkit-mask-image: radial-gradient(ellipse 55% 60% at 50% 50%, #000 15%, transparent 100%);
+  mask-image: radial-gradient(ellipse 55% 60% at 50% 50%, #000 15%, transparent 100%);
+}
+
+/* ---------------------------------------------------------------- Aurora */
+.brik-bgfx-aurora {
+  position: absolute;
+  inset: -20%;
+  --fx-mid: color-mix(in oklch, var(--fx-color) 50%, var(--fx-color2));
+  --fx-alt: color-mix(in oklch, var(--fx-color) 60%, #e879f9);
+  background-image:
+    repeating-linear-gradient(100deg, var(--fx-color) 8%, var(--fx-alt) 13%, var(--fx-color2) 18%, var(--fx-mid) 23%, var(--fx-color) 28%);
+  background-size: 300% 200%;
+  background-position: 50% 50%;
+  filter: blur(40px) saturate(1.3);
+  opacity: calc(0.35 + var(--fx-intensity, 0.6) * 0.65);
+  -webkit-mask-image: radial-gradient(ellipse 80% 75% at 70% 0%, #000 20%, transparent 75%);
+  mask-image: radial-gradient(ellipse 80% 75% at 70% 0%, #000 20%, transparent 75%);
+  animation: brik-bgfx-aurora calc(60s / var(--fx-speed, 1)) linear infinite;
+  will-change: background-position;
+}
+
+.brik-bgfx-aurora--b {
+  background-size: 200% 100%;
+  opacity: calc(0.2 + var(--fx-intensity, 0.6) * 0.55);
+  -webkit-mask-image: radial-gradient(ellipse 65% 65% at 25% 10%, #000 10%, transparent 72%);
+  mask-image: radial-gradient(ellipse 65% 65% at 25% 10%, #000 10%, transparent 72%);
+  animation-duration: calc(42s / var(--fx-speed, 1));
+  animation-direction: reverse;
+  mix-blend-mode: plus-lighter;
+}
+
+@keyframes brik-bgfx-aurora {
+  from { background-position: 50% 50%, 50% 50%; }
+  to { background-position: 350% 50%, 350% 50%; }
+}
+
+/* ---------------------------------------------------------------- Beams */
+.brik-bgfx-beams-glow {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 50% 40% at 50% 0%, color-mix(in oklch, var(--fx-color) 30%, transparent), transparent 70%),
+    radial-gradient(ellipse 40% 35% at 15% 100%, color-mix(in oklch, var(--fx-color2) 18%, transparent), transparent 70%);
+  opacity: calc(0.4 + var(--fx-intensity, 0.6) * 0.6);
+}
+
+.brik-bgfx-beams {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.brik-bgfx-beams path {
+  fill: none;
+  vector-effect: non-scaling-stroke;
+}
+
+.brik-bgfx-beams-rail {
+  stroke: color-mix(in oklch, var(--fx-color) 60%, currentColor);
+  stroke-width: 1;
+  opacity: calc(0.07 + var(--fx-intensity, 0.6) * 0.13);
+}
+
+.brik-bgfx-beams-pulse path,
+.brik-bgfx-beams-halo path {
+  stroke-linecap: round;
+  stroke-dasharray: 150 850;
+  stroke-dashoffset: 1000px;
+  animation: brik-bgfx-beam var(--t, 8s) linear var(--d, 0s) infinite;
+  animation-duration: calc(var(--t, 8s) / var(--fx-speed, 1));
+}
+
+.brik-bgfx-beams-pulse path {
+  stroke-width: 1.5;
+  opacity: calc(0.5 + var(--fx-intensity, 0.6) * 0.5);
+}
+
+.brik-bgfx-beams-halo path {
+  stroke-width: 8;
+  opacity: calc(0.1 + var(--fx-intensity, 0.6) * 0.45);
+  filter: blur(4px);
+}
+
+@keyframes brik-bgfx-beam {
+  to { stroke-dashoffset: -150px; }
+}
+
+/* ---------------------------------------------------------------- Meteors */
+.brik-bgfx-meteor {
+  position: absolute;
+  top: var(--y);
+  left: var(--x);
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: var(--fx-color);
+  box-shadow: 0 0 0 1px color-mix(in oklch, var(--fx-color) 15%, transparent), 0 0 8px 1px color-mix(in oklch, var(--fx-color2) 70%, transparent);
+  opacity: 0;
+  transform: rotate(215deg);
+  animation: brik-bgfx-meteor var(--t, 6s) linear var(--d, 0s) infinite;
+  animation-duration: calc(var(--t, 6s) / var(--fx-speed, 1));
+}
+
+.brik-bgfx-meteor::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: var(--l, 120px);
+  height: 1px;
+  transform: translateY(-50%);
+  background: linear-gradient(90deg, var(--fx-color), color-mix(in oklch, var(--fx-color2) 50%, transparent) 30%, transparent);
+}
+
+@keyframes brik-bgfx-meteor {
+  0% { transform: rotate(215deg) translateX(0); opacity: 0; }
+  5% { opacity: calc(0.4 + var(--fx-intensity, 0.6) * 0.6); }
+  60% { opacity: calc(0.4 + var(--fx-intensity, 0.6) * 0.6); }
+  85%, 100% { transform: rotate(215deg) translateX(-900px); opacity: 0; }
+}
+
+/* ---------------------------------------------------------------- Flickering grid */
+.brik-bg-effect--grid {
+  --cell: 48px;
+}
+
+.brik-bgfx-grid-lines {
+  position: absolute;
+  inset: -1px;
+  background-image:
+    linear-gradient(to right, color-mix(in oklch, var(--fx-color) calc(6% + var(--fx-intensity, 0.6) * 14%), transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in oklch, var(--fx-color) calc(6% + var(--fx-intensity, 0.6) * 14%), transparent) 1px, transparent 1px);
+  background-size: var(--cell) var(--cell);
+  background-position: calc(50% - var(--cell) / 2) calc(50% - var(--cell) / 2);
+}
+
+.brik-bgfx-grid-cells span {
+  position: absolute;
+  left: calc(50% - var(--cell) / 2 + var(--cx) * var(--cell));
+  top: calc(50% - var(--cell) / 2 + var(--cy) * var(--cell));
+  width: var(--cell);
+  height: var(--cell);
+  background: var(--fx-color2);
+  opacity: 0;
+  animation: brik-bgfx-flicker var(--t, 5s) ease-in-out var(--d, 0s) infinite;
+  animation-duration: calc(var(--t, 5s) / var(--fx-speed, 1));
+}
+
+@keyframes brik-bgfx-flicker {
+  0%, 100% { opacity: 0; }
+  20% { opacity: calc(0.08 + var(--fx-intensity, 0.6) * 0.22); }
+  30% { opacity: calc(0.03 + var(--fx-intensity, 0.6) * 0.08); }
+  45% { opacity: calc(0.1 + var(--fx-intensity, 0.6) * 0.25); }
+  70% { opacity: 0; }
+}
+
+/* ---------------------------------------------------------------- Retro grid */
+.brik-bg-effect--retro-grid {
+  --horizon: 66%;
+  perspective: 320px;
+  perspective-origin: 50% 30%;
+}
+
+.brik-bgfx-retro-sky {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 55% 30% at 50% var(--horizon), color-mix(in oklch, var(--fx-color2) calc(var(--fx-intensity, 0.6) * 55%), transparent), transparent 70%),
+    linear-gradient(to bottom, transparent 30%, color-mix(in oklch, var(--fx-color2) calc(var(--fx-intensity, 0.6) * 12%), transparent) var(--horizon), transparent);
+}
+
+/* Floor hinged on the horizon, tilted towards the viewer. */
+.brik-bgfx-retro-plane {
+  position: absolute;
+  left: -100%;
+  right: -100%;
+  top: var(--horizon);
+  height: 300px;
+  transform-origin: 50% 0;
+  transform: rotateX(78deg);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 40%);
+  mask-image: linear-gradient(to bottom, transparent, #000 40%);
+}
+
+.brik-bgfx-retro-lines {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, color-mix(in oklch, var(--fx-color) calc(25% + var(--fx-intensity, 0.6) * 45%), transparent) 1.5px, transparent 0),
+    linear-gradient(to bottom, color-mix(in oklch, var(--fx-color) calc(25% + var(--fx-intensity, 0.6) * 45%), transparent) 1.5px, transparent 0);
+  background-size: 48px 24px;
+  background-position: 50% 0;
+  animation: brik-bgfx-retro calc(1.2s / var(--fx-speed, 1)) linear infinite;
+}
+
+.brik-bgfx-retro-horizon {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: var(--horizon);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--fx-color) 25%, color-mix(in oklch, var(--fx-color) 50%, #fff) 50%, var(--fx-color) 75%, transparent);
+  box-shadow: 0 0 20px 2px color-mix(in oklch, var(--fx-color) 50%, transparent);
+  opacity: calc(0.3 + var(--fx-intensity, 0.6) * 0.5);
+}
+
+@keyframes brik-bgfx-retro {
+  from { background-position: 50% 0; }
+  to { background-position: 50% 24px; }
+}
+
+/* ---------------------------------------------------------------- Light rays */
+.brik-bgfx-rays-glow {
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  top: -30%;
+  height: 60%;
+  background: radial-gradient(ellipse at 50% 40%, color-mix(in oklch, var(--fx-color2) 45%, transparent), transparent 65%);
+  filter: blur(30px);
+  opacity: calc(0.3 + var(--fx-intensity, 0.6) * 0.6);
+}
+
+.brik-bgfx-ray {
+  position: absolute;
+  top: -12%;
+  left: var(--x);
+  width: var(--w);
+  height: 130%;
+  margin-left: calc(var(--w) / -2);
+  transform-origin: 50% 0;
+  transform: rotate(var(--a));
+  background: radial-gradient(ellipse 50% 100% at 50% 0, color-mix(in oklch, var(--fx-color) 80%, transparent), color-mix(in oklch, var(--fx-color2) 25%, transparent) 45%, transparent 80%);
+  filter: blur(6px);
+  opacity: calc(var(--o) * (0.2 + var(--fx-intensity, 0.6) * 0.6));
+  mix-blend-mode: plus-lighter;
+  animation: brik-bgfx-ray var(--t, 10s) ease-in-out var(--d, 0s) infinite alternate;
+  animation-duration: calc(var(--t, 10s) / var(--fx-speed, 1));
+}
+
+@keyframes brik-bgfx-ray {
+  0% { transform: rotate(calc(var(--a) - 4deg)); opacity: calc(var(--o) * (0.1 + var(--fx-intensity, 0.6) * 0.4)); }
+  100% { transform: rotate(calc(var(--a) + 4deg)); opacity: calc(var(--o) * (0.2 + var(--fx-intensity, 0.6) * 0.7)); }
+}
+
+/* ---------------------------------------------------------------- Lamp */
+.brik-bgfx-lamp {
+  --lamp-top: clamp(2.5rem, 9%, 5rem);
+  position: absolute;
+  inset: 0;
+}
+
+.brik-bgfx-lamp > span {
+  position: absolute;
+  left: 50%;
+  translate: -50% 0;
+}
+
+/* One conic fan: bright wings along the bar fading towards the middle and the bottom. */
+.brik-bgfx-lamp-cone {
+  top: var(--lamp-top);
+  width: min(64rem, 100%);
+  height: min(32rem, 80%);
+  background: conic-gradient(from 90deg at 50% 0, var(--fx-color), transparent 55deg, transparent 125deg, var(--fx-color) 180deg);
+  -webkit-mask-image: radial-gradient(ellipse 48% 100% at 50% 0, #000 25%, transparent 75%);
+  mask-image: radial-gradient(ellipse 48% 100% at 50% 0, #000 25%, transparent 75%);
+  opacity: calc(0.4 + var(--fx-intensity, 0.6) * 0.5);
+  animation: brik-bgfx-lamp-open calc(1.4s / var(--fx-speed, 1)) cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.brik-bgfx-lamp-glow {
+  top: calc(var(--lamp-top) - 4rem);
+  width: min(40rem, 80%);
+  height: 14rem;
+  border-radius: 50%;
+  background: color-mix(in oklch, var(--fx-color2) 70%, transparent);
+  filter: blur(70px);
+  opacity: calc(0.3 + var(--fx-intensity, 0.6) * 0.45);
+  animation: brik-bgfx-lamp-breathe calc(6s / var(--fx-speed, 1)) ease-in-out infinite alternate;
+}
+
+.brik-bgfx-lamp-core {
+  top: calc(var(--lamp-top) - 3rem);
+  width: min(20rem, 45%);
+  height: 6rem;
+  border-radius: 50%;
+  background: var(--fx-color);
+  filter: blur(36px);
+  opacity: calc(0.45 + var(--fx-intensity, 0.6) * 0.45);
+  animation: brik-bgfx-lamp-open calc(1.4s / var(--fx-speed, 1)) cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.brik-bgfx-lamp-line {
+  z-index: 2;
+  top: var(--lamp-top);
+  width: min(36rem, 70%);
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, var(--fx-color) 12%, color-mix(in oklch, var(--fx-color) 35%, #fff) 50%, var(--fx-color) 88%, transparent);
+  box-shadow: 0 0 10px 1px color-mix(in oklch, var(--fx-color) 80%, transparent), 0 0 32px 4px color-mix(in oklch, var(--fx-color) 40%, transparent);
+  animation: brik-bgfx-lamp-open calc(1.4s / var(--fx-speed, 1)) cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+@keyframes brik-bgfx-lamp-open {
+  from { scale: 0.45 1; opacity: 0.3; }
+}
+
+@keyframes brik-bgfx-lamp-breathe {
+  to { scale: 1.12 1.06; }
+}
+
+/* ---------------------------------------------------------------- Ripple */
+.brik-bgfx-ripple {
+  position: absolute;
+  inset: 0;
+}
+
+.brik-bgfx-ripple span {
+  --size: calc(14rem + var(--i) * 7.5rem);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--size);
+  height: var(--size);
+  margin: calc(var(--size) / -2) 0 0 calc(var(--size) / -2);
+  border-radius: 50%;
+  border: 1px solid color-mix(in oklch, var(--fx-color) calc(10% + var(--fx-intensity, 0.6) * 25% - var(--i) * 2.5%), transparent);
+  background: color-mix(in oklch, var(--fx-color2) calc((8 - var(--i)) * (0.4% + var(--fx-intensity, 0.6) * 0.8%)), transparent);
+  box-shadow: 0 0 24px -12px color-mix(in oklch, var(--fx-color) 30%, transparent) inset;
+  animation: brik-bgfx-ripple calc(3.4s / var(--fx-speed, 1)) ease-in-out infinite;
+  animation-delay: calc(var(--i) * 0.08s);
+}
+
+@keyframes brik-bgfx-ripple {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(0.94); }
+}
+
+/* ---------------------------------------------------------------- Film grain */
+.brik-bgfx-noise {
+  position: absolute;
+  inset: -100%;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 1.6 -.35'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 220px 220px;
+  opacity: calc(0.04 + var(--fx-intensity, 0.6) * 0.16);
+  animation: brik-bgfx-grain calc(0.9s / var(--fx-speed, 1)) steps(1) infinite;
+}
+
+/* A tint pass so the grain can pick up a brand color. */
+.brik-bg-effect--noise::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, color-mix(in oklch, var(--fx-color2) 10%, transparent), transparent 70%);
+}
+
+@keyframes brik-bgfx-grain {
+  0% { transform: translate(0, 0); }
+  10% { transform: translate(-5%, -10%); }
+  20% { transform: translate(-15%, 5%); }
+  30% { transform: translate(7%, -25%); }
+  40% { transform: translate(-5%, 25%); }
+  50% { transform: translate(-15%, 10%); }
+  60% { transform: translate(15%, 0); }
+  70% { transform: translate(0, 15%); }
+  80% { transform: translate(3%, 35%); }
+  90% { transform: translate(-10%, 10%); }
+}
+
+/* ---------------------------------------------------------------- Canvas helpers */
+.brik-bg-effect--stars {
+  background:
+    radial-gradient(ellipse 55% 45% at 75% 15%, color-mix(in oklch, var(--fx-color2) calc(var(--fx-intensity, 0.6) * 14%), transparent), transparent 70%),
+    radial-gradient(ellipse 45% 40% at 15% 85%, color-mix(in oklch, var(--fx-color2) calc(var(--fx-intensity, 0.6) * 8%), transparent), transparent 70%);
+}
+
+.brik-bg-effect--sparkles {
+  background: radial-gradient(ellipse 60% 40% at 50% 100%, color-mix(in oklch, var(--fx-color2) calc(var(--fx-intensity, 0.6) * 22%), transparent), transparent 70%);
+}
+
+.brik-bg-effect--vortex {
+  background: radial-gradient(ellipse 40% 35% at 50% 50%, color-mix(in oklch, var(--fx-color) calc(var(--fx-intensity, 0.6) * 14%), transparent), transparent 70%);
+}
+
+/* ---------------------------------------------------------------- Dot pattern */
+.brik-bg-effect--dots {
+  --mx: 50%;
+  --my: 40%;
+  --gap: 22px;
+}
+
+.brik-bgfx-dots {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle at center, color-mix(in oklch, var(--fx-color) calc(18% + var(--fx-intensity, 0.6) * 22%), transparent) 1px, transparent 1.6px);
+  background-size: var(--gap) var(--gap);
+  background-position: center;
+}
+
+.brik-bgfx-dots--lit {
+  background-image: radial-gradient(circle at center, var(--fx-color2) 1.3px, transparent 2px);
+  -webkit-mask-image: radial-gradient(circle 240px at var(--mx) var(--my), #000, transparent 70%);
+  mask-image: radial-gradient(circle 240px at var(--mx) var(--my), #000, transparent 70%);
+  opacity: calc(0.5 + var(--fx-intensity, 0.6) * 0.5);
+}
+
+.brik-bgfx-dots-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle 320px at var(--mx) var(--my), color-mix(in oklch, var(--fx-color2) calc(var(--fx-intensity, 0.6) * 22%), transparent), transparent 70%);
+}
+
+/* ---------------------------------------------------------------- Spotlight */
+.brik-bg-effect--spotlight {
+  --mx: 50%;
+  --my: 30%;
+}
+
+.brik-bgfx-spot-beam {
+  position: absolute;
+  left: -10%;
+  top: -40%;
+  width: 70%;
+  height: 140%;
+  background: radial-gradient(50% 50% at 50% 50%, color-mix(in oklch, var(--fx-color) 55%, transparent) 0%, color-mix(in oklch, var(--fx-color) 12%, transparent) 55%, transparent 80%);
+  border-radius: 50%;
+  filter: blur(30px);
+  transform: rotate(-38deg) scaleX(0.38);
+  opacity: calc(0.25 + var(--fx-intensity, 0.6) * 0.6);
+  animation: brik-bgfx-spot-in calc(2s / var(--fx-speed, 1)) cubic-bezier(0.2, 0.7, 0.2, 1) 0.2s both;
+}
+
+.brik-bgfx-spot-beam--b {
+  left: auto;
+  right: -15%;
+  top: -55%;
+  width: 55%;
+  transform: rotate(38deg) scaleX(0.3);
+  background: radial-gradient(50% 50% at 50% 50%, color-mix(in oklch, var(--fx-color2) 45%, transparent) 0%, transparent 75%);
+  opacity: calc(0.15 + var(--fx-intensity, 0.6) * 0.4);
+  animation-name: brik-bgfx-spot-in-b;
+  animation-delay: 0.6s;
+}
+
+.brik-bgfx-spot-follow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle 420px at var(--mx) var(--my), color-mix(in oklch, var(--fx-color2) calc(var(--fx-intensity, 0.6) * 22%), transparent), transparent 75%);
+}
+
+@keyframes brik-bgfx-spot-in {
+  from { opacity: 0; translate: -18% -18%; }
+}
+
+@keyframes brik-bgfx-spot-in-b {
+  from { opacity: 0; translate: 18% -18%; }
+}
+
+/* ---------------------------------------------------------------- Gradient mesh fallback */
+.brik-bg-effect--gradient.is-fallback {
+  background:
+    radial-gradient(at 20% 20%, var(--fx-color), transparent 55%),
+    radial-gradient(at 80% 30%, var(--fx-color2), transparent 55%),
+    radial-gradient(at 50% 90%, color-mix(in oklch, var(--fx-color) 50%, var(--fx-color2)), transparent 60%);
+}
+
+.brik-bg-effect--waves > canvas {
+  filter: blur(var(--fx-blur, 10px));
+}
+
+/* Static frame for visitors who asked for less motion. */
+@media (prefers-reduced-motion: reduce) {
+  .brik-bg-effect,
+  .brik-bg-effect * {
+    animation-play-state: paused !important;
+  }
+
+  .brik-bgfx-meteor,
+  .brik-bgfx-lamp-cone,
+  .brik-bgfx-lamp-glow,
+  .brik-bgfx-lamp-core,
+  .brik-bgfx-lamp-line,
+  .brik-bgfx-spot-beam {
+    animation: none !important;
+  }
+
+  .brik-bgfx-meteor {
+    display: none;
+  }
+
+  .brik-bgfx-grid-cells span {
+    animation: none !important;
+  }
+
+  .brik-bgfx-grid-cells span:nth-child(3n) {
+    opacity: calc(0.06 + var(--fx-intensity, 0.6) * 0.14);
+  }
+}

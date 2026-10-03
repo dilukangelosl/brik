@@ -1,0 +1,1 @@
+(()=>{var o=(t,e)=>window.brik.on(t,e);function r(t,e){new IntersectionObserver(([n])=>{t.classList.toggle("is-paused",!n.isIntersecting),n.isIntersecting&&t.classList.add("is-in"),e&&e(n.isIntersecting)}).observe(t)}o(".brik-wm",t=>r(t));})();

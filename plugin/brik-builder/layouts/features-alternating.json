@@ -1,0 +1,151 @@
+{
+ "title": "Features \u2014 image and text rows",
+ "category": "features",
+ "kind": "section",
+ "tree": [
+  {
+   "type": "section",
+   "attrs": {
+    "gap": "96px"
+   },
+   "children": [
+    {
+     "type": "row",
+     "attrs": {
+      "align_items": "center",
+      "gap": "64px",
+      "columns": "1/2,1/2"
+     },
+     "children": [
+      {
+       "type": "column",
+       "attrs": {},
+       "children": [
+        {
+         "type": "image",
+         "attrs": {
+          "image": {
+           "url": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&q=80"
+          },
+          "ratio": "4:3",
+          "rounded": "xl"
+         }
+        }
+       ]
+      },
+      {
+       "type": "column",
+       "attrs": {
+        "gap": "16px"
+       },
+       "children": [
+        {
+         "type": "heading",
+         "attrs": {
+          "text": "Analytics",
+          "level": "p",
+          "style": "eyebrow"
+         }
+        },
+        {
+         "type": "heading",
+         "attrs": {
+          "text": "Understand what works",
+          "level": "h2"
+         }
+        },
+        {
+         "type": "text",
+         "attrs": {
+          "content": "<p>See which pages convert and iterate with confidence. Every section can be tweaked in seconds.</p>"
+         }
+        },
+        {
+         "type": "icon_list",
+         "attrs": {
+          "icon": "check",
+          "items": [
+           {
+            "text": "Real-time dashboards"
+           },
+           {
+            "text": "Custom reports"
+           },
+           {
+            "text": "Export anywhere"
+           }
+          ]
+         }
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "type": "row",
+     "attrs": {
+      "align_items": "center",
+      "gap": "64px",
+      "reverse": true,
+      "columns": "1/2,1/2"
+     },
+     "children": [
+      {
+       "type": "column",
+       "attrs": {
+        "gap": "16px"
+       },
+       "children": [
+        {
+         "type": "heading",
+         "attrs": {
+          "text": "Collaboration",
+          "level": "p",
+          "style": "eyebrow"
+         }
+        },
+        {
+         "type": "heading",
+         "attrs": {
+          "text": "Built for teams",
+          "level": "h2"
+         }
+        },
+        {
+         "type": "text",
+         "attrs": {
+          "content": "<p>Share layouts through the library, keep styles consistent with presets and reuse global elements across the site.</p>"
+         }
+        },
+        {
+         "type": "button",
+         "attrs": {
+          "text": "Learn more",
+          "variant": "outline",
+          "icon": "arrow-right"
+         }
+        }
+       ]
+      },
+      {
+       "type": "column",
+       "attrs": {},
+       "children": [
+        {
+         "type": "image",
+         "attrs": {
+          "image": {
+           "url": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1200&q=80"
+          },
+          "ratio": "4:3",
+          "rounded": "xl"
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

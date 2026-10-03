@@ -1,0 +1,170 @@
+{
+ "title": "Features \u2014 three column grid",
+ "category": "features",
+ "kind": "section",
+ "tree": [
+  {
+   "type": "section",
+   "attrs": {},
+   "children": [
+    {
+     "type": "row",
+     "attrs": {
+      "max_width": "720px",
+      "self_align": "center",
+      "columns": "1"
+     },
+     "children": [
+      {
+       "type": "column",
+       "attrs": {
+        "gap": "12px"
+       },
+       "children": [
+        {
+         "type": "heading",
+         "attrs": {
+          "text": "Features",
+          "level": "p",
+          "style": "eyebrow",
+          "title_text_align": "center"
+         }
+        },
+        {
+         "type": "heading",
+         "attrs": {
+          "text": "Everything you need to launch",
+          "level": "h2",
+          "title_text_align": "center"
+         }
+        },
+        {
+         "type": "text",
+         "attrs": {
+          "content": "<p>Powerful building blocks that work together, so you can focus on your content.</p>",
+          "size": "lead",
+          "text_align": "center"
+         }
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "type": "row",
+     "attrs": {
+      "gap": "32px",
+      "columns": "1/3,1/3,1/3"
+     },
+     "children": [
+      {
+       "type": "column",
+       "attrs": {},
+       "children": [
+        {
+         "type": "blurb",
+         "attrs": {
+          "icon": "zap",
+          "title": "Lightning fast",
+          "content": "<p>Pages render on the server with tiny, cached stylesheets.</p>",
+          "icon_shape": "rounded",
+          "icon_tone": "soft"
+         }
+        }
+       ]
+      },
+      {
+       "type": "column",
+       "attrs": {},
+       "children": [
+        {
+         "type": "blurb",
+         "attrs": {
+          "icon": "palette",
+          "title": "Design system",
+          "content": "<p>Global colors, fonts and presets keep every page on brand.</p>",
+          "icon_shape": "rounded",
+          "icon_tone": "soft"
+         }
+        }
+       ]
+      },
+      {
+       "type": "column",
+       "attrs": {},
+       "children": [
+        {
+         "type": "blurb",
+         "attrs": {
+          "icon": "smartphone",
+          "title": "Responsive",
+          "content": "<p>Tune every setting for desktop, tablet and phone.</p>",
+          "icon_shape": "rounded",
+          "icon_tone": "soft"
+         }
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "type": "row",
+     "attrs": {
+      "gap": "32px",
+      "columns": "1/3,1/3,1/3"
+     },
+     "children": [
+      {
+       "type": "column",
+       "attrs": {},
+       "children": [
+        {
+         "type": "blurb",
+         "attrs": {
+          "icon": "layout-template",
+          "title": "Theme builder",
+          "content": "<p>Design headers, footers and templates with display conditions.</p>",
+          "icon_shape": "rounded",
+          "icon_tone": "soft"
+         }
+        }
+       ]
+      },
+      {
+       "type": "column",
+       "attrs": {},
+       "children": [
+        {
+         "type": "blurb",
+         "attrs": {
+          "icon": "bot",
+          "title": "AI ready",
+          "content": "<p>Connect any MCP client and let it build pages for you.</p>",
+          "icon_shape": "rounded",
+          "icon_tone": "soft"
+         }
+        }
+       ]
+      },
+      {
+       "type": "column",
+       "attrs": {},
+       "children": [
+        {
+         "type": "blurb",
+         "attrs": {
+          "icon": "shield-check",
+          "title": "Open source",
+          "content": "<p>GPL licensed. No lock-in: content stays readable without the plugin.</p>",
+          "icon_shape": "rounded",
+          "icon_tone": "soft"
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

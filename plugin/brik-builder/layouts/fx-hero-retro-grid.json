@@ -1,0 +1,98 @@
+{
+ "title": "Hero — retro grid",
+ "category": "animated",
+ "kind": "section",
+ "tree": [
+  {
+   "type": "section",
+   "attrs": {
+    "dark": true,
+    "bg_effect": "retro_grid",
+    "bg_effect_intensity": 60,
+    "min_height": "760px",
+    "v_align": "flex-start",
+    "padding": "128px 24px 96px",
+    "padding@mobile": "96px 16px 72px"
+   },
+   "children": [
+    {
+     "type": "row",
+     "attrs": {
+      "columns": "1",
+      "max_width": "820px"
+     },
+     "children": [
+      {
+       "type": "column",
+       "attrs": {
+        "items": "center",
+        "gap": "24px"
+       },
+       "children": [
+        {
+         "type": "badge",
+         "attrs": {
+          "text": "Launch week · Day 3",
+          "variant": "outline",
+          "icon": "calendar",
+          "align": "center",
+          "animation": "fade"
+         }
+        },
+        {
+         "type": "heading",
+         "attrs": {
+          "text": "<span class=\"bg-linear-to-b from-white to-pink-300 bg-clip-text text-transparent\">Ship the future,</span><br><span class=\"bg-linear-to-r from-pink-400 to-violet-400 bg-clip-text text-transparent\">one pixel at a time</span>",
+          "level": "h1",
+          "style": "display",
+          "title_text_align": "center",
+          "animation": "blur",
+          "animation_delay": 120
+         }
+        },
+        {
+         "type": "text",
+         "attrs": {
+          "content": "<p>Templates, animations and a component library tuned for speed. Your next launch page is minutes away.</p>",
+          "size": "lead",
+          "text_align": "center",
+          "max_width": "580px",
+          "animation": "slide-up",
+          "animation_delay": 260
+         }
+        },
+        {
+         "type": "button_group",
+         "attrs": {
+          "align": "center",
+          "size": "lg",
+          "buttons": [
+           {
+            "text": "Browse templates",
+            "link": {
+             "url": "#"
+            },
+            "variant": "default"
+           },
+           {
+            "text": "See what's new",
+            "link": {
+             "url": "#"
+            },
+            "variant": "outline",
+            "icon": "arrow-right",
+            "icon_position": "end"
+           }
+          ],
+          "animation": "slide-up",
+          "animation_delay": 400
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

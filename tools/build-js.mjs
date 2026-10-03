@@ -9,6 +9,9 @@ const watch = process.argv.includes('--watch');
 const modules = (await readdir(`${root}src/frontend/modules`)).filter((f) => f.endsWith('.js')).sort();
 await writeFile(`${root}src/frontend/_modules.js`, modules.map((f) => `import './modules/${f}';`).join('\n') + '\n');
 
+// Effect scripts: one file per effect, loaded only on pages that use it.
+const fx = (await readdir(`${root}src/fx`)).filter((f) => f.endsWith('.js') && !f.startsWith('_'));
+
 const common = {
   outdir: `${root}build`,
   bundle: true,
@@ -21,7 +24,7 @@ const common = {
 const builds = [
   {
     ...common,
-    entryPoints: { builder: `${root}src/builder/index.jsx` },
+    entryPoints: { builder: `${root}src/builder/index.jsx`, content: `${root}src/content/index.jsx` },
     jsx: 'transform',
     jsxFactory: 'h',
     jsxFragment: 'Fragment',
@@ -30,6 +33,9 @@ const builds = [
   },
   { ...common, entryPoints: { frontend: `${root}src/frontend/index.js` } },
 ];
+if (fx.length) {
+  builds.push({ ...common, outdir: `${root}build/fx`, entryPoints: Object.fromEntries(fx.map((f) => [f.replace(/\.js$/, ''), `${root}src/fx/${f}`])) });
+}
 
 if (watch) {
   for (const options of builds) await (await esbuild.context(options)).watch();

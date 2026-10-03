@@ -1,0 +1,84 @@
+{
+ "title": "Animated — bento feature grid",
+ "category": "animated",
+ "kind": "section",
+ "tree": [
+  {
+   "type": "section",
+   "attrs": {
+    "padding": "112px 24px",
+    "padding@mobile": "72px 16px"
+   },
+   "children": [
+    {
+     "type": "row",
+     "attrs": {
+      "max_width": "720px",
+      "self_align": "center",
+      "columns": "1"
+     },
+     "children": [
+      {
+       "type": "column",
+       "attrs": {
+        "gap": "12px"
+       },
+       "children": [
+        {
+         "type": "heading",
+         "attrs": {
+          "text": "Features",
+          "level": "p",
+          "style": "eyebrow",
+          "title_text_align": "center",
+          "animation": "fade"
+         }
+        },
+        {
+         "type": "heading",
+         "attrs": {
+          "text": "Everything in one <span class=\"bg-linear-to-r from-indigo-500 to-pink-500 bg-clip-text text-transparent\">canvas</span>",
+          "level": "h2",
+          "title_text_align": "center",
+          "animation": "slide-up",
+          "animation_delay": 100
+         }
+        },
+        {
+         "type": "text",
+         "attrs": {
+          "content": "<p>Tiles of every size, a spotlight that follows the cursor and entrance motion that plays as you scroll.</p>",
+          "size": "lead",
+          "text_align": "center",
+          "animation": "slide-up",
+          "animation_delay": 200
+         }
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "type": "row",
+     "attrs": {
+      "columns": "1"
+     },
+     "children": [
+      {
+       "type": "column",
+       "attrs": {},
+       "children": [
+        {
+         "type": "bento_grid",
+         "attrs": {
+          "margin": "48px 0 0 0"
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

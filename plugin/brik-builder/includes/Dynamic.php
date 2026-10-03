@@ -12,25 +12,25 @@ final class Dynamic {
 		return apply_filters(
 			'brik/dynamic_tags',
 			array(
-				'post_title'     => __( 'Post title', 'brik' ),
-				'post_excerpt'   => __( 'Post excerpt', 'brik' ),
-				'post_date'      => __( 'Post date', 'brik' ),
-				'post_modified'  => __( 'Last updated date', 'brik' ),
-				'post_url'       => __( 'Post URL', 'brik' ),
-				'post_id'        => __( 'Post ID', 'brik' ),
-				'featured_image' => __( 'Featured image URL', 'brik' ),
-				'author_name'    => __( 'Author name', 'brik' ),
-				'author_url'     => __( 'Author archive URL', 'brik' ),
-				'comment_count'  => __( 'Comment count', 'brik' ),
-				'archive_title'  => __( 'Archive title', 'brik' ),
-				'site_name'      => __( 'Site title', 'brik' ),
-				'site_tagline'   => __( 'Site tagline', 'brik' ),
-				'site_url'       => __( 'Home URL', 'brik' ),
-				'user_name'      => __( 'Current user name', 'brik' ),
-				'year'           => __( 'Current year', 'brik' ),
-				'date'           => __( 'Current date', 'brik' ),
-				'search_query'   => __( 'Search query', 'brik' ),
-				'meta:KEY'       => __( 'Custom field', 'brik' ),
+				'post_title'     => __( 'Post title', 'brik-builder' ),
+				'post_excerpt'   => __( 'Post excerpt', 'brik-builder' ),
+				'post_date'      => __( 'Post date', 'brik-builder' ),
+				'post_modified'  => __( 'Last updated date', 'brik-builder' ),
+				'post_url'       => __( 'Post URL', 'brik-builder' ),
+				'post_id'        => __( 'Post ID', 'brik-builder' ),
+				'featured_image' => __( 'Featured image URL', 'brik-builder' ),
+				'author_name'    => __( 'Author name', 'brik-builder' ),
+				'author_url'     => __( 'Author archive URL', 'brik-builder' ),
+				'comment_count'  => __( 'Comment count', 'brik-builder' ),
+				'archive_title'  => __( 'Archive title', 'brik-builder' ),
+				'site_name'      => __( 'Site title', 'brik-builder' ),
+				'site_tagline'   => __( 'Site tagline', 'brik-builder' ),
+				'site_url'       => __( 'Home URL', 'brik-builder' ),
+				'user_name'      => __( 'Current user name', 'brik-builder' ),
+				'year'           => __( 'Current year', 'brik-builder' ),
+				'date'           => __( 'Current date', 'brik-builder' ),
+				'search_query'   => __( 'Search query', 'brik-builder' ),
+				'meta:KEY'       => __( 'Custom field', 'brik-builder' ),
 			)
 		);
 	}
@@ -40,7 +40,7 @@ final class Dynamic {
 			return $text;
 		}
 		return preg_replace_callback(
-			'/\{(meta:[A-Za-z0-9_\-]+|[a-z_]+)\}/',
+			'/\{([a-z_]+:[A-Za-z0-9_.\-]+(?:\|[a-z_]+)?|[a-z_]+)\}/',
 			static function ( $m ) use ( $post_id ) {
 				$value = Dynamic::value( $m[1], $post_id );
 				return null === $value ? $m[0] : $value;

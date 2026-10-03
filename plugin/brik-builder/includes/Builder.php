@@ -58,7 +58,7 @@ final class Builder {
 		}
 		$id = self::is_canvas_template() ? self::canvas_post_id() : get_queried_object_id();
 		if ( ! $id || ! current_user_can( 'edit_post', $id ) ) {
-			wp_die( esc_html__( 'You are not allowed to edit this item.', 'brik' ), 403 );
+			wp_die( esc_html__( 'You are not allowed to edit this item.', 'brik-builder' ), 403 );
 		}
 
 		show_admin_bar( false );
@@ -71,6 +71,8 @@ final class Builder {
 			'wp_enqueue_scripts',
 			static function () {
 				Frontend::enqueue();
+				// Effects can be added at any time while editing.
+				Frontend::effects_css();
 				wp_enqueue_style( 'brik-canvas', BRIK_URL . 'assets/build/canvas.css', array( 'brik' ), Frontend::ver( 'assets/build/canvas.css' ) );
 			},
 			20
@@ -83,10 +85,10 @@ final class Builder {
 	public static function app( $post_id ) {
 		$post = get_post( $post_id );
 		if ( ! $post || ! current_user_can( 'edit_post', $post->ID ) ) {
-			wp_die( esc_html__( 'You are not allowed to edit this item.', 'brik' ), 403 );
+			wp_die( esc_html__( 'You are not allowed to edit this item.', 'brik-builder' ), 403 );
 		}
 		if ( ! Plugin::supports( $post ) ) {
-			wp_die( esc_html__( 'Brik is not enabled for this post type. Enable it under Brik → Settings.', 'brik' ) );
+			wp_die( esc_html__( 'Brik is not enabled for this post type. Enable it under Brik → Settings.', 'brik-builder' ) );
 		}
 
 		if ( 'auto-draft' === $post->post_status ) {
@@ -94,7 +96,7 @@ final class Builder {
 				array(
 					'ID'          => $post->ID,
 					'post_status' => 'draft',
-					'post_title'  => $post->post_title ? $post->post_title : __( 'Untitled', 'brik' ),
+					'post_title'  => $post->post_title ? $post->post_title : __( 'Untitled', 'brik-builder' ),
 				)
 			);
 			$post = get_post( $post->ID );
@@ -109,7 +111,7 @@ final class Builder {
 			Frontend::ver( 'assets/build/builder.js' ),
 			true
 		);
-		wp_set_script_translations( 'brik-builder', 'brik', BRIK_DIR . 'languages' );
+		wp_set_script_translations( 'brik-builder', 'brik-builder', BRIK_DIR . 'languages' );
 
 		$type = get_post_type_object( $post->post_type );
 		wp_localize_script(
@@ -137,14 +139,14 @@ final class Builder {
 <head>
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title><?php echo esc_html( sprintf( /* translators: %s: post title */ __( 'Brik: %s', 'brik' ), $post->post_title ) ); ?></title>
+	<title><?php echo esc_html( sprintf( /* translators: %s: post title */ __( 'Brik: %s', 'brik-builder' ), $post->post_title ) ); ?></title>
 	<?php
 	wp_print_styles();
 	wp_print_head_scripts();
 	?>
 </head>
 <body class="brik-app-body">
-	<div id="brik-app"><div class="brik-boot"><?php esc_html_e( 'Loading builder…', 'brik' ); ?></div></div>
+	<div id="brik-app"><div class="brik-boot"><?php esc_html_e( 'Loading builder…', 'brik-builder' ); ?></div></div>
 	<?php
 	wp_print_footer_scripts();
 	wp_print_media_templates();

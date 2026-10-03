@@ -1,0 +1,1045 @@
+/*
+ * 3D, WebGL and scroll-driven showpiece modules.
+ * Scroll scenes are driven by custom properties (--p and friends) written by assets/src/fx/*.js;
+ * everything animated here is a transform or opacity. Each scene also has a resting state used
+ * in the builder canvas and for visitors who prefer reduced motion.
+ */
+
+/* ---------------------------------------------------------------- Globe */
+.brik-globe-stage {
+  touch-action: pan-y;
+}
+
+.brik-globe-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.brik-globe-stage.is-interactive .brik-globe-canvas {
+  cursor: grab;
+}
+
+.brik-globe-stage.is-dragging .brik-globe-canvas {
+  cursor: grabbing;
+}
+
+/* Sphere body and atmosphere. Sized to match the radius used by the renderer (84%). */
+.brik-globe-glow {
+  position: absolute;
+  inset: 8%;
+  border-radius: 9999px;
+  pointer-events: none;
+  opacity: var(--brik-globe-strength, 0.6);
+  background: radial-gradient(circle at 38% 32%, color-mix(in oklab, var(--brik-globe-glow) 16%, transparent) 0%, transparent 62%);
+  box-shadow:
+    0 0 70px 6px color-mix(in oklab, var(--brik-globe-glow) 34%, transparent),
+    0 0 120px 16px color-mix(in oklab, var(--brik-globe-glow) 12%, transparent),
+    inset 0 0 50px 4px color-mix(in oklab, var(--brik-globe-glow) 30%, transparent);
+}
+
+/* ---------------------------------------------------------------- Device frames (shared) */
+.brik-device {
+  --dev-bezel: #0c0c0e;
+  --dev-edge: #2c2c31;
+  --dev-bar: #1b1b1f;
+  --dev-bar-fg: #a1a1aa;
+  --dev-url: #27272c;
+  --dev-base: linear-gradient(#3f3f46, #1c1c20);
+  position: relative;
+  color: var(--dev-bar-fg);
+}
+
+.brik-device--light {
+  --dev-bezel: #f4f4f5;
+  --dev-edge: #d4d4d8;
+  --dev-bar: #f4f4f5;
+  --dev-bar-fg: #52525b;
+  --dev-url: #ffffff;
+  --dev-base: linear-gradient(#e4e4e7, #a1a1aa);
+}
+
+.brik-device-screen {
+  background: #0a0a0a;
+  isolation: isolate;
+}
+
+.brik-device-screen > .brik-3d-media {
+  max-width: none;
+}
+
+.brik-device-glare {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(120% 80% at var(--gx, 20%) var(--gy, 0%), rgb(255 255 255 / 0.14), transparent 55%);
+}
+
+.brik-3d-embed {
+  border: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Browser window */
+.brik-device--browser {
+  overflow: hidden;
+  border-radius: 14px;
+  background: var(--dev-bar);
+  box-shadow:
+    0 0 0 1px var(--dev-edge),
+    0 2px 4px rgb(0 0 0 / 0.06),
+    0 24px 48px -16px rgb(0 0 0 / 0.35),
+    0 60px 90px -40px rgb(0 0 0 / 0.4);
+}
+
+.brik-device-bar {
+  height: 2.6rem;
+  border-bottom: 1px solid var(--dev-edge);
+}
+
+.brik-device-lights i {
+  display: block;
+  width: 11px;
+  height: 11px;
+  border-radius: 9999px;
+  background: #ff5f57;
+}
+
+.brik-device-lights i:nth-child(2) {
+  background: #febc2e;
+}
+
+.brik-device-lights i:nth-child(3) {
+  background: #28c840;
+}
+
+.brik-device-url {
+  height: 1.65rem;
+  width: min(60%, 26rem);
+  background: var(--dev-url);
+  box-shadow: inset 0 0 0 1px var(--dev-edge);
+}
+
+/* Phone */
+.brik-device--phone {
+  padding: 3.4%;
+  border-radius: 15% / 7.2%;
+  background: var(--dev-bezel);
+  box-shadow:
+    0 0 0 1.5px var(--dev-edge),
+    inset 0 0 0 1.5px rgb(255 255 255 / 0.06),
+    0 30px 60px -20px rgb(0 0 0 / 0.45),
+    0 70px 90px -50px rgb(0 0 0 / 0.4);
+}
+
+.brik-device--phone::before,
+.brik-device--phone::after {
+  content: "";
+  position: absolute;
+  width: 3px;
+  border-radius: 2px;
+  background: var(--dev-edge);
+}
+
+.brik-device--phone::before {
+  right: -3px;
+  top: 24%;
+  height: 11%;
+}
+
+.brik-device--phone::after {
+  left: -3px;
+  top: 18%;
+  height: 7%;
+  box-shadow: 0 calc(1.6em) 0 var(--dev-edge);
+}
+
+.brik-device--phone .brik-device-screen {
+  border-radius: 12.2% / 5.7%;
+}
+
+.brik-device-island {
+  position: absolute;
+  top: 2.3%;
+  left: 50%;
+  z-index: 2;
+  width: 31%;
+  height: 3.4%;
+  transform: translateX(-50%);
+  border-radius: 9999px;
+  background: #000;
+}
+
+/* Tablet */
+.brik-device--tablet {
+  padding: clamp(8px, 2.2%, 22px);
+  border-radius: clamp(18px, 4%, 40px);
+  background: var(--dev-bezel);
+  box-shadow:
+    0 0 0 3px var(--dev-edge),
+    inset 0 0 0 1px rgb(255 255 255 / 0.06),
+    0 9px 20px rgb(0 0 0 / 0.29),
+    0 37px 37px rgb(0 0 0 / 0.26),
+    0 84px 50px rgb(0 0 0 / 0.15),
+    0 149px 60px rgb(0 0 0 / 0.04);
+}
+
+.brik-device--tablet .brik-device-screen {
+  border-radius: clamp(8px, 1.8%, 20px);
+}
+
+/* Laptop */
+.brik-device--laptop .brik-device-lid {
+  padding: 2.2% 2.2% 3%;
+  border-radius: clamp(10px, 2.4%, 22px) clamp(10px, 2.4%, 22px) 0 0;
+  background: var(--dev-bezel);
+  box-shadow: 0 0 0 1.5px var(--dev-edge), inset 0 0 0 1px rgb(255 255 255 / 0.05);
+}
+
+.brik-device--laptop .brik-device-screen {
+  border-radius: 4px;
+}
+
+.brik-device-base {
+  position: relative;
+  height: clamp(10px, 2.4vw, 22px);
+  margin-inline: -8%;
+  border-radius: 2px 2px 50% 50% / 2px 2px 100% 100%;
+  background: var(--dev-base);
+  box-shadow: 0 30px 50px -20px rgb(0 0 0 / 0.5);
+}
+
+.brik-device-base::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 15%;
+  height: 38%;
+  transform: translateX(-50%);
+  border-radius: 0 0 10px 10px;
+  background: rgb(0 0 0 / 0.25);
+}
+
+/* Plain card */
+.brik-device--plain {
+  overflow: hidden;
+  border-radius: 1.25rem;
+  box-shadow:
+    0 0 0 1px var(--dev-edge),
+    0 9px 20px rgb(0 0 0 / 0.29),
+    0 37px 37px rgb(0 0 0 / 0.26),
+    0 84px 50px rgb(0 0 0 / 0.15);
+}
+
+/* ---------------------------------------------------------------- Container scroll */
+.brik-cs {
+  --p: 0;
+  --brik-cs-k: 1;
+  padding-block: 1rem 3rem;
+}
+
+.brik-cs-head {
+  margin-bottom: 3.5rem;
+  transform: translate3d(0, calc(var(--p) * -2.5rem), 0);
+  will-change: transform;
+}
+
+.brik-cs-stage {
+  perspective: 1100px;
+}
+
+.brik-cs-card {
+  /* Hinged near the bottom edge: the top falls back and the card never grows wider than its box. */
+  transform-origin: 50% 90%;
+  transform: rotateX(calc((1 - var(--p)) * var(--brik-cs-tilt, 22) * var(--brik-cs-k) * 1deg)) scale(calc(var(--brik-cs-scale, 1.02) + (1 - var(--brik-cs-scale, 1.02)) * var(--p)));
+  will-change: transform;
+}
+
+@media (max-width: 767px) {
+  .brik-cs {
+    --brik-cs-k: 0.7;
+  }
+
+  .brik-cs-card {
+    --brik-cs-scale: 1;
+  }
+
+  .brik-cs-head {
+    margin-bottom: 2rem;
+  }
+}
+
+/* ---------------------------------------------------------------- Hero parallax */
+.brik-hpx {
+  --q: 0;
+  --r: 0;
+  --brik-hpx-w: 28rem;
+  --brik-hpx-gap: 2.5rem;
+  --brik-hpx-k: 1;
+  position: relative;
+  overflow: clip;
+  padding-block: 5rem 3rem;
+}
+
+.brik-hpx-head {
+  width: 100%;
+  max-width: var(--brik-container, 1200px);
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+}
+
+.brik-hpx-scene {
+  margin-top: 4.5rem;
+  perspective: 1000px;
+}
+
+.brik-hpx-plane {
+  display: flex;
+  flex-direction: column;
+  gap: var(--brik-hpx-gap);
+  transform-origin: 50% 0;
+  transform: translate3d(0, calc((1 - var(--q)) * -5rem), 0) rotateX(calc((1 - var(--q)) * var(--brik-hpx-tilt, 15) * var(--brik-hpx-k) * 1deg)) rotateZ(calc((1 - var(--q)) * var(--brik-hpx-twist, 20) * var(--brik-hpx-k) * 1deg));
+  opacity: calc(0.2 + 0.8 * var(--q));
+  will-change: transform, opacity;
+}
+
+/* Rows are centred and travel ±half the distance, so wide rows always cover the screen. */
+.brik-hpx-row {
+  --hp-dir: 1;
+  position: relative;
+  left: 50%;
+  display: flex;
+  gap: var(--brik-hpx-gap);
+  width: max-content;
+  transform: translate3d(calc(-50% + (var(--r) - 0.5) * var(--brik-hpx-dist, 900) * var(--brik-hpx-k) * var(--hp-dir) * 1px), 0, 0);
+  will-change: transform;
+}
+
+.brik-hpx-row--a {
+  flex-direction: row-reverse;
+}
+
+.brik-hpx-row--b {
+  --hp-dir: -1;
+}
+
+.brik-hpx-item {
+  width: var(--brik-hpx-w);
+  flex-shrink: 0;
+}
+
+.brik-hpx-card {
+  transition: transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.4s;
+}
+
+.brik-hpx-card:hover,
+.brik-hpx-card:focus-visible {
+  transform: translate3d(0, -0.75rem, 0);
+}
+
+@media (max-width: 767px) {
+  .brik-hpx {
+    --brik-hpx-w: 15rem;
+    --brik-hpx-gap: 1rem;
+    --brik-hpx-k: 0.55;
+    padding-block: 3rem 2rem;
+  }
+
+  .brik-hpx-head {
+    padding-inline: 1rem;
+  }
+
+  .brik-hpx-scene {
+    margin-top: 2.5rem;
+  }
+}
+
+/* ---------------------------------------------------------------- Sticky scroll */
+.brik-ss {
+  --brik-ss-step: 70vh;
+  --brik-ss-accent: var(--primary);
+}
+
+.brik-ss--left .brik-ss-aside {
+  order: -1;
+}
+
+.brik-ss-step {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: var(--brik-ss-step);
+}
+
+.brik-ss-step-body {
+  opacity: 0.28;
+  transition: opacity 0.5s ease;
+}
+
+.brik-ss-step.is-active .brik-ss-step-body {
+  opacity: 1;
+}
+
+.brik-ss-num {
+  background: var(--background);
+  color: var(--muted-foreground);
+  transition: background-color 0.4s, color 0.4s, border-color 0.4s;
+}
+
+.brik-ss-step.is-active .brik-ss-num {
+  border-color: var(--brik-ss-accent);
+  background: var(--brik-ss-accent);
+  color: var(--primary-foreground);
+}
+
+.brik-ss--rail .brik-ss-track {
+  padding-left: 3.75rem;
+}
+
+.brik-ss--rail .brik-ss-num {
+  position: absolute;
+  left: -3.75rem;
+  top: 50%;
+  margin: 0;
+  transform: translateY(-50%);
+}
+
+.brik-ss-rail {
+  position: absolute;
+  left: calc(1.125rem - 1px);
+  top: calc(var(--brik-ss-step) / 2);
+  bottom: calc(var(--brik-ss-step) / 2);
+  width: 2px;
+  border-radius: 2px;
+  background: var(--border);
+}
+
+.brik-ss-rail-fill {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--brik-ss-accent);
+  transform: scaleY(0);
+  transform-origin: 50% 0;
+  will-change: transform;
+}
+
+.brik-ss-aside {
+  position: relative;
+}
+
+.brik-ss-visual {
+  position: sticky;
+  top: max(5rem, calc(50vh - 15rem));
+  margin-block: calc(var(--brik-ss-step) / 2 - 12rem);
+}
+
+.brik-ss-layer {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: scale(1.06);
+  transition: opacity 0.7s ease, transform 1.1s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.brik-ss-layer.is-active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.brik-ss-grad-0 {
+  background: radial-gradient(120% 90% at 0% 0%, #a78bfa 0%, transparent 60%), linear-gradient(135deg, #4f46e5, #c026d3);
+}
+
+.brik-ss-grad-1 {
+  background: radial-gradient(120% 90% at 100% 0%, #67e8f9 0%, transparent 60%), linear-gradient(135deg, #0284c7, #4338ca);
+}
+
+.brik-ss-grad-2 {
+  background: radial-gradient(120% 90% at 0% 100%, #fcd34d 0%, transparent 60%), linear-gradient(135deg, #f97316, #db2777);
+}
+
+.brik-ss-grad-3 {
+  background: radial-gradient(120% 90% at 100% 100%, #6ee7b7 0%, transparent 60%), linear-gradient(135deg, #059669, #0f766e);
+}
+
+@media (max-width: 767px) {
+  .brik-ss-step {
+    min-height: 0;
+    padding-block: 2rem;
+  }
+
+  .brik-ss-step-body {
+    opacity: 1;
+  }
+
+  .brik-ss--rail .brik-ss-track {
+    padding-left: 0;
+  }
+
+  .brik-ss--rail .brik-ss-num {
+    position: static;
+    transform: none;
+    margin-bottom: 1rem;
+  }
+
+  .brik-ss-rail {
+    display: none;
+  }
+}
+
+/* ---------------------------------------------------------------- 3D marquee */
+.brik-m3d {
+  --brik-m3d-gap: 16px;
+  --brik-m3d-cols: 5;
+  height: 640px;
+}
+
+.brik-m3d--fade {
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent), linear-gradient(to bottom, transparent, #000 14%, #000 86%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent), linear-gradient(to bottom, transparent, #000 14%, #000 86%, transparent);
+  mask-composite: intersect;
+}
+
+.brik-m3d-plane {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  grid-template-columns: repeat(var(--brik-m3d-cols), minmax(0, 1fr));
+  align-items: start;
+  gap: var(--brik-m3d-gap);
+  width: 100%;
+  transform: translate(-50%, -50%);
+}
+
+/* Isometric: no perspective, so parallel edges stay parallel. */
+.brik-m3d--tilt .brik-m3d-plane {
+  width: max(150%, 900px);
+  transform: translate(-50%, -50%) rotateX(52deg) rotateZ(-42deg);
+  transform-style: preserve-3d;
+}
+
+.brik-m3d-col {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  animation: brik-m3d-up var(--brik-m3d-dur, 40s) linear infinite;
+  animation-direction: var(--brik-m3d-dir, normal);
+  animation-delay: calc(var(--brik-m3d-n, 0) * -5.3s);
+  will-change: transform;
+}
+
+.brik-m3d-track {
+  display: flex;
+  flex-direction: column;
+  gap: var(--brik-m3d-gap);
+  padding-bottom: var(--brik-m3d-gap);
+}
+
+.brik-m3d-tile {
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.08), 0 12px 28px -12px rgb(0 0 0 / 0.35);
+}
+
+.brik-m3d-tile img {
+  max-width: none;
+  transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.brik-m3d-tile:hover img {
+  transform: scale(1.06);
+}
+
+.brik-m3d--hover:hover .brik-m3d-col,
+.brik-m3d.is-paused .brik-m3d-col {
+  animation-play-state: paused;
+}
+
+@keyframes brik-m3d-up {
+  to {
+    transform: translate3d(0, -50%, 0);
+  }
+}
+
+@media (max-width: 767px) {
+  .brik-m3d--tilt .brik-m3d-plane {
+    width: 190%;
+    transform: translate(-50%, -50%) rotateX(48deg) rotateZ(-38deg);
+  }
+}
+
+/* ---------------------------------------------------------------- Device mockup */
+.brik-dm {
+  --brik-dm-glow: #8b5cf6;
+  perspective: 1800px;
+  padding-block: 1.5rem;
+}
+
+.brik-dm-device {
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.brik-dm--left .brik-dm-device {
+  transform: rotateY(18deg) rotateX(6deg);
+}
+
+.brik-dm--right .brik-dm-device {
+  transform: rotateY(-18deg) rotateX(6deg);
+}
+
+.brik-dm-glow {
+  position: absolute;
+  inset: -12% -10%;
+  border-radius: 9999px;
+  background: radial-gradient(closest-side, color-mix(in oklab, var(--brik-dm-glow) 55%, transparent), color-mix(in oklab, var(--brik-dm-glow) 18%, transparent) 60%, transparent);
+  opacity: 0.6;
+  transform: translate3d(0, 5%, 0);
+  pointer-events: none;
+}
+
+.brik-dm-float {
+  position: relative;
+  z-index: 1;
+}
+
+.brik-dm--float .brik-dm-float {
+  animation: brik-dm-float 7s ease-in-out infinite;
+}
+
+.brik-dm.is-paused .brik-dm-float {
+  animation-play-state: paused;
+}
+
+.brik-dm-tilt {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+@keyframes brik-dm-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(0, -14px, 0);
+  }
+}
+
+/* ---------------------------------------------------------------- Card stack */
+.brik-cardstack-cards {
+  display: grid;
+  padding-top: calc(var(--brik-cardstack-visible, 2) * var(--brik-cardstack-offset, 14px));
+  border-radius: 1rem;
+  cursor: pointer;
+  outline: none;
+}
+
+.brik-cardstack-cards:focus-visible {
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent);
+}
+
+.brik-cardstack-card {
+  --i: 0;
+  position: relative;
+  grid-area: 1 / 1;
+  z-index: calc(var(--brik-cardstack-count, 4) - var(--i));
+  transform-origin: 50% 0;
+  transform: translate3d(0, calc(var(--i) * var(--brik-cardstack-offset, 14px) * -1), 0) scale(calc(1 - var(--i) * 0.05));
+  opacity: clamp(0, calc((var(--brik-cardstack-visible, 2) + 0.5 - var(--i)) * 2), 1);
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.4s ease;
+}
+
+/* Cards further back read as slightly darker without repainting the card itself. */
+.brik-cardstack-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--foreground);
+  opacity: calc(var(--i) * 0.04);
+  pointer-events: none;
+  transition: opacity 0.6s ease;
+}
+
+.brik-cardstack-card.is-leaving {
+  animation: brik-cardstack-leave 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes brik-cardstack-leave {
+  0% {
+    z-index: 50;
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  45% {
+    z-index: 50;
+    opacity: 0;
+    transform: translate3d(0, 24%, 0) rotate(-3deg) scale(0.96);
+  }
+
+  46% {
+    z-index: 0;
+    opacity: 0;
+  }
+}
+
+/* ---------------------------------------------------------------- Parallax layers */
+.brik-pl-layers {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.brik-pl-layer {
+  position: absolute;
+  left: var(--x, 50%);
+  top: var(--y, 50%);
+  width: var(--w, 30%);
+  transform: translate(-50%, -50%) translate3d(var(--dx, 0px), var(--dy, 0px), 0) rotate(var(--r, 0deg));
+  will-change: transform;
+}
+
+.brik-pl-layer--cover {
+  left: 50%;
+  top: 50%;
+  width: 114%;
+  height: 114%;
+}
+
+.brik-pl-layer--cover img {
+  max-width: none;
+}
+
+.brik-pl-layer--text {
+  width: auto;
+  color: var(--c, #fff);
+}
+
+.brik-pl-blob {
+  display: block;
+  aspect-ratio: 1;
+  border-radius: 9999px;
+  background: radial-gradient(closest-side, var(--c, #8b5cf6), transparent);
+  opacity: 0.7;
+  mix-blend-mode: screen;
+}
+
+.brik-pl-shade {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background-image: radial-gradient(ellipse at 50% 50%, transparent 35%, rgb(0 0 0 / 0.35));
+}
+
+.brik-pl-content {
+  z-index: 2;
+}
+
+@media (max-width: 767px) {
+  .brik-pl-layer--image:not(.brik-pl-layer--cover) {
+    width: calc(var(--w, 30%) * 1.7);
+  }
+
+  .brik-pl {
+    height: 560px;
+  }
+}
+
+/* ---------------------------------------------------------------- World map */
+.brik-wm-svg {
+  color: var(--brik-wm-dot, color-mix(in oklab, var(--foreground) 32%, transparent));
+  overflow: visible;
+}
+
+.brik-wm-arc {
+  stroke-width: 0.5;
+  stroke-linecap: round;
+}
+
+.brik-wm--animate.is-in .brik-wm-arc {
+  stroke-dasharray: 1;
+  animation: brik-wm-draw calc(var(--brik-wm-dur, 2.5s) * 4) cubic-bezier(0.45, 0, 0.2, 1) calc(var(--i, 0) * var(--brik-wm-dur, 2.5s) * 0.45) infinite both;
+}
+
+.brik-wm-ping {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: brik-wm-ping 2.4s cubic-bezier(0, 0, 0.2, 1) infinite;
+  animation-delay: calc(var(--i, 0) * -0.37s);
+}
+
+.brik-wm.is-paused .brik-wm-arc,
+.brik-wm.is-paused .brik-wm-ping {
+  animation-play-state: paused;
+}
+
+.brik-wm-label {
+  position: absolute;
+  transform: translate(-50%, calc(-100% - 10px));
+  padding: 2px 8px;
+  border: 1px solid var(--border);
+  border-radius: 9999px;
+  background: var(--background);
+  color: var(--foreground);
+  font-size: 0.7rem;
+  font-weight: 500;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+@keyframes brik-wm-draw {
+  0% {
+    stroke-dashoffset: 1;
+    opacity: 1;
+  }
+
+  30%,
+  80% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+
+@keyframes brik-wm-ping {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.8;
+  }
+
+  100% {
+    transform: scale(3.4);
+    opacity: 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .brik-wm-svg {
+    color: var(--brik-wm-dot, color-mix(in oklab, var(--foreground) 50%, transparent));
+  }
+
+  .brik-wm-arc {
+    stroke-width: 0.9;
+  }
+}
+
+/* ---------------------------------------------------------------- Big text mask */
+.brik-bt {
+  --p: 0.5;
+  overflow-x: clip;
+}
+
+.brik-bt-line {
+  display: block;
+  white-space: nowrap;
+}
+
+.brik-bt-text--img {
+  background-color: var(--foreground);
+  background-size: cover;
+  background-position: center;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+.brik-bt--outline .brik-bt-text {
+  -webkit-text-stroke: 1px color-mix(in oklab, var(--foreground) 30%, transparent);
+}
+
+.brik-bt--scale .brik-bt-stage {
+  transform: scale(calc(var(--brik-bt-from, 0.85) + (var(--brik-bt-to, 1.08) - var(--brik-bt-from, 0.85)) * var(--p)));
+  will-change: transform;
+}
+
+.brik-bt-clip {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.brik-bt-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.brik-bt--video.is-ready .brik-bt-video {
+  opacity: 1;
+}
+
+.brik-bt--video.is-ready .brik-bt-text {
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ---------------------------------------------------------------- Scroll zoom image */
+.brik-szi {
+  --g: 1;
+  --t: 1;
+  --o: 0;
+  --s0: var(--brik-szi-scale, 0.5);
+  position: relative;
+}
+
+.brik-szi-stage {
+  position: relative;
+  height: 85vh;
+  min-height: 420px;
+  overflow: hidden;
+}
+
+.brik-szi-card {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: #0a0a0a;
+}
+
+.brik-szi-card > .brik-3d-media {
+  max-width: none;
+}
+
+.brik-szi-shade {
+  position: absolute;
+  inset: 0;
+  background-color: rgb(0 0 0 / 0.4);
+}
+
+.brik-szi-intro {
+  display: none;
+}
+
+.brik-szi.is-live {
+  height: calc(100vh + var(--brik-szi-length, 150vh));
+}
+
+.brik-szi.is-live .brik-szi-stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  min-height: 0;
+}
+
+.brik-szi.is-live .brik-szi-card {
+  --s: calc(var(--s0) + (1 - var(--s0)) * var(--g));
+  transform: scale(var(--s));
+  border-radius: calc(var(--brik-szi-radius, 28px) / var(--s) * (1 - var(--g)));
+  will-change: transform;
+}
+
+.brik-szi.is-live .brik-szi-shade {
+  opacity: calc(var(--g) * 0.3 + var(--t) * 0.7);
+}
+
+.brik-szi.is-live .brik-szi-content {
+  opacity: var(--t);
+  transform: translate3d(0, calc((1 - var(--t)) * 2rem), 0);
+}
+
+.brik-szi.is-live .brik-szi-intro {
+  position: absolute;
+  top: 8%;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  display: block;
+  padding-inline: 1.5rem;
+  text-align: center;
+  opacity: var(--o);
+  transform: translate3d(0, calc((1 - var(--o)) * -1.5rem), 0);
+}
+
+@media (max-width: 767px) {
+  .brik-szi {
+    --s0: max(0.62, var(--brik-szi-scale, 0.5));
+  }
+
+  .brik-szi-stage {
+    height: 75vh;
+  }
+
+  .brik-szi.is-live .brik-szi-intro {
+    top: 6%;
+  }
+}
+
+/* ---------------------------------------------------------------- Resting states */
+/*
+ * Builder canvas and reduced motion: scroll scenes show a settled, readable frame and nothing
+ * loops. (The scripts skip their scroll handlers in both cases.)
+ */
+.brik-canvas-mode .brik-cs {
+  --p: 0.75;
+}
+
+.brik-canvas-mode .brik-hpx {
+  --q: 1;
+  --r: 0.5;
+}
+
+.brik-canvas-mode .brik-bt--scale .brik-bt-stage {
+  transform: none;
+}
+
+.brik-canvas-mode .brik-ss {
+  --brik-ss-step: 48vh;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brik-cs {
+    --p: 1;
+  }
+
+  .brik-hpx {
+    --q: 1;
+    --r: 0.5;
+  }
+
+  .brik-bt--scale .brik-bt-stage {
+    transform: none;
+  }
+
+  .brik-m3d-col,
+  .brik-dm--float .brik-dm-float,
+  .brik-wm-ping,
+  .brik-cardstack-card.is-leaving {
+    animation: none;
+  }
+
+  .brik-wm--animate.is-in .brik-wm-arc {
+    animation: none;
+    stroke-dasharray: none;
+  }
+
+  .brik-ss-layer,
+  .brik-ss-step-body,
+  .brik-cardstack-card,
+  .brik-cardstack-card::after,
+  .brik-dm-device,
+  .brik-hpx-card,
+  .brik-bt-video {
+    transition: none;
+  }
+}

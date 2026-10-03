@@ -1,0 +1,86 @@
+{
+ "title": "Hero — lamp glow",
+ "category": "animated",
+ "kind": "section",
+ "tree": [
+  {
+   "type": "section",
+   "attrs": {
+    "dark": true,
+    "bg_effect": "lamp",
+    "bg_effect_intensity": 70,
+    "min_height": "720px",
+    "v_align": "flex-start",
+    "padding": "176px 24px 112px",
+    "padding@mobile": "136px 16px 80px"
+   },
+   "children": [
+    {
+     "type": "row",
+     "attrs": {
+      "columns": "1",
+      "max_width": "760px"
+     },
+     "children": [
+      {
+       "type": "column",
+       "attrs": {
+        "items": "center",
+        "gap": "24px"
+       },
+       "children": [
+        {
+         "type": "heading",
+         "attrs": {
+          "text": "<span class=\"bg-linear-to-b from-white to-slate-400 bg-clip-text text-transparent\">Build lamps<br>the right way</span>",
+          "level": "h1",
+          "style": "display",
+          "title_text_align": "center",
+          "animation": "slide-up",
+          "animation_delay": 200
+         }
+        },
+        {
+         "type": "text",
+         "attrs": {
+          "content": "<p>Light, precise and built to last. A calmer way to present the product your team is proud of.</p>",
+          "size": "lead",
+          "text_align": "center",
+          "max_width": "540px",
+          "animation": "fade",
+          "animation_delay": 420
+         }
+        },
+        {
+         "type": "button_group",
+         "attrs": {
+          "align": "center",
+          "size": "lg",
+          "buttons": [
+           {
+            "text": "Get early access",
+            "link": {
+             "url": "#"
+            },
+            "variant": "default"
+           },
+           {
+            "text": "Learn more",
+            "link": {
+             "url": "#"
+            },
+            "variant": "outline"
+           }
+          ],
+          "animation": "slide-up",
+          "animation_delay": 560
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

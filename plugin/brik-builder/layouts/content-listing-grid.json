@@ -1,0 +1,80 @@
+{
+ "title": "Content — filterable grid",
+ "category": "content",
+ "kind": "section",
+ "tree": [
+  {
+   "type": "section",
+   "attrs": {},
+   "children": [
+    {
+     "type": "row",
+     "attrs": {},
+     "children": [
+      {
+       "type": "column",
+       "attrs": {
+        "gap": "28px"
+       },
+       "children": [
+        {
+         "type": "heading",
+         "attrs": {
+          "text": "Latest",
+          "level": "p",
+          "style": "eyebrow"
+         }
+        },
+        {
+         "type": "heading",
+         "attrs": {
+          "text": "From the journal",
+          "level": "h2"
+         }
+        },
+        {
+         "type": "listing_filter",
+         "attrs": {
+          "target": "grid",
+          "layout": "horizontal",
+          "apply": "instant",
+          "filters": [
+           {
+            "type": "search",
+            "label": "Search",
+            "placeholder": "Search articles…"
+           },
+           {
+            "type": "sort",
+            "label": "Sort by"
+           },
+           {
+            "type": "taxonomy",
+            "label": "Topic",
+            "taxonomy": "category",
+            "ui": "pills",
+            "show_counts": true
+           }
+          ]
+         }
+        },
+        {
+         "type": "listing",
+         "attrs": {
+          "css_id": "grid",
+          "post_type": "post",
+          "columns": 3,
+          "posts_per_page": 9,
+          "pagination": "numbered",
+          "animate": true,
+          "empty_message": "Nothing matches these filters yet."
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

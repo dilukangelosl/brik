@@ -1,0 +1,111 @@
+{
+ "title": "Hero — aurora",
+ "category": "animated",
+ "kind": "section",
+ "tree": [
+  {
+   "type": "section",
+   "attrs": {
+    "dark": true,
+    "bg_effect": "aurora",
+    "bg_effect_intensity": 70,
+    "min_height": "760px",
+    "min_height@mobile": "620px",
+    "v_align": "center",
+    "padding": "128px 24px 112px",
+    "padding@mobile": "96px 16px 80px"
+   },
+   "children": [
+    {
+     "type": "row",
+     "attrs": {
+      "columns": "1",
+      "max_width": "880px"
+     },
+     "children": [
+      {
+       "type": "column",
+       "attrs": {
+        "items": "center",
+        "gap": "24px"
+       },
+       "children": [
+        {
+         "type": "badge",
+         "attrs": {
+          "text": "Introducing Brik 2.0",
+          "variant": "outline",
+          "icon": "sparkles",
+          "align": "center",
+          "animation": "fade"
+         }
+        },
+        {
+         "type": "heading",
+         "attrs": {
+          "text": "Design the web <span class=\"bg-linear-to-r from-sky-300 via-violet-300 to-fuchsia-400 bg-clip-text text-transparent\">at the speed of thought</span>",
+          "level": "h1",
+          "style": "display",
+          "title_text_align": "center",
+          "animation": "blur",
+          "animation_delay": 120
+         }
+        },
+        {
+         "type": "text",
+         "attrs": {
+          "content": "<p>A visual builder with real design tokens, a theme builder and an MCP server, so your pages look hand-crafted from the very first click.</p>",
+          "size": "lead",
+          "text_align": "center",
+          "max_width": "640px",
+          "animation": "slide-up",
+          "animation_delay": 260
+         }
+        },
+        {
+         "type": "button_group",
+         "attrs": {
+          "align": "center",
+          "size": "lg",
+          "buttons": [
+           {
+            "text": "Start building",
+            "link": {
+             "url": "#"
+            },
+            "variant": "default",
+            "icon": "arrow-right",
+            "icon_position": "end"
+           },
+           {
+            "text": "Watch the demo",
+            "link": {
+             "url": "#"
+            },
+            "variant": "outline",
+            "icon": "play",
+            "icon_position": "start"
+           }
+          ],
+          "animation": "slide-up",
+          "animation_delay": 400
+         }
+        },
+        {
+         "type": "text",
+         "attrs": {
+          "content": "<p>Free for personal sites · No credit card required</p>",
+          "size": "small",
+          "text_align": "center",
+          "animation": "fade",
+          "animation_delay": 560
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

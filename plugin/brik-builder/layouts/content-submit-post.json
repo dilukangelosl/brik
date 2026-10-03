@@ -1,0 +1,109 @@
+{
+ "title": "Content — submit a post",
+ "category": "content",
+ "kind": "section",
+ "tree": [
+  {
+   "type": "section",
+   "attrs": {},
+   "children": [
+    {
+     "type": "row",
+     "attrs": {
+      "max_width": "760px"
+     },
+     "children": [
+      {
+       "type": "column",
+       "attrs": {
+        "gap": "28px"
+       },
+       "children": [
+        {
+         "type": "contact_form",
+         "attrs": {
+          "title": "Share your story",
+          "description": "Send us an article with a cover image. Every submission is reviewed before it is published.",
+          "form_name": "Post submission",
+          "actions": "create_post, save_entry, email",
+          "post_type": "post",
+          "post_status": "pending",
+          "post_author": "current",
+          "allow_guests": false,
+          "submit_text": "Submit for review",
+          "submit_icon": "send",
+          "success_message": "Thanks! “{post_title}” was sent for review.",
+          "fields": [
+           {
+            "label": "Title",
+            "name": "title",
+            "type": "text",
+            "required": true,
+            "placeholder": "A clear, specific headline"
+           },
+           {
+            "label": "Category",
+            "name": "category",
+            "type": "select",
+            "options_source": "taxonomy:category",
+            "required": true,
+            "width": "half"
+           },
+           {
+            "label": "Your name",
+            "name": "name",
+            "type": "text",
+            "width": "half"
+           },
+           {
+            "label": "Cover image",
+            "name": "cover",
+            "type": "image",
+            "required": true,
+            "max_size": 4
+           },
+           {
+            "label": "Summary",
+            "name": "summary",
+            "type": "textarea",
+            "placeholder": "One or two sentences shown in listings"
+           },
+           {
+            "label": "Article",
+            "name": "body",
+            "type": "textarea",
+            "required": true
+           }
+          ],
+          "mapping": [
+           {
+            "field": "title",
+            "target": "title"
+           },
+           {
+            "field": "summary",
+            "target": "excerpt"
+           },
+           {
+            "field": "body",
+            "target": "content"
+           },
+           {
+            "field": "category",
+            "target": "tax:category"
+           },
+           {
+            "field": "cover",
+            "target": "featured_image"
+           }
+          ]
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -119,7 +119,7 @@ final class Rest {
 					'callback'            => static function ( WP_REST_Request $r ) {
 						$item = Library::item( (int) $r['id'] );
 						if ( ! $item ) {
-							return new WP_Error( 'brik_not_found', __( 'Library item not found.', 'brik' ), array( 'status' => 404 ) );
+							return new WP_Error( 'brik_not_found', __( 'Library item not found.', 'brik-builder' ), array( 'status' => 404 ) );
 						}
 						$item['tree'] = Library::nodes_for( (int) $r['id'], sanitize_key( (string) $r['context'] ) );
 						return $item;
@@ -171,6 +171,10 @@ final class Rest {
 			'tree'    => Data::get( $post->ID ),
 			'page'    => (object) Data::page_settings( $post->ID ),
 		);
+		$library = Library::item( $post );
+		if ( $library ) {
+			$payload['library'] = $library;
+		}
 		if ( ThemeBuilder::is_template( $post->ID ) ) {
 			$payload['area']       = ThemeBuilder::area( $post->ID );
 			$payload['conditions'] = ThemeBuilder::conditions( $post->ID );
@@ -181,7 +185,7 @@ final class Rest {
 	public static function get_post( WP_REST_Request $r ) {
 		$post = get_post( (int) $r['id'] );
 		if ( ! $post ) {
-			return new WP_Error( 'brik_not_found', __( 'Post not found.', 'brik' ), array( 'status' => 404 ) );
+			return new WP_Error( 'brik_not_found', __( 'Post not found.', 'brik-builder' ), array( 'status' => 404 ) );
 		}
 		return self::post_payload( $post );
 	}
@@ -190,7 +194,7 @@ final class Rest {
 		$id   = (int) $r['id'];
 		$post = get_post( $id );
 		if ( ! $post ) {
-			return new WP_Error( 'brik_not_found', __( 'Post not found.', 'brik' ), array( 'status' => 404 ) );
+			return new WP_Error( 'brik_not_found', __( 'Post not found.', 'brik-builder' ), array( 'status' => 404 ) );
 		}
 		$body = (array) $r->get_json_params();
 
@@ -244,7 +248,8 @@ final class Rest {
 			'root'  => $ids ? null : $root,
 			'html'  => (object) $html,
 			'css'   => $css,
-			'fonts' => Fonts::url( $renderer->style->fonts() ),
+			'fonts'   => Fonts::url( $renderer->style->fonts() ),
+			'scripts' => array_map( array( Frontend::class, 'fx_url' ), array_keys( $renderer->scripts ) ),
 			'tree'  => $tree,
 		);
 	}
@@ -278,6 +283,7 @@ final class Rest {
 			'conditions'  => ThemeBuilder::rule_types(),
 			'post_types'  => self::post_types(),
 			'taxonomies'  => self::taxonomies(),
+			'fields'      => self::content_fields(),
 			'menus'       => array_map(
 				static function ( $m ) {
 					return array(
@@ -288,6 +294,33 @@ final class Rest {
 				wp_get_nav_menus()
 			),
 		);
+	}
+
+	/**
+	 * Custom fields from Brik → Content, for the dynamic content picker.
+	 */
+	private static function content_fields() {
+		if ( ! class_exists( '\\Brik\\Content\\Registry' ) ) {
+			return array();
+		}
+		$out = array();
+		foreach ( Content\Registry::groups() as $group ) {
+			if ( empty( $group['active'] ) || empty( $group['fields'] ) ) {
+				continue;
+			}
+			foreach ( $group['fields'] as $field ) {
+				if ( empty( $field['name'] ) || in_array( $field['type'], array( 'tab', 'message' ), true ) ) {
+					continue;
+				}
+				$out[] = array(
+					'name'  => $field['name'],
+					'label' => isset( $field['label'] ) ? $field['label'] : $field['name'],
+					'type'  => $field['type'],
+					'group' => isset( $group['title'] ) ? $group['title'] : '',
+				);
+			}
+		}
+		return $out;
 	}
 
 	private static function post_types() {
@@ -309,7 +342,7 @@ final class Rest {
 	public static function library_create( WP_REST_Request $r ) {
 		$body = (array) $r->get_json_params();
 		$id   = Library::create(
-			isset( $body['title'] ) ? $body['title'] : __( 'Untitled', 'brik' ),
+			isset( $body['title'] ) ? $body['title'] : __( 'Untitled', 'brik-builder' ),
 			isset( $body['kind'] ) ? $body['kind'] : 'layout',
 			isset( $body['tree'] ) ? (array) $body['tree'] : array(),
 			! empty( $body['global'] )

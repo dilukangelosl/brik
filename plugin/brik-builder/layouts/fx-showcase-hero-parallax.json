@@ -1,0 +1,43 @@
+{
+ "title": "Showcase — hero parallax rows",
+ "category": "animated",
+ "kind": "section",
+ "tree": [
+  {
+   "type": "section",
+   "attrs": {
+    "fullwidth": true,
+    "padding": "0px"
+   },
+   "children": [
+    {
+     "type": "row",
+     "attrs": {
+      "columns": "1",
+      "full": true
+     },
+     "children": [
+      {
+       "type": "column",
+       "attrs": {},
+       "children": [
+        {
+         "type": "hero_parallax",
+         "attrs": {
+          "eyebrow": "Studio Atlas",
+          "title": "We design and build<br>products people love",
+          "text": "A small, senior team of designers and engineers. Fifteen launches last year, from fintech dashboards to playful consumer apps.",
+          "button_text": "See our work",
+          "link": {
+           "url": "#"
+          }
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

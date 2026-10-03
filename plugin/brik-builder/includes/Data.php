@@ -109,6 +109,27 @@ final class Data {
 				$out[] = array( 'type' => 'row', 'children' => array( array( 'type' => 'column', 'children' => $pending ) ) );
 			} elseif ( 'row' === $parent ) {
 				$out[] = array( 'type' => 'column', 'children' => $pending );
+			} elseif ( 'column' === $parent ) {
+				// Columns placed straight in a column become a nested row; sections give up their rows.
+				$columns = array();
+				foreach ( $pending as $item ) {
+					if ( 'column' === $item['type'] ) {
+						$columns[] = $item;
+						continue;
+					}
+					if ( $columns ) {
+						$out[]   = array( 'type' => 'row', 'attrs' => array( 'columns' => (string) count( $columns ) ), 'children' => $columns );
+						$columns = array();
+					}
+					if ( 'section' === $item['type'] && ! empty( $item['children'] ) && is_array( $item['children'] ) ) {
+						foreach ( $item['children'] as $child ) {
+							$out[] = $child;
+						}
+					}
+				}
+				if ( $columns ) {
+					$out[] = array( 'type' => 'row', 'attrs' => array( 'columns' => (string) count( $columns ) ), 'children' => $columns );
+				}
 			}
 			$pending = array();
 		};
@@ -219,7 +240,12 @@ final class Data {
 				$value,
 				static function ( &$v, $k ) use ( $trusted ) {
 					if ( is_string( $v ) ) {
-						$v = 'url' === $k ? esc_url_raw( $v ) : ( $trusted ? $v : wp_kses_post( $v ) );
+						if ( 'url' === $k ) {
+							// Keep dynamic tags such as {post_url}; they become URLs when rendered.
+							$v = preg_match( '/^\{[a-z_]+(:[A-Za-z0-9_.\-]+)?(\|[a-z_]+)?\}/', $v ) ? sanitize_text_field( $v ) : esc_url_raw( $v );
+						} else {
+							$v = $trusted ? $v : wp_kses_post( $v );
+						}
 					}
 				}
 			);

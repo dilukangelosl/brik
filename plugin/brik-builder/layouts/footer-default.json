@@ -1,0 +1,72 @@
+{
+	"title": "Footer — link columns and copyright",
+	"category": "footer",
+	"kind": "section",
+	"tree": [
+		{
+			"type": "section",
+			"attrs": {
+				"tag": "footer",
+				"padding": "64px 24px 32px",
+				"padding@mobile": "48px 20px 24px",
+				"border_width": "1px 0 0 0",
+				"border_style": "solid",
+				"border_color": "var(--border)",
+				"bg_color": "color-mix(in oklab, var(--muted) 40%, var(--background))"
+			},
+			"children": [
+				{
+					"type": "row",
+					"attrs": { "columns": "2/5,1/5,1/5,1/5", "columns@tablet": "1/2,1/2", "columns@mobile": "1/2,1/2", "row_gap": "40px" },
+					"children": [
+						{
+							"type": "column",
+							"attrs": { "gap": "16px" },
+							"children": [
+								{ "type": "site_logo", "attrs": { "max_height": "32px" } },
+								{ "type": "text", "attrs": { "content": "<p>Thoughtful tools for teams who care about the details. Built in the open, shipped every week.</p>", "size": "muted", "max_width": "320px" } }
+							]
+						},
+						{
+							"type": "column",
+							"attrs": { "gap": "12px" },
+							"children": [
+								{ "type": "heading", "attrs": { "text": "Product", "level": "p", "title_font_size": "14px", "title_font_weight": "600" } },
+								{ "type": "menu", "attrs": { "source": "custom", "orientation": "vertical", "link_style": "plain", "breakpoint": "never", "label": "Product", "links": [ { "text": "Features", "link": { "url": "#" } }, { "text": "Pricing", "link": { "url": "#" } }, { "text": "Changelog", "link": { "url": "#" } }, { "text": "Roadmap", "link": { "url": "#" } } ] } }
+							]
+						},
+						{
+							"type": "column",
+							"attrs": { "gap": "12px" },
+							"children": [
+								{ "type": "heading", "attrs": { "text": "Company", "level": "p", "title_font_size": "14px", "title_font_weight": "600" } },
+								{ "type": "menu", "attrs": { "source": "custom", "orientation": "vertical", "link_style": "plain", "breakpoint": "never", "label": "Company", "links": [ { "text": "About", "link": { "url": "#" } }, { "text": "Blog", "link": { "url": "#" } }, { "text": "Careers", "link": { "url": "#" } }, { "text": "Contact", "link": { "url": "#" } } ] } }
+							]
+						},
+						{
+							"type": "column",
+							"attrs": { "gap": "12px" },
+							"children": [
+								{ "type": "heading", "attrs": { "text": "Resources", "level": "p", "title_font_size": "14px", "title_font_weight": "600" } },
+								{ "type": "menu", "attrs": { "source": "custom", "orientation": "vertical", "link_style": "plain", "breakpoint": "never", "label": "Resources", "links": [ { "text": "Documentation", "link": { "url": "#" } }, { "text": "Guides", "link": { "url": "#" } }, { "text": "Community", "link": { "url": "#" } }, { "text": "Support", "link": { "url": "#" } } ] } }
+							]
+						}
+					]
+				},
+				{
+					"type": "row",
+					"attrs": { "columns": "1/2,1/2", "align_items": "center", "padding": "24px 0 0", "border_width": "1px 0 0 0", "border_style": "solid", "border_color": "var(--border)", "row_gap": "12px" },
+					"children": [
+						{ "type": "column", "children": [ { "type": "text", "attrs": { "content": "<p>© {year} {site_name}. All rights reserved.</p>", "size": "muted" } } ] },
+						{
+							"type": "column",
+							"children": [
+								{ "type": "menu", "attrs": { "source": "custom", "link_style": "plain", "align": "right", "align@mobile": "left", "breakpoint": "never", "gap": "4px", "label": "Legal", "links": [ { "text": "Privacy", "link": { "url": "#" } }, { "text": "Terms", "link": { "url": "#" } }, { "text": "Cookies", "link": { "url": "#" } } ] } }
+							]
+						}
+					]
+				}
+			]
+		}
+	]
+}

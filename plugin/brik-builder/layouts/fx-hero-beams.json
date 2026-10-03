@@ -1,0 +1,150 @@
+{
+ "title": "Hero — light beams",
+ "category": "animated",
+ "kind": "section",
+ "tree": [
+  {
+   "type": "section",
+   "attrs": {
+    "dark": true,
+    "bg_effect": "beams",
+    "bg_effect_intensity": 75,
+    "min_height": "780px",
+    "v_align": "center",
+    "padding": "136px 24px 96px",
+    "padding@mobile": "96px 16px 72px",
+    "gap": "72px"
+   },
+   "children": [
+    {
+     "type": "row",
+     "attrs": {
+      "columns": "1",
+      "max_width": "880px"
+     },
+     "children": [
+      {
+       "type": "column",
+       "attrs": {
+        "items": "center",
+        "gap": "24px"
+       },
+       "children": [
+        {
+         "type": "badge",
+         "attrs": {
+          "text": "New: one-click page templates",
+          "variant": "secondary",
+          "icon": "zap",
+          "align": "center",
+          "animation": "fade"
+         }
+        },
+        {
+         "type": "heading",
+         "attrs": {
+          "text": "Build sites that <span class=\"bg-linear-to-r from-indigo-300 to-fuchsia-400 bg-clip-text text-transparent\">light up</span> every screen",
+          "level": "h1",
+          "style": "display",
+          "title_text_align": "center",
+          "animation": "slide-up",
+          "animation_delay": 120
+         }
+        },
+        {
+         "type": "text",
+         "attrs": {
+          "content": "<p>Drag, drop and publish. Every module follows your design system, so the result stays consistent across every page you ship.</p>",
+          "size": "lead",
+          "text_align": "center",
+          "max_width": "620px",
+          "animation": "slide-up",
+          "animation_delay": 240
+         }
+        },
+        {
+         "type": "button_group",
+         "attrs": {
+          "align": "center",
+          "size": "lg",
+          "buttons": [
+           {
+            "text": "Get started free",
+            "link": {
+             "url": "#"
+            },
+            "variant": "default"
+           },
+           {
+            "text": "Talk to sales",
+            "link": {
+             "url": "#"
+            },
+            "variant": "ghost",
+            "icon": "arrow-right",
+            "icon_position": "end"
+           }
+          ],
+          "animation": "slide-up",
+          "animation_delay": 360
+         }
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "type": "row",
+     "attrs": {
+      "columns": "1",
+      "max_width": "960px"
+     },
+     "children": [
+      {
+       "type": "column",
+       "attrs": {
+        "gap": "20px"
+       },
+       "children": [
+        {
+         "type": "logo_cloud",
+         "attrs": {
+          "title": "Trusted by product teams at",
+          "columns": "5",
+          "columns@mobile": "3",
+          "style": "plain",
+          "gray_logos": true,
+          "logos": [
+           {
+            "name": "Stripe",
+            "brand": "stripe"
+           },
+           {
+            "name": "Figma",
+            "brand": "figma"
+           },
+           {
+            "name": "GitHub",
+            "brand": "github"
+           },
+           {
+            "name": "Spotify",
+            "brand": "spotify"
+           },
+           {
+            "name": "Discord",
+            "brand": "discord"
+           }
+          ],
+          "animation": "fade",
+          "animation_delay": 620
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

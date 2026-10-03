@@ -195,33 +195,72 @@ function brik_grid_template( $structure ) {
 }
 
 /**
- * Section shape divider markup.
+ * Resolve a color as it appears outside a section: design tokens are looked up in the
+ * page palette (or the dark palette when the neighbouring section is dark), because a
+ * divider has to blend with what sits next to it, not with its own section.
  */
-function brik_divider_svg( $shape, $pos, array $a ) {
+function brik_outside_color( $color, $dark ) {
+	return preg_replace_callback(
+		'/var\(--([a-z-]+)\)/',
+		static function ( $m ) use ( $dark ) {
+			if ( ! in_array( $m[1], Brik\Settings::token_names(), true ) ) {
+				return $m[0];
+			}
+			if ( $dark ) {
+				$tokens = Brik\Settings::tokens( 'dark' );
+				return $tokens[ $m[1] ];
+			}
+			return 'var(--brik-page-' . $m[1] . ')';
+		},
+		$color
+	);
+}
+
+/**
+ * Fill color for a section divider: the chosen color, otherwise the background of the
+ * section it touches (previous one for a top divider, next one for a bottom divider).
+ */
+function brik_divider_color( $pos, array $a, $ctx = null ) {
+	$neighbour = $ctx ? $ctx->renderer->neighbour( $ctx->id, 'top' === $pos ? -1 : 1 ) : null;
+	$n_attrs   = $neighbour && isset( $neighbour['attrs'] ) ? (array) $neighbour['attrs'] : array();
+	$n_dark    = ! empty( $n_attrs['dark'] );
+
+	$color = isset( $a[ "divider_{$pos}_color" ] ) ? trim( (string) $a[ "divider_{$pos}_color" ] ) : '';
+	if ( '' === $color ) {
+		$color = ! empty( $n_attrs['bg_color'] ) && is_string( $n_attrs['bg_color'] ) ? $n_attrs['bg_color'] : 'var(--background)';
+	}
+	return Brik\Style::clean( brik_outside_color( $color, $n_dark ) );
+}
+
+/**
+ * Section shape divider markup. Shapes are drawn in a 1440×100 box with the filled
+ * area at the bottom; top dividers are flipped vertically in CSS.
+ */
+function brik_divider_svg( $shape, $pos, array $a, $ctx = null ) {
 	$paths = array(
-		'wave'      => '<path d="M0,64C240,112,480,112,720,72C960,32,1200,16,1440,48L1440,100L0,100Z"/>',
-		'waves'     => '<path opacity=".33" d="M0,40C320,100,560,0,860,40C1100,72,1280,30,1440,20L1440,100L0,100Z"/><path opacity=".66" d="M0,70C240,30,520,100,800,60C1060,24,1260,80,1440,50L1440,100L0,100Z"/><path d="M0,85C360,60,720,100,1080,80C1260,70,1360,75,1440,82L1440,100L0,100Z"/>',
-		'curve'     => '<path d="M0,0Q720,140,1440,0L1440,100L0,100Z"/>',
-		'tilt'      => '<path d="M0,100L1440,0L1440,100Z"/>',
-		'triangle'  => '<path d="M0,100L720,0L1440,100Z"/>',
-		'arrow'     => '<path d="M0,100L0,40L680,40L720,0L760,40L1440,40L1440,100Z"/>',
-		'mountains' => '<path opacity=".5" d="M0,100L0,50L180,20L420,65L640,15L900,60L1150,25L1440,55L1440,100Z"/><path d="M0,100L0,70L240,40L480,80L720,35L960,75L1200,45L1440,80L1440,100Z"/>',
-		'zigzag'    => '<path d="M0,100L0,60' . implode( '', array_map( static function ( $i ) {
-			return 'L' . ( $i * 60 + 30 ) . ',30L' . ( $i * 60 + 60 ) . ',60';
+		'wave'      => '<path d="M0,60C180,90,360,100,540,86C720,72,900,30,1080,26C1260,22,1350,40,1440,52L1440,100L0,100Z"/>',
+		'waves'     => '<path opacity=".25" d="M0,38C240,74,480,8,720,30C960,52,1200,76,1440,40L1440,100L0,100Z"/><path opacity=".5" d="M0,58C200,32,420,82,720,64C1020,46,1220,30,1440,56L1440,100L0,100Z"/><path d="M0,76C240,62,480,92,720,84C960,76,1200,64,1440,78L1440,100L0,100Z"/>',
+		'curve'     => '<path d="M0,100C480,10,960,10,1440,100Z"/>',
+		'curve-in'  => '<path d="M0,0C480,90,960,90,1440,0L1440,100L0,100Z"/>',
+		'tilt'      => '<path d="M0,100L1440,20L1440,100Z"/>',
+		'triangle'  => '<path d="M0,100L720,10L1440,100Z"/>',
+		'arrow'     => '<path d="M0,100L0,50L670,50L720,0L770,50L1440,50L1440,100Z"/>',
+		'mountains' => '<path opacity=".35" d="M0,100L0,46L160,18L380,60L620,8L880,56L1120,20L1440,52L1440,100Z"/><path d="M0,100L0,68L220,42L470,80L720,36L980,74L1210,46L1440,76L1440,100Z"/>',
+		'zigzag'    => '<path d="M0,100L0,70' . implode( '', array_map( static function ( $i ) {
+			return 'L' . ( $i * 60 + 30 ) . ',40L' . ( $i * 60 + 60 ) . ',70';
 		}, range( 0, 23 ) ) ) . 'L1440,100Z"/>',
 	);
 	if ( ! isset( $paths[ $shape ] ) ) {
 		return '';
 	}
-	$color = ! empty( $a[ "divider_{$pos}_color" ] ) ? Brik\Style::clean( $a[ "divider_{$pos}_color" ] ) : 'var(--background)';
 	$class = brik_cls(
-		'brik-divider brik-divider-' . $pos,
+		'brik-shape-divider brik-shape-divider-' . $pos,
 		array(
-			'brik-divider--flip'  => ! empty( $a[ "divider_{$pos}_flip" ] ),
-			'brik-divider--front' => ! empty( $a[ "divider_{$pos}_front" ] ),
+			'brik-shape-divider--flip'  => ! empty( $a[ "divider_{$pos}_flip" ] ),
+			'brik-shape-divider--front' => ! empty( $a[ "divider_{$pos}_front" ] ),
 		)
 	);
-	return '<div class="' . esc_attr( $class ) . '" aria-hidden="true"><svg viewBox="0 0 1440 100" preserveAspectRatio="none" fill="' . esc_attr( $color ) . '">' . $paths[ $shape ] . '</svg></div>';
+	return '<div class="' . esc_attr( $class ) . '" aria-hidden="true"><svg viewBox="0 0 1440 100" preserveAspectRatio="none" fill="' . esc_attr( brik_divider_color( $pos, $a, $ctx ) ) . '">' . $paths[ $shape ] . '</svg></div>';
 }
 
 /**
@@ -255,11 +294,88 @@ function brik_button_class( $variant = 'default', $size = 'default', $extra = ''
 
 function brik_button_variants_labels() {
 	return array(
-		'default'     => __( 'Primary', 'brik' ),
-		'secondary'   => __( 'Secondary', 'brik' ),
-		'outline'     => __( 'Outline', 'brik' ),
-		'ghost'       => __( 'Ghost', 'brik' ),
-		'link'        => __( 'Link', 'brik' ),
-		'destructive' => __( 'Destructive', 'brik' ),
+		'default'     => __( 'Primary', 'brik-builder' ),
+		'secondary'   => __( 'Secondary', 'brik-builder' ),
+		'outline'     => __( 'Outline', 'brik-builder' ),
+		'ghost'       => __( 'Ghost', 'brik-builder' ),
+		'link'        => __( 'Link', 'brik-builder' ),
+		'destructive' => __( 'Destructive', 'brik-builder' ),
 	);
+}
+
+/**
+ * Column weights from a structure: "1/3,2/3" → [4, 8], "3" → [1, 1, 1].
+ */
+function brik_column_weights( $structure, $count ) {
+	$structure = trim( (string) $structure );
+	$weights   = array();
+	if ( ! preg_match( '/^\d+$/', $structure ) ) {
+		foreach ( explode( ',', $structure ) as $part ) {
+			$part = trim( $part );
+			if ( false !== strpos( $part, '/' ) ) {
+				list( $num, $den ) = array_map( 'floatval', explode( '/', $part, 2 ) );
+				$weights[]         = $den > 0 ? round( $num / $den * 12, 3 ) : 1;
+			} elseif ( is_numeric( $part ) && $part > 0 ) {
+				$weights[] = (float) $part;
+			}
+		}
+	}
+	$out = array();
+	for ( $i = 0; $i < $count; $i++ ) {
+		$out[] = isset( $weights[ $i ] ) ? $weights[ $i ] : 1;
+	}
+	return $out;
+}
+
+/**
+ * Layout CSS for a row in one device state (grid for plain structures, flexbox otherwise).
+ */
+function brik_row_layout_css( array $a, $state, $wrap, array $ids ) {
+	$get = static function ( $key ) use ( $a, $state ) {
+		$v = Brik\Style::value( $a, $key, $state );
+		return null === $v ? '' : (string) $v;
+	};
+
+	$direction = $get( 'direction' );
+	$structure = '' !== $get( 'columns' ) ? $get( 'columns' ) : '1';
+	$sizing    = $get( 'sizing' );
+	$justify   = Brik\Style::clean( $get( 'justify' ) );
+	$wraps     = ! empty( Brik\Style::value( $a, 'wrap', $state ) );
+
+	// Phones stack unless the row says otherwise for small screens.
+	if ( 'mobile' === $state ) {
+		$own = false;
+		foreach ( array( 'direction', 'columns', 'sizing' ) as $key ) {
+			if ( null !== Brik\Style::raw_value( $a, $key, 'mobile' ) ) {
+				$own = true;
+			}
+		}
+		if ( ! $own && ! in_array( $direction, array( 'vertical', 'vertical-reverse' ), true ) ) {
+			$direction = ! empty( $a['reverse'] ) ? 'vertical-reverse' : 'vertical';
+		}
+	}
+
+	$kids = $wrap . '>.brik-column';
+	if ( in_array( $direction, array( 'vertical', 'vertical-reverse' ), true ) ) {
+		// Stacked columns take the full width unless the row asks them to fit their content.
+		return $wrap . '{display:flex;flex-direction:' . ( 'vertical' === $direction ? 'column' : 'column-reverse' ) . ( $justify ? ';justify-content:' . $justify : '' ) . '}'
+			. $kids . ( 'auto' === $sizing ? '{flex:0 0 auto;width:auto;max-width:100%}' : '{flex:0 0 auto;width:100%;max-width:100%}' );
+	}
+
+	if ( 'horizontal-reverse' !== $direction && '' === $sizing ) {
+		return $wrap . '{display:grid;grid-template-columns:' . brik_grid_template( $structure ) . ( $justify ? ';justify-content:' . $justify : '' ) . '}'
+			. $kids . '{flex:none}';
+	}
+
+	$css = $wrap . '{display:flex;flex-direction:' . ( 'horizontal-reverse' === $direction ? 'row-reverse' : 'row' ) . ';flex-wrap:' . ( $wraps ? 'wrap' : 'nowrap' ) . ( $justify ? ';justify-content:' . $justify : '' ) . '}';
+	if ( 'auto' === $sizing ) {
+		return $css . $kids . '{flex:0 1 auto}';
+	}
+	if ( 'equal' === $sizing ) {
+		return $css . $kids . '{flex:1 1 0%}';
+	}
+	foreach ( brik_column_weights( $structure, count( $ids ) ) as $i => $weight ) {
+		$css .= $wrap . '>.brik-n-' . $ids[ $i ] . '{flex:' . $weight . ' 1 0%}';
+	}
+	return $css;
 }

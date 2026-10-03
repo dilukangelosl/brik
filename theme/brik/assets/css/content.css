@@ -1,0 +1,578 @@
+/*
+ * Post content and core blocks. Shared with the block editor, where .is-root-container
+ * stands in for .entry-content.
+ */
+
+:is(.entry-content, .is-root-container) {
+	--brik-theme-flow: 1.25em;
+	font-size: 1.0625rem;
+	line-height: 1.75;
+	color: var(--foreground);
+	overflow-wrap: break-word;
+}
+
+/* Readable column, with wide and full alignments breaking out of it. */
+:is(.entry-content, .is-root-container) > * {
+	max-width: var(--brik-theme-measure, var(--brik-theme-prose, 42rem));
+	margin-inline: auto;
+	margin-block: 0;
+}
+
+:is(.entry-content, .is-root-container) > * + * {
+	margin-top: var(--brik-theme-flow);
+}
+
+:is(.entry-content, .is-root-container) > .alignwide {
+	max-width: var(--brik-container, 1200px);
+}
+
+:is(.entry-content, .is-root-container) > .alignfull {
+	max-width: none;
+}
+
+.entry-content > .alignfull {
+	width: 100vw;
+	margin-inline: calc(50% - 50vw);
+}
+
+.layout-sidebar .entry-content > .alignwide,
+.layout-sidebar .entry-content > .alignfull {
+	width: auto;
+	max-width: none;
+	margin-inline: 0;
+}
+
+:is(.entry-content, .is-root-container) > .alignleft,
+:is(.entry-content, .is-root-container) > .alignright {
+	max-width: 50%;
+}
+
+/* Floats need to line up with the text column, not the container edge. */
+@media (min-width: 900px) {
+	.entry-content > .alignleft {
+		margin-left: max(0px, calc((100% - var(--brik-theme-measure, 42rem)) / 2));
+	}
+
+	.entry-content > .alignright {
+		margin-right: max(0px, calc((100% - var(--brik-theme-measure, 42rem)) / 2));
+	}
+}
+
+:is(.entry-content, .is-root-container) :where(:not(.has-brik-builder .brik *))::selection {
+	background-color: color-mix(in oklab, var(--primary) 18%, transparent);
+}
+
+/* Text */
+:is(.entry-content, .is-root-container) :is(h1, h2, h3, h4, h5, h6):where(:not(.has-brik-builder .brik *)) {
+	font-family: var(--brik-font-heading, var(--brik-font-body, inherit));
+	font-weight: 600;
+	letter-spacing: -0.025em;
+	line-height: 1.25;
+	color: var(--foreground);
+	scroll-margin-top: 6rem;
+	text-wrap: balance;
+}
+
+:is(.entry-content, .is-root-container) > :is(h1, h2, h3, h4, h5, h6) {
+	margin-top: 2em;
+}
+
+:is(.entry-content, .is-root-container) > :is(h1, h2, h3, h4, h5, h6) + * {
+	margin-top: 0.75em;
+}
+
+:is(.entry-content, .is-root-container) > :first-child {
+	margin-top: 0;
+}
+
+:is(.entry-content, .is-root-container) h1:where(:not(.has-brik-builder .brik *)) {
+	font-size: 2.25em;
+	font-weight: 700;
+	letter-spacing: -0.035em;
+}
+
+:is(.entry-content, .is-root-container) h2:where(:not(.has-brik-builder .brik *)) {
+	font-size: 1.75em;
+	letter-spacing: -0.03em;
+	padding-bottom: 0.375em;
+	border-bottom: 1px solid var(--border);
+}
+
+:is(.entry-content, .is-root-container) h3:where(:not(.has-brik-builder .brik *)) {
+	font-size: 1.375em;
+}
+
+:is(.entry-content, .is-root-container) h4:where(:not(.has-brik-builder .brik *)) {
+	font-size: 1.125em;
+}
+
+:is(.entry-content, .is-root-container) :is(h5, h6):where(:not(.has-brik-builder .brik *)) {
+	font-size: 1em;
+}
+
+:is(.entry-content, .is-root-container) h6:where(:not(.has-brik-builder .brik *)) {
+	color: var(--muted-foreground);
+}
+
+:is(.entry-content, .is-root-container) a:not(.wp-element-button, .wp-block-button__link):where(:not(.has-brik-builder .brik *)) {
+	color: var(--foreground);
+	font-weight: 500;
+	text-decoration: underline;
+	text-decoration-color: color-mix(in oklab, var(--foreground) 30%, transparent);
+	text-decoration-thickness: 1px;
+	text-underline-offset: 0.2em;
+}
+
+:is(.entry-content, .is-root-container) a:not(.wp-element-button, .wp-block-button__link):hover:where(:not(.has-brik-builder .brik *)) {
+	text-decoration-color: var(--foreground);
+}
+
+:is(.entry-content, .is-root-container) :is(strong, b):where(:not(.has-brik-builder .brik *)) {
+	font-weight: 600;
+}
+
+:is(.entry-content, .is-root-container) mark:not(.has-inline-color):where(:not(.has-brik-builder .brik *)) {
+	padding-inline: 0.15em;
+	border-radius: 0.2em;
+	background-color: color-mix(in oklab, oklch(0.852 0.199 91.936) 45%, transparent);
+	color: inherit;
+}
+
+:is(.entry-content, .is-root-container) small:where(:not(.has-brik-builder .brik *)) {
+	font-size: 0.875em;
+}
+
+:is(.entry-content, .is-root-container) abbr[title]:where(:not(.has-brik-builder .brik *)) {
+	text-decoration: underline dotted;
+	cursor: help;
+}
+
+:is(.entry-content, .is-root-container) .has-drop-cap:not(:focus):where(:not(.has-brik-builder .brik *))::first-letter {
+	margin: 0.08em 0.12em 0 0;
+	font-size: 4.2em;
+	font-weight: 700;
+	line-height: 0.75;
+}
+
+/* Lists */
+:is(.entry-content, .is-root-container) :is(ul, ol):where(:not(.has-brik-builder .brik *)) {
+	padding-left: 1.5em;
+}
+
+:is(.entry-content, .is-root-container) li:where(:not(.has-brik-builder .brik *)) {
+	padding-left: 0.25em;
+}
+
+:is(.entry-content, .is-root-container) li + li:where(:not(.has-brik-builder .brik *)),
+:is(.entry-content, .is-root-container) li > :is(ul, ol):where(:not(.has-brik-builder .brik *)) {
+	margin-top: 0.5em;
+}
+
+:is(.entry-content, .is-root-container) ul > li:where(:not(.has-brik-builder .brik *))::marker {
+	color: var(--muted-foreground);
+}
+
+:is(.entry-content, .is-root-container) ol > li:where(:not(.has-brik-builder .brik *))::marker {
+	color: var(--muted-foreground);
+	font-weight: 500;
+}
+
+:is(.entry-content, .is-root-container) dt:where(:not(.has-brik-builder .brik *)) {
+	font-weight: 600;
+}
+
+:is(.entry-content, .is-root-container) dd:where(:not(.has-brik-builder .brik *)) {
+	margin: 0.25em 0 0.75em 1.25em;
+	color: var(--muted-foreground);
+}
+
+/* Quotes */
+:is(.entry-content, .is-root-container) blockquote:where(:not(.has-brik-builder .brik *)),
+:is(.entry-content, .is-root-container) .wp-block-quote:where(:not(.has-brik-builder .brik *)) {
+	padding: 0.125em 0 0.125em 1.25em;
+	border-left: 2px solid var(--border);
+	color: var(--foreground);
+	font-style: italic;
+}
+
+:is(.entry-content, .is-root-container) .wp-block-quote.is-style-large:where(:not(.has-brik-builder .brik *)),
+:is(.entry-content, .is-root-container) .wp-block-quote.is-large:where(:not(.has-brik-builder .brik *)) {
+	padding-left: 1.5em;
+	border-left-width: 3px;
+	border-left-color: var(--foreground);
+	font-size: 1.25em;
+	line-height: 1.55;
+}
+
+:is(.entry-content, .is-root-container) blockquote > * + *:where(:not(.has-brik-builder .brik *)) {
+	margin-top: 0.75em;
+}
+
+:is(.entry-content, .is-root-container) blockquote cite:where(:not(.has-brik-builder .brik *)),
+:is(.entry-content, .is-root-container) .wp-block-quote cite:where(:not(.has-brik-builder .brik *)),
+:is(.entry-content, .is-root-container) .wp-block-pullquote cite:where(:not(.has-brik-builder .brik *)) {
+	display: block;
+	margin-top: 0.75em;
+	color: var(--muted-foreground);
+	font-size: 0.875rem;
+	font-style: normal;
+	font-weight: 500;
+}
+
+:is(.entry-content, .is-root-container) .wp-block-pullquote:where(:not(.has-brik-builder .brik *)) {
+	padding: 2.5em 1.5em;
+	border-block: 1px solid var(--border);
+	text-align: center;
+}
+
+:is(.entry-content, .is-root-container) .wp-block-pullquote blockquote:where(:not(.has-brik-builder .brik *)) {
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+:is(.entry-content, .is-root-container) .wp-block-pullquote p:where(:not(.has-brik-builder .brik *)) {
+	font-size: 1.5em;
+	font-weight: 600;
+	font-style: normal;
+	letter-spacing: -0.02em;
+	line-height: 1.35;
+}
+
+/* Code */
+:is(.entry-content, .is-root-container) :is(code, kbd, samp):where(:not(.has-brik-builder .brik *)) {
+	font-family: var(--brik-theme-font-mono, ui-monospace, monospace);
+	font-size: 0.875em;
+}
+
+:is(.entry-content, .is-root-container) :not(pre) > code:where(:not(.has-brik-builder .brik *)) {
+	padding: 0.15em 0.4em;
+	border-radius: calc(var(--radius) - 4px);
+	background-color: var(--muted);
+	font-weight: 500;
+}
+
+:is(.entry-content, .is-root-container) kbd:where(:not(.has-brik-builder .brik *)) {
+	padding: 0.1em 0.4em;
+	border: 1px solid var(--border);
+	border-bottom-width: 2px;
+	border-radius: calc(var(--radius) - 4px);
+	background-color: var(--background);
+	font-size: 0.8em;
+}
+
+:is(.entry-content, .is-root-container) pre:where(:not(.has-brik-builder .brik *)),
+:is(.entry-content, .is-root-container) .wp-block-code:where(:not(.has-brik-builder .brik *)),
+:is(.entry-content, .is-root-container) .wp-block-preformatted:where(:not(.has-brik-builder .brik *)) {
+	padding: 1em 1.25em;
+	overflow-x: auto;
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	background-color: var(--muted);
+	color: var(--foreground);
+	font-family: var(--brik-theme-font-mono, ui-monospace, monospace);
+	font-size: 0.875rem;
+	line-height: 1.7;
+	tab-size: 4;
+	white-space: pre;
+}
+
+:is(.entry-content, .is-root-container) .wp-block-preformatted:where(:not(.has-brik-builder .brik *)) {
+	white-space: pre-wrap;
+}
+
+:is(.entry-content, .is-root-container) pre code:where(:not(.has-brik-builder .brik *)) {
+	padding: 0;
+	background: none;
+	font-size: inherit;
+	font-weight: 400;
+}
+
+:is(.entry-content, .is-root-container) .wp-block-verse:where(:not(.has-brik-builder .brik *)) {
+	font-family: inherit;
+	font-style: italic;
+	white-space: pre-wrap;
+}
+
+/* Tables */
+:is(.entry-content, .is-root-container) .wp-block-table:where(:not(.has-brik-builder .brik *)) {
+	overflow-x: auto;
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+}
+
+:is(.entry-content, .is-root-container) table:where(:not(.has-brik-builder .brik *)) {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 0.9375rem;
+	line-height: 1.5;
+}
+
+:is(.entry-content, .is-root-container) > table {
+	border: 1px solid var(--border);
+}
+
+:is(.entry-content, .is-root-container) :is(th, td):where(:not(.has-brik-builder .brik *)),
+:is(.entry-content, .is-root-container) .wp-block-table :is(th, td):where(:not(.has-brik-builder .brik *)) {
+	padding: 0.625em 1em;
+	border: 0;
+	border-bottom: 1px solid var(--border);
+	text-align: left;
+	vertical-align: top;
+}
+
+:is(.entry-content, .is-root-container) th:where(:not(.has-brik-builder .brik *)),
+:is(.entry-content, .is-root-container) .wp-block-table thead th:where(:not(.has-brik-builder .brik *)) {
+	color: var(--muted-foreground);
+	font-size: 0.875rem;
+	font-weight: 500;
+	background-color: color-mix(in oklab, var(--muted) 60%, transparent);
+}
+
+:is(.entry-content, .is-root-container) .wp-block-table thead:where(:not(.has-brik-builder .brik *)) {
+	border-bottom: 0;
+}
+
+:is(.entry-content, .is-root-container) tbody tr:last-child > *:where(:not(.has-brik-builder .brik *)),
+:is(.entry-content, .is-root-container) .wp-block-table tbody tr:last-child > *:where(:not(.has-brik-builder .brik *)) {
+	border-bottom: 0;
+}
+
+:is(.entry-content, .is-root-container) tbody tr:hover:where(:not(.has-brik-builder .brik *)) {
+	background-color: color-mix(in oklab, var(--muted) 50%, transparent);
+}
+
+:is(.entry-content, .is-root-container) .wp-block-table tfoot:where(:not(.has-brik-builder .brik *)) {
+	border-top: 1px solid var(--border);
+	font-weight: 500;
+}
+
+:is(.entry-content, .is-root-container) .wp-block-table.is-style-stripes:where(:not(.has-brik-builder .brik *)) {
+	border-bottom: 1px solid var(--border);
+}
+
+:is(.entry-content, .is-root-container) .wp-block-table.is-style-stripes tbody tr:nth-child(odd):where(:not(.has-brik-builder .brik *)) {
+	background-color: color-mix(in oklab, var(--muted) 60%, transparent);
+}
+
+:is(.entry-content, .is-root-container) .wp-block-table figcaption:where(:not(.has-brik-builder .brik *)),
+:is(.entry-content, .is-root-container) figcaption:where(:not(.has-brik-builder .brik *)) {
+	margin-top: 0.75em;
+	margin-bottom: 0;
+	color: var(--muted-foreground);
+	font-size: 0.875rem;
+	line-height: 1.5;
+	text-align: center;
+}
+
+:is(.entry-content, .is-root-container) .wp-block-table figcaption:where(:not(.has-brik-builder .brik *)) {
+	padding: 0.625em 1em;
+	margin: 0;
+	border-top: 1px solid var(--border);
+}
+
+/* Media */
+:is(.entry-content, .is-root-container) img:where(:not(.has-brik-builder .brik *)) {
+	height: auto;
+	max-width: 100%;
+}
+
+:is(.entry-content, .is-root-container) .wp-block-image img:where(:not(.has-brik-builder .brik *)),
+:is(.entry-content, .is-root-container) > p img,
+:is(.entry-content, .is-root-container) .wp-block-video video:where(:not(.has-brik-builder .brik *)) {
+	border-radius: var(--radius);
+}
+
+:is(.entry-content, .is-root-container) .wp-block-image.alignfull img:where(:not(.has-brik-builder .brik *)) {
+	border-radius: 0;
+}
+
+:is(.entry-content, .is-root-container) .wp-block-image.is-style-rounded img:where(:not(.has-brik-builder .brik *)) {
+	border-radius: 9999px;
+}
+
+:is(.entry-content, .is-root-container) .wp-block-image.has-border img:where(:not(.has-brik-builder .brik *)),
+:is(.entry-content, .is-root-container) .wp-block-image.is-style-bordered img:where(:not(.has-brik-builder .brik *)) {
+	border: 1px solid var(--border);
+}
+
+:is(.entry-content, .is-root-container) .wp-block-gallery:where(:not(.has-brik-builder .brik *)) {
+	gap: 0.75rem;
+}
+
+:is(.entry-content, .is-root-container) .wp-block-gallery.has-nested-images figure.wp-block-image img:where(:not(.has-brik-builder .brik *)) {
+	border-radius: calc(var(--radius) - 2px);
+}
+
+:is(.entry-content, .is-root-container) .wp-block-gallery.has-nested-images figure.wp-block-image figcaption:where(:not(.has-brik-builder .brik *)) {
+	border-radius: 0 0 calc(var(--radius) - 2px) calc(var(--radius) - 2px);
+	font-size: 0.8125rem;
+}
+
+:is(.entry-content, .is-root-container) .wp-block-gallery > figcaption:where(:not(.has-brik-builder .brik *)) {
+	flex-basis: 100%;
+}
+
+:is(.entry-content, .is-root-container) .wp-block-embed iframe:where(:not(.has-brik-builder .brik *)) {
+	border-radius: var(--radius);
+}
+
+:is(.entry-content, .is-root-container) .wp-block-cover:where(:not(.has-brik-builder .brik *)) {
+	border-radius: calc(var(--radius) + 4px);
+	overflow: hidden;
+}
+
+:is(.entry-content, .is-root-container) .wp-block-cover.alignfull:where(:not(.has-brik-builder .brik *)) {
+	border-radius: 0;
+}
+
+:is(.entry-content, .is-root-container) .wp-block-media-text:where(:not(.has-brik-builder .brik *)) {
+	gap: 0;
+	overflow: hidden;
+	border: 1px solid var(--border);
+	border-radius: calc(var(--radius) + 4px);
+}
+
+/* Buttons */
+:is(.entry-content, .is-root-container) .wp-block-buttons:where(:not(.has-brik-builder .brik *)) {
+	gap: 0.5rem;
+}
+
+:is(.entry-content, .is-root-container) .wp-block-button__link:where(:not(.has-brik-builder .brik *)) {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5rem;
+	min-height: 2.5rem;
+	padding: 0.5rem 1.5rem;
+	border: 1px solid transparent;
+	border-radius: calc(var(--radius) - 2px);
+	font-size: 0.875rem;
+	font-weight: 500;
+	line-height: 1.4;
+	text-decoration: none;
+	box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+	transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+:is(.entry-content, .is-root-container) .wp-block-button__link:not(.has-background):where(:not(.has-brik-builder .brik *)) {
+	background-color: var(--primary);
+}
+
+:is(.entry-content, .is-root-container) .wp-block-button__link:not(.has-text-color):where(:not(.has-brik-builder .brik *)) {
+	color: var(--primary-foreground);
+}
+
+:is(.entry-content, .is-root-container) .wp-block-button__link:not(.has-background):hover:where(:not(.has-brik-builder .brik *)) {
+	background-color: color-mix(in oklab, var(--primary) 90%, transparent);
+}
+
+:is(.entry-content, .is-root-container) .wp-block-button.is-style-outline > .wp-block-button__link:where(:not(.has-brik-builder .brik *)) {
+	border-color: var(--input);
+	background-color: var(--background);
+	color: var(--foreground);
+}
+
+:is(.entry-content, .is-root-container) .wp-block-button.is-style-outline > .wp-block-button__link:hover:where(:not(.has-brik-builder .brik *)) {
+	background-color: var(--accent);
+	color: var(--accent-foreground);
+}
+
+:is(.entry-content, .is-root-container) .wp-block-button__link:focus-visible:where(:not(.has-brik-builder .brik *)) {
+	outline: none;
+	box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent);
+}
+
+/* Separators */
+:is(.entry-content, .is-root-container) hr:where(:not(.has-brik-builder .brik *)),
+:is(.entry-content, .is-root-container) .wp-block-separator:where(:not(.has-brik-builder .brik *)) {
+	height: 0;
+	margin-block: 2.5em;
+	border: 0;
+	border-top: 1px solid var(--border);
+	opacity: 1;
+	background: none;
+}
+
+:is(.entry-content, .is-root-container) .wp-block-separator:not(.is-style-wide, .is-style-dots):where(:not(.has-brik-builder .brik *)) {
+	max-width: 6rem;
+}
+
+:is(.entry-content, .is-root-container) .wp-block-separator.has-background:not(.is-style-dots):where(:not(.has-brik-builder .brik *)) {
+	border-top-color: currentColor;
+}
+
+:is(.entry-content, .is-root-container) .wp-block-separator.is-style-dots:where(:not(.has-brik-builder .brik *)) {
+	border: 0;
+}
+
+:is(.entry-content, .is-root-container) .wp-block-separator.is-style-dots:where(:not(.has-brik-builder .brik *))::before {
+	color: var(--muted-foreground);
+	font-size: 1.25rem;
+	letter-spacing: 1.5em;
+	padding-left: 1.5em;
+}
+
+/* Details, groups, columns, file, search */
+:is(.entry-content, .is-root-container) .wp-block-details:where(:not(.has-brik-builder .brik *)) {
+	padding: 0.75em 1em;
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+}
+
+:is(.entry-content, .is-root-container) .wp-block-details summary:where(:not(.has-brik-builder .brik *)) {
+	font-weight: 500;
+	cursor: pointer;
+}
+
+:is(.entry-content, .is-root-container) .wp-block-details[open] summary:where(:not(.has-brik-builder .brik *)) {
+	margin-bottom: 0.5em;
+}
+
+:is(.entry-content, .is-root-container) .wp-block-group.has-background:where(:not(.has-brik-builder .brik *)),
+:is(.entry-content, .is-root-container) .wp-block-column.has-background:where(:not(.has-brik-builder .brik *)) {
+	padding: 1.5em;
+	border-radius: var(--radius);
+}
+
+:is(.entry-content, .is-root-container) .wp-block-columns:where(:not(.has-brik-builder .brik *)) {
+	gap: 2em;
+}
+
+:is(.entry-content, .is-root-container) :is(.wp-block-group, .wp-block-column) > * + *:where(:not(.has-brik-builder .brik *)) {
+	margin-top: var(--brik-theme-flow);
+}
+
+:is(.entry-content, .is-root-container) .wp-block-file:where(:not(.has-brik-builder .brik *)) {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.75rem;
+	padding: 0.75em 1em;
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+}
+
+:is(.entry-content, .is-root-container) .wp-block-file .wp-block-file__button:where(:not(.has-brik-builder .brik *)) {
+	margin: 0;
+	padding: 0.375rem 0.875rem;
+	border-radius: calc(var(--radius) - 2px);
+	background-color: var(--primary);
+	color: var(--primary-foreground);
+	font-size: 0.8125rem;
+	font-weight: 500;
+	text-decoration: none;
+}
+
+:is(.entry-content, .is-root-container) .wp-block-latest-posts.is-grid li:where(:not(.has-brik-builder .brik *)),
+:is(.entry-content, .is-root-container) .wp-block-latest-posts li:where(:not(.has-brik-builder .brik *)) {
+	padding-left: 0;
+}
+
+:is(.entry-content, .is-root-container) .wp-block-footnotes:where(:not(.has-brik-builder .brik *)) {
+	padding-top: 1.25em;
+	border-top: 1px solid var(--border);
+	color: var(--muted-foreground);
+	font-size: 0.875rem;
+}

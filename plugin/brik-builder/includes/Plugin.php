@@ -6,10 +6,11 @@ defined( 'ABSPATH' ) || exit;
 final class Plugin {
 
 	public static function boot() {
-		load_plugin_textdomain( 'brik', false, dirname( plugin_basename( BRIK_FILE ) ) . '/languages' );
+		load_plugin_textdomain( 'brik-builder', false, dirname( plugin_basename( BRIK_FILE ) ) . '/languages' );
 
 		add_action( 'init', array( __CLASS__, 'register_meta' ) );
 
+		Content\Content::init();
 		ThemeBuilder::init();
 		Library::init();
 		Frontend::init();

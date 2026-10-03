@@ -1,0 +1,91 @@
+{
+ "title": "Animated — ecosystem icon cloud",
+ "category": "animated",
+ "kind": "section",
+ "tree": [
+  {
+   "type": "section",
+   "attrs": {
+    "dark": true,
+    "padding": "112px 24px",
+    "padding@mobile": "72px 16px",
+    "bg_gradient": "radial-gradient(ellipse 70% 70% at 25% 50%, rgb(168 85 247 / 0.18), transparent 70%)",
+    "bg_color": "#09090b"
+   },
+   "children": [
+    {
+     "type": "row",
+     "attrs": {
+      "columns": "1/2,1/2",
+      "gap": "56px",
+      "reverse": true
+     },
+     "children": [
+      {
+       "type": "column",
+       "attrs": {
+        "justify": "center"
+       },
+       "children": [
+        {
+         "type": "icon_cloud",
+         "attrs": {
+          "size": 440,
+          "animation": "zoom"
+         }
+        }
+       ]
+      },
+      {
+       "type": "column",
+       "attrs": {
+        "gap": "20px",
+        "justify": "center"
+       },
+       "children": [
+        {
+         "type": "heading",
+         "attrs": {
+          "text": "Ecosystem",
+          "level": "p",
+          "style": "eyebrow",
+          "animation": "fade"
+         }
+        },
+        {
+         "type": "animated_text",
+         "attrs": {
+          "effect": "gradient",
+          "before": "Plays nicely with",
+          "text": "everything",
+          "after": "you love",
+          "tag": "h2",
+          "size": "h2",
+          "animation": "slide-up",
+          "animation_delay": 100
+         }
+        },
+        {
+         "type": "text",
+         "attrs": {
+          "content": "<p>Drop in logos from more than thirty brands, embed your feeds and link every profile. Drag the sphere to spin it.</p>",
+          "size": "lead",
+          "animation": "slide-up",
+          "animation_delay": 200
+         }
+        },
+        {
+         "type": "social_follow",
+         "attrs": {
+          "animation": "slide-up",
+          "animation_delay": 400
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

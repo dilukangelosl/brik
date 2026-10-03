@@ -1,0 +1,166 @@
+{
+ "title": "Animated — spotlight feature cards",
+ "category": "animated",
+ "kind": "section",
+ "tree": [
+  {
+   "type": "section",
+   "attrs": {
+    "dark": true,
+    "padding": "112px 24px",
+    "padding@mobile": "72px 16px",
+    "bg_color": "#09090b"
+   },
+   "children": [
+    {
+     "type": "row",
+     "attrs": {
+      "max_width": "720px",
+      "self_align": "center",
+      "columns": "1"
+     },
+     "children": [
+      {
+       "type": "column",
+       "attrs": {
+        "gap": "12px"
+       },
+       "children": [
+        {
+         "type": "heading",
+         "attrs": {
+          "text": "Why Brik",
+          "level": "p",
+          "style": "eyebrow",
+          "title_text_align": "center",
+          "animation": "fade"
+         }
+        },
+        {
+         "type": "heading",
+         "attrs": {
+          "text": "Details you can <span class=\"italic\">feel</span>",
+          "level": "h2",
+          "title_text_align": "center",
+          "animation": "slide-up",
+          "animation_delay": 100
+         }
+        },
+        {
+         "type": "text",
+         "attrs": {
+          "content": "<p>Cards that light up under the cursor. Hover around to see the glow and the border follow you.</p>",
+          "size": "lead",
+          "text_align": "center",
+          "animation": "slide-up",
+          "animation_delay": 200
+         }
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "type": "row",
+     "attrs": {
+      "columns": "1"
+     },
+     "children": [
+      {
+       "type": "column",
+       "attrs": {},
+       "children": [
+        {
+         "type": "effect_card",
+         "attrs": {
+          "layout": "grid",
+          "effect": "spotlight",
+          "columns": 3,
+          "margin": "48px 0 0 0",
+          "cards": [
+           {
+            "icon": "zap",
+            "title": "Instant previews",
+            "text": "Every change renders on the server in milliseconds, so what you see is exactly what ships.",
+            "link": {
+             "url": "#"
+            }
+           },
+           {
+            "icon": "shield-check",
+            "title": "Secure by default",
+            "text": "Escaped output, capability checks and nonces everywhere. Nothing to configure.",
+            "link": {
+             "url": "#"
+            }
+           },
+           {
+            "icon": "sparkles",
+            "title": "Built to delight",
+            "text": "Motion that respects reduced-motion settings and pauses itself when nobody is looking.",
+            "link": {
+             "url": "#"
+            }
+           },
+           {
+            "icon": "palette",
+            "title": "Design tokens",
+            "text": "Colors, type and radius live in one place and update every page at once.",
+            "link": {
+             "url": "#"
+            }
+           },
+           {
+            "icon": "languages",
+            "title": "Ready for every language",
+            "text": "Translation-ready strings and right-to-left layouts out of the box.",
+            "link": {
+             "url": "#"
+            }
+           },
+           {
+            "icon": "plug",
+            "title": "Open by design",
+            "text": "A documented module API and an MCP server let you extend everything.",
+            "link": {
+             "url": "#"
+            }
+           }
+          ]
+         }
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "type": "row",
+     "attrs": {
+      "columns": "1",
+      "margin": "40px 0 0 0"
+     },
+     "children": [
+      {
+       "type": "column",
+       "attrs": {},
+       "children": [
+        {
+         "type": "fancy_button",
+         "attrs": {
+          "text": "Explore all features",
+          "style": "glow_pulse",
+          "size": "lg",
+          "icon": "arrow-right",
+          "align": "center",
+          "animation": "fade",
+          "animation_delay": 200
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

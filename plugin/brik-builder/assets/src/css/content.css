@@ -1,0 +1,275 @@
+/* Brik → Content admin app. Shares the builder's tokens but lives inside a normal wp-admin page,
+   so everything is scoped to #brik-content-app and utilities are !important to win over the
+   admin's element selectors (input[type=text], .wp-core-ui select, h2, p…). */
+@import "tailwindcss/theme.css";
+@import "tailwindcss/utilities.css" source(none) important;
+
+@source "../content";
+@source "../builder/ui.jsx";
+@source "../builder/icons.js";
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-brand: var(--brand);
+  --color-surface: var(--surface);
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+#brik-content-app {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.967 0.001 286.375);
+  --muted-foreground: oklch(0.552 0.016 285.938);
+  --accent: oklch(0.967 0.001 286.375);
+  --accent-foreground: oklch(0.21 0.006 285.885);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.92 0.004 286.32);
+  --input: oklch(0.92 0.004 286.32);
+  --ring: oklch(0.708 0 0);
+  --brand: oklch(0.541 0.231 276.9);
+  --surface: oklch(0.985 0.002 286);
+
+  /* Bleed over the admin's content padding so the header spans the page. */
+  margin: 0 0 0 -20px;
+  min-height: calc(100vh - 32px);
+  background: var(--surface);
+  font-family: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--foreground);
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (max-width: 782px) {
+  #brik-content-app {
+    margin-left: -10px;
+  }
+}
+
+/* The admin page wraps the app in .wrap.brik-admin; let the app own the whole content area. */
+.wrap.brik-content-wrap {
+  margin: 0;
+  padding: 0;
+  max-width: none;
+}
+
+#wpbody-content:has(#brik-content-app) {
+  padding-bottom: 0;
+}
+
+#wpbody-content:has(#brik-content-app) > .notice,
+#wpbody-content:has(#brik-content-app) > .update-nag {
+  margin: 12px 20px 0 2px;
+}
+
+:where(#brik-content-app),
+:where(#brik-content-app) *,
+:where(#brik-content-app) ::before,
+:where(#brik-content-app) ::after {
+  box-sizing: border-box;
+  border: 0 solid var(--border);
+}
+
+/* Neutralise wp-admin element styles. Id specificity beats the admin's selectors; the
+   important utilities still win over these. */
+#brik-content-app :is(h1, h2, h3, h4, h5, p, ul, ol, li, figure, hr, blockquote) {
+  margin: 0;
+  padding: 0;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  color: inherit;
+}
+
+#brik-content-app :is(ul, ol) {
+  list-style: none;
+}
+
+#brik-content-app :is(button, input, select, textarea) {
+  font: inherit;
+  font-size: 14px;
+  color: inherit;
+  margin: 0;
+  background: transparent;
+  letter-spacing: inherit;
+  box-shadow: none;
+  border-radius: 0;
+  min-height: 0;
+  max-width: none;
+  line-height: 1.4;
+}
+
+#brik-content-app button {
+  padding: 0;
+  cursor: pointer;
+}
+
+#brik-content-app :is(input, select, textarea) {
+  border: 0 solid var(--border);
+  padding: 0;
+  outline: none;
+  vertical-align: baseline;
+}
+
+#brik-content-app :is(input, select, textarea):focus {
+  border-color: var(--ring);
+  box-shadow: none;
+  outline: none;
+}
+
+#brik-content-app select {
+  background-image: none;
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+}
+
+#brik-content-app select:hover {
+  color: inherit;
+}
+
+#brik-content-app a {
+  color: inherit;
+  text-decoration: none;
+}
+
+#brik-content-app a:focus {
+  box-shadow: none;
+}
+
+#brik-content-app :where(svg) {
+  display: block;
+}
+
+#brik-content-app ::placeholder {
+  color: var(--muted-foreground);
+  opacity: 1;
+}
+
+#brik-content-app .bk-select-chevron {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23737373' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 6px center;
+  padding-right: 26px;
+}
+
+#brik-content-app .dashicons,
+#brik-content-app .dashicons-before::before {
+  font-family: dashicons;
+  line-height: 1;
+}
+
+.bk-spinner {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  border-top-color: var(--brand);
+  animation: bk-spin 0.7s linear infinite;
+}
+
+.bk-fade {
+  animation: bk-fade 0.15s ease-out;
+}
+
+.bk-zoom {
+  animation: bk-zoom 0.15s ease-out;
+}
+
+.bk-pop {
+  animation: bk-fade 0.1s ease-out;
+}
+
+.bk-rise {
+  animation: bk-rise 0.2s ease-out;
+}
+
+/* Field rows while dragging. */
+.bk-drag-ghost {
+  pointer-events: none;
+  position: fixed;
+  z-index: 100100;
+  transform: rotate(-1deg);
+}
+
+.bk-dragging {
+  opacity: 0.4;
+}
+
+.bk-drop-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--brand);
+  pointer-events: none;
+}
+
+.bk-drop-line::before {
+  content: "";
+  position: absolute;
+  left: -4px;
+  top: -3px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 2px solid var(--brand);
+  background: var(--background);
+}
+
+body.bk-is-dragging,
+body.bk-is-dragging * {
+  cursor: grabbing !important;
+  user-select: none !important;
+}
+
+.bk-grid-dots {
+  background-image: radial-gradient(var(--border) 1px, transparent 1px);
+  background-size: 14px 14px;
+}
+
+@keyframes bk-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes bk-fade {
+  from { opacity: 0; }
+}
+
+@keyframes bk-zoom {
+  from { opacity: 0; transform: scale(0.97); }
+}
+
+@keyframes bk-rise {
+  from { opacity: 0; transform: translateY(4px); }
+}
+
+/* The WordPress media modal and admin bar sit above the app; our dialogs sit above both. */
+.media-modal,
+.media-modal-backdrop {
+  z-index: 160000 !important;
+}

@@ -1,0 +1,82 @@
+{
+ "title": "Contact \u2014 details and form",
+ "category": "contact",
+ "kind": "section",
+ "tree": [
+  {
+   "type": "section",
+   "attrs": {},
+   "children": [
+    {
+     "type": "row",
+     "attrs": {
+      "gap": "64px",
+      "columns": "2/5,3/5"
+     },
+     "children": [
+      {
+       "type": "column",
+       "attrs": {
+        "gap": "16px"
+       },
+       "children": [
+        {
+         "type": "heading",
+         "attrs": {
+          "text": "Contact",
+          "level": "p",
+          "style": "eyebrow"
+         }
+        },
+        {
+         "type": "heading",
+         "attrs": {
+          "text": "Get in touch",
+          "level": "h2"
+         }
+        },
+        {
+         "type": "text",
+         "attrs": {
+          "content": "<p>We usually reply within one business day.</p>",
+          "size": "lead"
+         }
+        },
+        {
+         "type": "icon_list",
+         "attrs": {
+          "icon_style": "soft",
+          "items": [
+           {
+            "icon": "mail",
+            "text": "hello@example.com"
+           },
+           {
+            "icon": "phone",
+            "text": "+1 (555) 000-0000"
+           },
+           {
+            "icon": "map-pin",
+            "text": "123 Market St, San Francisco"
+           }
+          ]
+         }
+        }
+       ]
+      },
+      {
+       "type": "column",
+       "attrs": {},
+       "children": [
+        {
+         "type": "contact_form",
+         "attrs": {}
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -34,8 +34,18 @@ final class Renderer {
 	/**
 	 * Render a list of top-level nodes and wrap them in the content root.
 	 */
+	/** Whether any effect module or background effect was rendered. */
+	public $effects = false;
+
+	/** Effect scripts requested while rendering (see Context::script()). */
+	public $scripts = array();
+
+	/** Top-level nodes of the tree being rendered, so sections can look at their neighbours. */
+	public $root = array();
+
 	public function render_root( array $nodes, $class = '' ) {
-		$html = $this->render_nodes( $nodes );
+		$this->root = array_values( $nodes );
+		$html       = $this->render_nodes( $nodes );
 		if ( $this->canvas && ! $nodes ) {
 			$html = '<div class="brik-canvas-empty" data-brik-empty="root"></div>';
 		}
@@ -79,6 +89,10 @@ final class Renderer {
 		}
 
 		$this->style->add_node( $node, $def, $attrs );
+		if ( 'effects' === $def['category'] || ! empty( $attrs['bg_effect'] ) ) {
+			$this->effects = true;
+			Frontend::effects_css();
+		}
 
 		$this->stack[] = $node;
 		$ctx           = new Context( $this, $node, $def );
@@ -112,6 +126,10 @@ final class Renderer {
 		foreach ( $def['fields'] as $key => $field ) {
 			if ( isset( $attrs[ $key ] ) && is_string( $attrs[ $key ] ) && in_array( $field['type'], array( 'text', 'textarea', 'richtext', 'link', 'image' ), true ) ) {
 				$attrs[ $key ] = Dynamic::replace( $attrs[ $key ], $this->post_id );
+			}
+			// Link and image objects can carry tags in their url, e.g. {"url": "{post_url}"}.
+			if ( isset( $attrs[ $key ]['url'] ) && is_string( $attrs[ $key ]['url'] ) && in_array( $field['type'], array( 'link', 'image', 'video' ), true ) ) {
+				$attrs[ $key ]['url'] = Dynamic::replace( $attrs[ $key ]['url'], $this->post_id );
 			}
 			if ( 'repeater' === $field['type'] && isset( $attrs[ $key ] ) && is_array( $attrs[ $key ] ) ) {
 				foreach ( $attrs[ $key ] as &$item ) {
@@ -190,8 +208,21 @@ final class Renderer {
 			esc_attr( isset( $node['id'] ) ? $node['id'] : '' ),
 			esc_attr( $node['type'] ),
 			/* translators: %s: module type */
-			esc_html( sprintf( __( 'Unknown module "%s"', 'brik' ), $node['type'] ) )
+			esc_html( sprintf( __( 'Unknown module "%s"', 'brik-builder' ), $node['type'] ) )
 		);
+	}
+
+	/**
+	 * Previous (-1) or next (1) top-level section of a node, or null.
+	 */
+	public function neighbour( $id, $offset ) {
+		foreach ( $this->root as $i => $node ) {
+			if ( isset( $node['id'] ) && $node['id'] === $id ) {
+				$j = $i + $offset;
+				return isset( $this->root[ $j ] ) && is_array( $this->root[ $j ] ) ? $this->root[ $j ] : null;
+			}
+		}
+		return null;
 	}
 
 	/**

@@ -1,0 +1,131 @@
+{
+ "title": "Hero — particle network",
+ "category": "animated",
+ "kind": "section",
+ "tree": [
+  {
+   "type": "section",
+   "attrs": {
+    "dark": true,
+    "bg_effect": "particles",
+    "bg_effect_intensity": 65,
+    "min_height": "720px",
+    "v_align": "center",
+    "padding": "120px 24px",
+    "padding@mobile": "88px 16px"
+   },
+   "children": [
+    {
+     "type": "row",
+     "attrs": {
+      "columns": "1",
+      "max_width": "980px",
+      "gap": "56px"
+     },
+     "children": [
+      {
+       "type": "column",
+       "attrs": {
+        "items": "center",
+        "gap": "24px"
+       },
+       "children": [
+        {
+         "type": "badge",
+         "attrs": {
+          "text": "Edge network · 300+ cities",
+          "variant": "outline",
+          "icon": "globe",
+          "align": "center",
+          "animation": "fade"
+         }
+        },
+        {
+         "type": "heading",
+         "attrs": {
+          "text": "Infrastructure that <span class=\"bg-linear-to-r from-cyan-300 to-indigo-400 bg-clip-text text-transparent\">connects everything</span>",
+          "level": "h1",
+          "style": "display",
+          "title_text_align": "center",
+          "animation": "zoom",
+          "animation_delay": 120
+         }
+        },
+        {
+         "type": "text",
+         "attrs": {
+          "content": "<p>Deploy globally in seconds. Your content moves closer to every visitor, automatically, with nothing to configure.</p>",
+          "size": "lead",
+          "text_align": "center",
+          "max_width": "600px",
+          "animation": "slide-up",
+          "animation_delay": 260
+         }
+        },
+        {
+         "type": "button_group",
+         "attrs": {
+          "align": "center",
+          "size": "lg",
+          "buttons": [
+           {
+            "text": "Deploy now",
+            "link": {
+             "url": "#"
+            },
+            "variant": "default",
+            "icon": "rocket",
+            "icon_position": "start"
+           },
+           {
+            "text": "Read the docs",
+            "link": {
+             "url": "#"
+            },
+            "variant": "outline"
+           }
+          ],
+          "animation": "slide-up",
+          "animation_delay": 400
+         }
+        },
+        {
+         "type": "stats",
+         "attrs": {
+          "columns": "3",
+          "columns@mobile": "1",
+          "style": "plain",
+          "align": "center",
+          "margin": "24px 0 0",
+          "items": [
+           {
+            "value": "99.99%",
+            "label": "Uptime",
+            "description": "over the last year",
+            "trend": "none"
+           },
+           {
+            "value": "38ms",
+            "label": "Median latency",
+            "description": "worldwide",
+            "trend": "none"
+           },
+           {
+            "value": "12B",
+            "label": "Requests a day",
+            "description": "and counting",
+            "trend": "none"
+           }
+          ],
+          "animation": "fade",
+          "animation_delay": 600
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
