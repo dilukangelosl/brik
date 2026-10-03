@@ -3,7 +3,7 @@ Contributors: dilukangelo
 Requires at least: 6.3
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Tags: blog, one-column, two-columns, right-sidebar, grid-layout, custom-logo, custom-menu, featured-images, footer-widgets, threaded-comments, translation-ready, wide-blocks, block-styles, editor-style, accessibility-ready, sticky-post
@@ -59,6 +59,9 @@ Not by itself. The theme uses Inter when it is installed on the visitor's device
 Install Brik Builder and edit the global design tokens. The theme picks them up automatically, in light and dark mode.
 
 == Changelog ==
+
+= 1.1.0 =
+* WooCommerce support: styled shop and product pages and a header cart icon.
 
 = 1.0.0 =
 * Initial release.

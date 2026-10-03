@@ -4,7 +4,7 @@ Tags: page builder, visual editor, drag and drop, theme builder, mcp
 Requires at least: 6.3
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -98,6 +98,11 @@ Yes. A module is a single PHP file that returns its definition. Register it on t
 Under Brik → Submissions, visible to administrators.
 
 == Changelog ==
+
+= 1.1.0 =
+* WooCommerce: product page elements, product grids with quick view, product filters, mini cart drawer, styled cart, checkout, account and order pages.
+* Theme builder conditions for products, shop, product categories, cart, checkout and account.
+* Product and cart dynamic tags, and MCP tools for products and orders.
 
 = 1.0.0 =
 * Initial release.
