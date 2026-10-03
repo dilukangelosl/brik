@@ -983,6 +983,9 @@ $t->eq( $cat, $res->get_data()['items'][0]['id'], 'search-terms' );
 $res = bt_rest( 'GET', '/brik/v1/content/search-users', array( 'include' => $admins[0] ) );
 $t->eq( (int) $admins[0], $res->get_data()['items'][0]['id'], 'search-users' );
 
+// Plugins such as WooCommerce build the REST server early; rebuild it so routes for the
+// post type registered during this run exist.
+$GLOBALS['wp_rest_server'] = null;
 $res = bt_rest( 'GET', '/wp/v2/bt_project/' . $post, array( 'context' => 'edit' ) );
 $meta = $res->get_data()['meta'];
 $t->ok( 200 === $res->get_status() && isset( $meta['price'] ) && 1999.5 === (float) $meta['price'], 'field meta in /wp/v2/{type}/{id}', wp_json_encode( array_slice( (array) $meta, 0, 4 ) ) );

@@ -20,6 +20,7 @@ final class Modules {
 				'media'       => __( 'Media', 'brik-builder' ),
 				'interactive' => __( 'Interactive', 'brik-builder' ),
 				'effects'     => __( 'Effects', 'brik-builder' ),
+				'shop'        => __( 'Shop', 'brik-builder' ),
 				'forms'       => __( 'Forms', 'brik-builder' ),
 				'site'        => __( 'Site', 'brik-builder' ),
 				'post'        => __( 'Post', 'brik-builder' ),

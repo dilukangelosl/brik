@@ -1,0 +1,173 @@
+{
+ "title": "Shop — archive with filters",
+ "category": "shop",
+ "kind": "section",
+ "tree": [
+  {
+   "type": "section",
+   "attrs": {
+    "padding": "48px 24px 96px",
+    "padding@mobile": "32px 16px 64px"
+   },
+   "children": [
+    {
+     "type": "row",
+     "attrs": {
+      "padding": "0 0 40px",
+      "padding@mobile": "0 0 8px"
+     },
+     "children": [
+      {
+       "type": "column",
+       "children": [
+        {
+         "type": "shop_archive_header",
+         "attrs": {
+          "style": "simple",
+          "show_subcategories": true
+         }
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "type": "row",
+     "attrs": {
+      "columns": "1/4,3/4",
+      "gap": "48px",
+      "gap@tablet": "32px",
+      "gap@mobile": "16px",
+      "align_items": "start"
+     },
+     "children": [
+      {
+       "type": "column",
+       "attrs": {
+        "position": "sticky",
+        "position@mobile": "static",
+        "top": "24px"
+       },
+       "children": [
+        {
+         "type": "product_filters",
+         "attrs": {
+          "target": "shop",
+          "layout": "vertical",
+          "apply": "instant",
+          "chips": true,
+          "mobile_sheet": true,
+          "title": "Filters",
+          "filters": [
+           {
+            "type": "category",
+            "label": "Category",
+            "ui": "checkboxes",
+            "show_counts": true
+           },
+           {
+            "type": "price",
+            "label": "Price"
+           },
+           {
+            "type": "attribute",
+            "label": "Color",
+            "attribute": "pa_color",
+            "ui": "swatches"
+           },
+           {
+            "type": "attribute",
+            "label": "Size",
+            "attribute": "pa_size",
+            "ui": "pills"
+           },
+           {
+            "type": "rating",
+            "label": "Rating"
+           },
+           {
+            "type": "sale",
+            "label": "On sale"
+           },
+           {
+            "type": "stock",
+            "label": "In stock only"
+           }
+          ]
+         }
+        }
+       ]
+      },
+      {
+       "type": "column",
+       "attrs": {
+        "gap": "20px"
+       },
+       "children": [
+        {
+         "type": "row",
+         "attrs": {
+          "sizing": "auto",
+          "justify": "space-between",
+          "align_items": "center",
+          "direction@mobile": "horizontal",
+          "gap": "12px",
+          "padding": "0 0 16px",
+          "border_width": "0 0 1px 0",
+          "border_style": "solid",
+          "border_color": "var(--border)"
+         },
+         "children": [
+          {
+           "type": "column",
+           "children": [
+            {
+             "type": "shop_result_count",
+             "attrs": {
+              "target": "shop"
+             }
+            }
+           ]
+          },
+          {
+           "type": "column",
+           "children": [
+            {
+             "type": "shop_ordering",
+             "attrs": {
+              "target": "shop",
+              "label": "Sort by"
+             }
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "type": "products",
+         "attrs": {
+          "css_id": "shop",
+          "source": "all",
+          "per_page": 9,
+          "columns": 3,
+          "columns@tablet": 2,
+          "columns@mobile": 2,
+          "gap": "24px",
+          "gap@mobile": "12px",
+          "pagination": "load_more",
+          "load_more_text": "Load more products",
+          "card_style": "card",
+          "card_ratio": "1:1",
+          "quick_view": true,
+          "animate": true,
+          "empty_message": "No products match these filters."
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -755,6 +755,10 @@ final class McpTools {
 			'required'    => array( 'post_type' ),
 		);
 
+		if ( class_exists( 'WooCommerce' ) ) {
+			$d = array_merge( $d, Woo\Mcp::definitions() );
+		}
+
 		self::$defs = apply_filters( 'brik/mcp_tools', $d );
 		return self::$defs;
 	}
@@ -3153,6 +3157,6 @@ MD;
 				'HERO'       => $json( $hero ),
 				'FEATURES'   => $json( $features ),
 			)
-		);
+		) . ( class_exists( 'WooCommerce' ) ? Woo\Mcp::guide() : '' );
 	}
 }

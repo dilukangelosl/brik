@@ -1,0 +1,2563 @@
+/*
+ * WooCommerce shop: product cards, product grids and filters, the mini cart, quick view, and
+ * the cart, checkout, account and order screens. WooCommerce's own markup is styled only inside
+ * the module wrappers (.brik-woo), with the design tokens, so dark sections just work.
+ */
+
+/* ---------------------------------------------------------------------------
+ * Shared bits.
+ * ------------------------------------------------------------------------ */
+.brik .screen-reader-text,
+.brik-woo .screen-reader-text {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.brik-woo-price del,
+.brik-woo .price del,
+.brik-woo .amount del {
+  margin-right: 0.375rem;
+  font-size: 0.875em;
+  font-weight: 400;
+  color: var(--muted-foreground);
+  text-decoration: line-through;
+  text-decoration-color: color-mix(in oklab, var(--muted-foreground) 70%, transparent);
+}
+
+.brik-woo-price ins,
+.brik-woo .price ins {
+  text-decoration: none;
+}
+
+.brik-woo-price del + ins,
+.brik-woo .price del + ins {
+  color: var(--destructive);
+}
+
+/* Add-to-cart states: label, spinner and tick share one grid cell, so the size never jumps. */
+.brik-atc-stack {
+  display: inline-grid;
+  place-items: center;
+}
+
+.brik-atc-stack > * {
+  grid-area: 1 / 1;
+}
+
+.brik-atc-busy,
+.brik-atc-done,
+.brik-atc[data-state="loading"] .brik-atc-label,
+.brik-atc[data-state="added"] .brik-atc-label {
+  visibility: hidden;
+}
+
+.brik-atc[data-state="loading"] .brik-atc-busy,
+.brik-atc[data-state="added"] .brik-atc-done {
+  visibility: visible;
+}
+
+.brik-atc[data-state="added"] {
+  animation: brik-woo-pop 0.35s ease;
+}
+
+@keyframes brik-woo-pop {
+  50% {
+    transform: scale(1.04);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * Product card.
+ * ------------------------------------------------------------------------ */
+.brik-pc {
+  position: relative;
+}
+
+.brik-pc-media img {
+  display: block;
+}
+
+.brik-pc:hover .brik-pc-img {
+  scale: 1.04;
+}
+
+.brik-pc:hover .brik-pc-img-alt {
+  opacity: 1;
+}
+
+.brik-pc.is-oos .brik-pc-img {
+  filter: grayscale(0.4);
+}
+
+.brik-pc-title a {
+  color: inherit;
+}
+
+/* The title link covers the card; controls sit above it. */
+.brik-pc .brik-pc-add,
+.brik-pc .brik-pc-qv,
+.brik-pc .brik-pc-reveal,
+.brik-pc .brik-pc-badges {
+  z-index: 2;
+}
+
+.brik-pc-reveal {
+  opacity: 0;
+  translate: 0 0.5rem;
+  transition:
+    opacity 0.25s ease,
+    translate 0.25s ease;
+}
+
+.brik-pc:hover .brik-pc-reveal,
+.brik-pc:focus-within .brik-pc-reveal {
+  opacity: 1;
+  translate: 0 0;
+}
+
+@media (hover: none) {
+  .brik-pc-reveal {
+    opacity: 1;
+    translate: 0 0;
+  }
+
+  .brik-pc--card .brik-pc-reveal {
+    display: none;
+  }
+}
+
+.brik-pc-qv {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  height: 2rem;
+  padding: 0 0.875rem;
+  border: 1px solid color-mix(in oklab, var(--border) 70%, transparent);
+  border-radius: 9999px;
+  background: color-mix(in oklab, var(--background) 92%, transparent);
+  color: var(--foreground);
+  font-size: 0.75rem;
+  font-weight: 500;
+  box-shadow: 0 4px 12px -4px rgb(0 0 0 / 0.2);
+  backdrop-filter: blur(8px);
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    transform 0.15s ease;
+}
+
+.brik-pc-qv:hover {
+  background: var(--background);
+  transform: translateY(-1px);
+}
+
+.brik-pc-qv:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent);
+}
+
+.brik-pc--minimal .brik-pc-qv,
+.brik-pc--overlay .brik-pc-qv,
+.brik-pc-qv--inline {
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  justify-content: center;
+}
+
+.brik-pc-qv--inline {
+  width: 2rem;
+  height: 2rem;
+  border-color: var(--input);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.05);
+}
+
+.brik-pc--minimal .brik-pc-qv-text,
+.brik-pc--overlay .brik-pc-qv-text,
+.brik-pc-qv--inline .brik-pc-qv-text {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+}
+
+.brik-pc--overlay .brik-pc-title a,
+.brik-pc--overlay .brik-pc-price {
+  color: #fff;
+}
+
+.brik-pc--overlay .brik-woo-price del {
+  color: rgb(255 255 255 / 0.65);
+}
+
+.brik-pc--overlay .brik-woo-price del + ins {
+  color: #fff;
+}
+
+.brik-pc--overlay .brik-star-empty {
+  color: rgb(255 255 255 / 0.3);
+}
+
+/* ---------------------------------------------------------------------------
+ * Products module.
+ * ------------------------------------------------------------------------ */
+.brik-products-results {
+  transition: opacity 0.2s ease;
+}
+
+[data-brik-products][aria-busy="true"] .brik-products-results {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.brik-products-results.is-swapped {
+  animation: brik-listing-fade 0.35s ease both;
+}
+
+.brik-products-arrows [disabled] {
+  pointer-events: none;
+}
+
+.brik-products-items--carousel,
+.brik-cat-items.brik-listing-items--carousel {
+  padding-bottom: 0.5rem;
+}
+
+/* ---------------------------------------------------------------------------
+ * Product filters.
+ * ------------------------------------------------------------------------ */
+.brik-pf {
+  display: grid;
+  gap: 1rem;
+}
+
+.brik-pf [data-pf-js-hide][hidden] {
+  display: none;
+}
+
+.brik-pf-group {
+  border-bottom: 1px solid var(--border);
+}
+
+.brik-pf-summary {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  list-style: none;
+  cursor: pointer;
+  user-select: none;
+  border-radius: calc(var(--radius) - 4px);
+}
+
+.brik-pf-summary::-webkit-details-marker {
+  display: none;
+}
+
+.brik-pf-summary:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent);
+}
+
+.brik-pf-group[open] > .brik-pf-summary .brik-pf-chevron {
+  transform: rotate(180deg);
+}
+
+.brik-pf-dot {
+  width: 0.375rem;
+  height: 0.375rem;
+  border-radius: 9999px;
+  background: var(--primary);
+}
+
+.brik-pf-content {
+  padding: 0.125rem 0 1.125rem;
+}
+
+.brik-pf-toggle {
+  padding: 0.625rem 0;
+}
+
+.brik-pf-switch-ui > span {
+  transform: translateX(0.0625rem);
+}
+
+.brik-pf-switch:checked + .brik-pf-switch-ui > span {
+  transform: translateX(1.0625rem);
+}
+
+.brik-pf-check {
+  align-items: center;
+}
+
+.brik-pf-check .brik-choice {
+  margin-top: 0;
+}
+
+.brik-pf-head {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.brik-pf-foot {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.brik-pf-chips[hidden] {
+  display: none;
+}
+
+/* Sidebar on larger screens. */
+.brik-pf--vertical .brik-pf-head {
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.brik-pf--vertical .brik-pf-body > .brik-pf-group:last-of-type {
+  border-bottom: 0;
+}
+
+/* Bar of dropdowns. */
+@media (min-width: 768px) {
+  .brik-pf--horizontal .brik-pf-head {
+    display: none;
+  }
+
+  .brik-pf--horizontal .brik-pf-body {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .brik-pf--horizontal .brik-pf-group {
+    position: relative;
+    border: 0;
+  }
+
+  .brik-pf--horizontal .brik-pf-summary {
+    height: 2.25rem;
+    padding: 0 0.75rem;
+    border: 1px solid var(--input);
+    border-radius: calc(var(--radius) - 2px);
+    background: var(--background);
+    font-weight: 500;
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.05);
+  }
+
+  .brik-pf--horizontal .brik-pf-summary:hover {
+    background: var(--accent);
+  }
+
+  .brik-pf--horizontal .brik-pf-content {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    left: 0;
+    z-index: 40;
+    width: 18rem;
+    padding: 1rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--popover);
+    color: var(--popover-foreground);
+    box-shadow: 0 10px 30px -10px rgb(0 0 0 / 0.25);
+  }
+
+  .brik-pf--horizontal .brik-pf-toggle {
+    padding: 0 0.75rem;
+    height: 2.25rem;
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--input);
+    border-radius: calc(var(--radius) - 2px);
+  }
+
+  .brik-pf--horizontal .brik-pf-toggle label {
+    gap: 0.625rem;
+    font-weight: 500;
+  }
+
+  .brik-pf--horizontal .brik-pf-actions {
+    padding: 0;
+  }
+}
+
+/* Phones: the panel is a sheet sliding in from the left. */
+dialog.brik-pf-sheet {
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: min(24rem, 90vw);
+  max-width: none;
+  height: 100dvh;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: var(--background);
+  color: var(--foreground);
+  box-shadow: 0 0 40px rgb(0 0 0 / 0.25);
+  translate: -100% 0;
+  transition:
+    translate 0.3s cubic-bezier(0.32, 0.72, 0, 1),
+    overlay 0.3s allow-discrete,
+    display 0.3s allow-discrete;
+}
+
+dialog.brik-pf-sheet[open] {
+  translate: 0 0;
+}
+
+@starting-style {
+  dialog.brik-pf-sheet[open] {
+    translate: -100% 0;
+  }
+}
+
+dialog.brik-pf-sheet::backdrop {
+  background: rgb(0 0 0 / 0.5);
+}
+
+dialog.brik-pf-sheet .brik-pf-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+dialog.brik-pf-sheet .brik-pf-head {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+}
+
+dialog.brik-pf-sheet .brik-pf-body {
+  flex: 1;
+  min-height: 0;
+  padding: 0 1.25rem 1rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+dialog.brik-pf-sheet .brik-pf-foot {
+  padding: 1rem 1.25rem calc(1rem + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--border);
+}
+
+@media (min-width: 768px) {
+  dialog.brik-pf-sheet {
+    position: static;
+    display: block;
+    width: auto;
+    height: auto;
+    background: transparent;
+    color: inherit;
+    box-shadow: none;
+    translate: none;
+    overflow: visible;
+  }
+
+  dialog.brik-pf-sheet .brik-pf-head {
+    padding: 0 0 0.5rem;
+  }
+
+  .brik-pf--horizontal dialog.brik-pf-sheet .brik-pf-head {
+    display: none;
+  }
+
+  dialog.brik-pf-sheet .brik-pf-body {
+    padding: 0;
+    overflow: visible;
+  }
+
+  dialog.brik-pf-sheet .brik-pf-close,
+  dialog.brik-pf-sheet .brik-pf-foot {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .brik-pf--sheet .brik-pf-actions {
+    display: none;
+  }
+
+  .brik-pf--horizontal .brik-pf-body .brik-pf-content {
+    position: static;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * Mini cart.
+ * ------------------------------------------------------------------------ */
+.brik-mc-count {
+  position: absolute;
+  top: -0.5rem;
+  right: -0.625rem;
+  display: grid;
+  place-items: center;
+  min-width: 1.125rem;
+  height: 1.125rem;
+  padding: 0 0.3rem;
+  border-radius: 9999px;
+  background: var(--primary);
+  color: var(--primary-foreground);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  box-shadow: 0 0 0 2px var(--background);
+  transition: transform 0.2s ease;
+}
+
+.brik-mc-count[data-count="0"] {
+  transform: scale(0);
+}
+
+.brik-mc-count.is-bumped {
+  animation: brik-mc-bump 0.45s cubic-bezier(0.3, 1.6, 0.5, 1);
+}
+
+@keyframes brik-mc-bump {
+  0% {
+    transform: scale(0.6);
+  }
+  60% {
+    transform: scale(1.25);
+  }
+}
+
+.brik-mc-trigger .brik-mc-total {
+  font-weight: 600;
+}
+
+.brik-mc-drawer.brik-dialog {
+  width: 100%;
+  max-width: min(28rem, 100%);
+}
+
+.brik-mc-drawer .brik-mc-panel {
+  max-height: none;
+}
+
+.brik-mc-dropdown {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  z-index: 60;
+  width: 24rem;
+  max-width: calc(100vw - 2rem);
+  opacity: 0;
+  translate: 0 -0.25rem;
+  transition:
+    opacity 0.15s ease,
+    translate 0.15s ease;
+}
+
+.brik-mc-dropdown.is-open {
+  opacity: 1;
+  translate: 0 0;
+}
+
+.brik-mc-item {
+  transition: opacity 0.2s ease;
+}
+
+.brik-mc-item[aria-busy="true"] .brik-woo-price {
+  opacity: 0.5;
+}
+
+.brik-mc-item.is-removing {
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.brik-mc-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.brik-mc--no-xsell .brik-mc-xsell {
+  display: none;
+}
+
+.brik-qty-input::-webkit-outer-spin-button,
+.brik-qty-input::-webkit-inner-spin-button,
+.brik-qty-wrap input.qty::-webkit-outer-spin-button,
+.brik-qty-wrap input.qty::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.brik-qty-input,
+.brik-qty-wrap input.qty {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+/* ---------------------------------------------------------------------------
+ * Toasts.
+ * ------------------------------------------------------------------------ */
+.brik-woo-toasts {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 2147483000;
+  display: grid;
+  gap: 0.5rem;
+  max-width: min(24rem, calc(100vw - 2rem));
+}
+
+.brik-woo-toast {
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--popover);
+  color: var(--popover-foreground);
+  font-size: 0.875rem;
+  box-shadow: 0 10px 30px -10px rgb(0 0 0 / 0.3);
+  animation: brik-woo-toast-in 0.25s ease both;
+}
+
+.brik-woo-toast.is-error {
+  border-color: color-mix(in oklab, var(--destructive) 40%, var(--border));
+  color: var(--destructive);
+}
+
+.brik-woo-toast.is-leaving {
+  opacity: 0;
+  transform: translateY(0.5rem);
+  transition: all 0.3s ease;
+}
+
+@keyframes brik-woo-toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * Quick view.
+ * ------------------------------------------------------------------------ */
+.brik-qv-dialog.brik-dialog {
+  max-width: min(60rem, calc(100% - 2rem));
+}
+
+.brik-qv-media img,
+.brik-qv-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.brik-qv-thumb[aria-current="true"] {
+  border-color: var(--foreground);
+  box-shadow: 0 0 0 1px var(--foreground);
+}
+
+/* ---------------------------------------------------------------------------
+ * WooCommerce markup inside the modules: notices, forms, buttons, tables.
+ * ------------------------------------------------------------------------ */
+.brik-woo {
+  --brik-woo-field: 2.5rem;
+}
+
+.brik-woo :where(p) {
+  margin: 0;
+}
+
+.brik-woo :where(a):not(.brik-button):not(.button) {
+  text-underline-offset: 4px;
+}
+
+.brik-woo .clear {
+  display: none;
+}
+
+.brik-woo :where(h2, h3) {
+  font-family: var(--brik-font-heading, inherit);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+/* Notices (classic and block-style banners). */
+.brik-woo :is(.woocommerce-error, .woocommerce-message, .woocommerce-info),
+.brik-woo .wc-block-components-notice-banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+  margin: 0 0 1rem;
+  padding: 0.875rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--card);
+  color: var(--card-foreground);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  list-style: none;
+}
+
+.brik-woo ul.woocommerce-error {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.brik-woo :is(.woocommerce-error, .wc-block-components-notice-banner.is-error) {
+  border-color: color-mix(in oklab, var(--destructive) 45%, var(--border));
+  background: color-mix(in oklab, var(--destructive) 6%, var(--card));
+  color: var(--destructive);
+}
+
+.brik-woo :is(.woocommerce-message, .wc-block-components-notice-banner.is-success) {
+  border-color: color-mix(in oklab, #10b981 40%, var(--border));
+  background: color-mix(in oklab, #10b981 7%, var(--card));
+}
+
+.brik-woo :is(.woocommerce-info, .wc-block-components-notice-banner.is-info) {
+  background: var(--muted);
+}
+
+.brik-woo .wc-block-components-notice-banner > svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  flex-shrink: 0;
+  fill: currentColor;
+}
+
+.brik-woo .wc-block-components-notice-banner__content {
+  flex: 1;
+}
+
+.brik-woo :is(.woocommerce-error, .woocommerce-message, .woocommerce-info, .wc-block-components-notice-banner) a:not(.button) {
+  font-weight: 500;
+  text-decoration: underline;
+}
+
+.brik-woo :is(.woocommerce-message, .woocommerce-info, .wc-block-components-notice-banner) .button {
+  order: 2;
+  margin-left: auto;
+  height: 2rem;
+  padding: 0 0.75rem;
+  font-size: 0.8125rem;
+}
+
+.brik-woo .woocommerce-notices-wrapper:empty {
+  display: none;
+}
+
+/* Fields. */
+.brik-woo .form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  margin: 0 0 1rem;
+  padding: 0;
+}
+
+.brik-woo .form-row label:not(.checkbox):not(.woocommerce-form__label-for-checkbox),
+.brik-woo .woocommerce-form-row label:not(.woocommerce-form__label-for-checkbox) {
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.brik-woo .required {
+  color: var(--destructive);
+  text-decoration: none;
+  border: 0;
+}
+
+.brik-woo .optional {
+  color: var(--muted-foreground);
+  font-weight: 400;
+}
+
+.brik-woo .woocommerce-input-wrapper {
+  display: block;
+}
+
+.brik-woo
+  :is(
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="password"],
+    input[type="url"],
+    input[type="search"],
+    input[type="date"],
+    input[type="number"]:not(.qty):not(.brik-qty-input),
+    textarea,
+    select
+  ):not(.brik-input) {
+  width: 100%;
+  min-width: 0;
+  height: var(--brik-woo-field);
+  padding: 0 0.75rem;
+  border: 1px solid var(--input);
+  border-radius: calc(var(--radius) - 2px);
+  background: transparent;
+  color: var(--foreground);
+  font-size: 0.875rem;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.05);
+  outline: none;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.brik-woo textarea:not(.brik-input) {
+  height: auto;
+  min-height: 6rem;
+  padding: 0.5rem 0.75rem;
+  resize: vertical;
+}
+
+.brik-woo select:not(.brik-input) {
+  appearance: none;
+  padding-right: 2.25rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1rem;
+}
+
+.brik-woo select option {
+  background: var(--popover);
+  color: var(--popover-foreground);
+}
+
+.brik-woo :is(input, textarea, select):not(.brik-input):focus-visible {
+  border-color: var(--ring);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent);
+}
+
+.dark .brik-woo :is(input[type="text"], input[type="email"], input[type="tel"], input[type="password"], input[type="url"], textarea, select):not(.brik-input),
+.brik-woo:is(.dark *) :is(input[type="text"], input[type="email"], input[type="tel"], input[type="password"], input[type="url"], textarea, select):not(.brik-input) {
+  background-color: color-mix(in oklab, var(--input) 30%, transparent);
+}
+
+.brik-woo .woocommerce-invalid :is(input, select, textarea),
+.brik-woo .woocommerce-invalid .select2-selection,
+.brik-woo [aria-invalid="true"] {
+  border-color: var(--destructive) !important;
+}
+
+.brik-woo .checkout-inline-error-message,
+.brik-woo .woocommerce-invalid .woocommerce-input-wrapper + .error {
+  margin-top: 0.25rem;
+  color: var(--destructive);
+  font-size: 0.75rem;
+}
+
+/* Checkboxes and radios, shadcn style. */
+.brik-woo :is(input[type="checkbox"], input[type="radio"]):not(.brik-choice):not(.sr-only):not(.peer) {
+  appearance: none;
+  display: inline-grid;
+  flex-shrink: 0;
+  width: 1rem;
+  height: 1rem;
+  margin: 0;
+  border: 1px solid var(--input);
+  border-radius: 4px;
+  background: transparent;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.05);
+  vertical-align: -0.15em;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.brik-woo input[type="radio"]:not(.brik-choice):not(.sr-only):not(.peer) {
+  border-radius: 9999px;
+}
+
+.brik-woo :is(input[type="checkbox"], input[type="radio"]):not(.brik-choice):not(.sr-only):not(.peer):checked {
+  border-color: var(--primary);
+  background: var(--primary);
+  box-shadow: inset 0 0 0 3px var(--background);
+}
+
+.brik-woo :is(input[type="checkbox"], input[type="radio"]):not(.brik-choice):focus-visible {
+  outline: none;
+  box-shadow:
+    inset 0 0 0 3px var(--background),
+    0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent);
+}
+
+.brik-woo :is(label.checkbox, .woocommerce-form__label-for-checkbox) {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+/* Buttons. */
+.brik-woo :is(.button, button[type="submit"], input[type="submit"]):not(.brik-button):not([data-qty-step]) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 2.5rem;
+  padding: 0 1rem;
+  border: 1px solid var(--input);
+  border-radius: calc(var(--radius) - 2px);
+  background: var(--background);
+  color: var(--foreground);
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+  text-decoration: none;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.05);
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    opacity 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.brik-woo :is(.button, button[type="submit"]):not(.brik-button):not([data-qty-step]):hover {
+  background: var(--accent);
+  color: var(--accent-foreground);
+}
+
+.brik-woo
+  :is(.button.alt, #place_order, .checkout-button, .single_add_to_cart_button, .woocommerce-form-login__submit, .woocommerce-form-register__submit, button[name="save_account_details"], button[name="save_address"], .woocommerce-Button--next, .woocommerce-ResetPassword .button):not(.brik-button) {
+  border-color: transparent;
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+
+.brik-woo
+  :is(.button.alt, #place_order, .checkout-button, .single_add_to_cart_button, .woocommerce-form-login__submit, .woocommerce-form-register__submit, button[name="save_account_details"], button[name="save_address"]):not(.brik-button):hover {
+  background: color-mix(in oklab, var(--primary) 90%, transparent);
+  color: var(--primary-foreground);
+}
+
+.brik-woo :is(.button, button):disabled,
+.brik-woo .button.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.brik-woo :is(.button, button[type="submit"]):focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent);
+}
+
+.brik-woo .button.loading,
+.brik-woo button.is-loading,
+.brik-woo .processing #place_order {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* WooCommerce's quantity input with the stepper buttons added by the script. */
+.brik-woo .quantity,
+.brik-qv-form .quantity {
+  display: inline-flex;
+  align-items: stretch;
+  height: 2.5rem;
+  border: 1px solid var(--input);
+  border-radius: calc(var(--radius) - 2px);
+  background: var(--background);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.05);
+  overflow: hidden;
+}
+
+.brik-woo .quantity input.qty,
+.brik-qv-form .quantity input.qty {
+  width: 3rem;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--foreground);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  outline: none;
+}
+
+.brik-woo .quantity [data-qty-step],
+.brik-qv-form .quantity [data-qty-step] {
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  border: 0;
+  background: transparent;
+  color: var(--muted-foreground);
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.brik-woo .quantity [data-qty-step]:hover {
+  background: var(--accent);
+  color: var(--accent-foreground);
+}
+
+.brik-woo .quantity [data-qty-step]:disabled {
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.dark .brik-woo .quantity,
+.brik-woo:is(.dark *) .quantity {
+  background: color-mix(in oklab, var(--input) 30%, transparent);
+}
+
+/* select2 / selectWoo (country and state fields). The dropdown lives at the end of <body>. */
+.brik-woo .select2-container {
+  width: 100% !important;
+}
+
+.brik-woo .select2-container .select2-selection--single {
+  display: flex;
+  align-items: center;
+  height: var(--brik-woo-field);
+  border: 1px solid var(--input);
+  border-radius: calc(var(--radius) - 2px);
+  background: transparent;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.05);
+}
+
+.brik-woo .select2-container .select2-selection--single .select2-selection__rendered {
+  padding: 0 2.25rem 0 0.75rem;
+  color: var(--foreground);
+  font-size: 0.875rem;
+  line-height: normal;
+}
+
+.brik-woo .select2-container .select2-selection--single .select2-selection__arrow {
+  top: 0;
+  right: 0.5rem;
+  height: 100%;
+}
+
+.brik-woo .select2-container--focus .select2-selection,
+.brik-woo .select2-container--open .select2-selection {
+  border-color: var(--ring) !important;
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent) !important;
+}
+
+body:has(.brik-woo) .select2-dropdown {
+  overflow: hidden;
+  border-color: var(--border);
+  border-radius: calc(var(--radius) - 2px);
+  background: var(--popover);
+  color: var(--popover-foreground);
+  box-shadow: 0 10px 30px -10px rgb(0 0 0 / 0.25);
+}
+
+body:has(.brik-woo) .select2-search--dropdown .select2-search__field {
+  height: 2.25rem;
+  padding: 0 0.625rem;
+  border: 1px solid var(--input);
+  border-radius: calc(var(--radius) - 4px);
+  background: transparent;
+  color: var(--foreground);
+}
+
+body:has(.brik-woo) .select2-results__option {
+  padding: 0.4rem 0.75rem;
+  font-size: 0.875rem;
+}
+
+body:has(.brik-woo) .select2-results__option--highlighted[aria-selected],
+body:has(.brik-woo) .select2-results__option--highlighted[data-selected] {
+  background: var(--accent) !important;
+  color: var(--accent-foreground) !important;
+}
+
+body:has(.brik-woo) .select2-results__option[aria-selected="true"],
+body:has(.brik-woo) .select2-results__option[data-selected="true"] {
+  background: var(--muted);
+  color: var(--foreground);
+}
+
+/* Tables. */
+.brik-woo table.shop_table,
+.brik-woo table.woocommerce-table,
+.brik-woo table.woocommerce-orders-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.brik-woo :is(table.shop_table, .woocommerce-table) :is(th, td) {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  vertical-align: middle;
+}
+
+.brik-woo :is(table.shop_table, .woocommerce-table) thead th {
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.brik-woo :is(table.shop_table, .woocommerce-table) :is(td, th):last-child {
+  text-align: right;
+}
+
+.brik-woo :is(table.shop_table, .woocommerce-table) tfoot :is(th, td) {
+  font-weight: 400;
+}
+
+.brik-woo table.shop_table:not(.woocommerce-table--order-details) tfoot tr:last-child :is(th, td),
+.brik-woo .order-total :is(th, td) {
+  border-bottom: 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.brik-woo .product-quantity {
+  color: var(--muted-foreground);
+  font-weight: 500;
+}
+
+.brik-woo dl.variation,
+.brik-woo .wc-item-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 0.375rem;
+  margin: 0.25rem 0 0;
+  padding: 0;
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+  list-style: none;
+}
+
+.brik-woo dl.variation :is(dt, dd),
+.brik-woo .wc-item-meta li,
+.brik-woo .wc-item-meta p {
+  display: inline;
+  margin: 0;
+  font-weight: 400;
+}
+
+/* Shipping methods and payment methods: radio cards. */
+.brik-woo :is(#shipping_method, .woocommerce-shipping-methods) {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-align: left;
+}
+
+.brik-woo :is(#shipping_method, .woocommerce-shipping-methods) li {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  margin: 0;
+  padding: 0.625rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) - 2px);
+  font-size: 0.875rem;
+  transition:
+    border-color 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.brik-woo :is(#shipping_method, .woocommerce-shipping-methods) li:has(input:checked),
+.brik-woo :is(#shipping_method, .woocommerce-shipping-methods) li:only-child {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 1px var(--primary);
+}
+
+.brik-woo :is(#shipping_method, .woocommerce-shipping-methods) label {
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.brik-woo :is(#shipping_method, .woocommerce-shipping-methods) label::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.brik-woo .woocommerce-shipping-destination,
+.brik-woo .woocommerce-shipping-contents {
+  margin-top: 0.5rem;
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+  text-align: left;
+}
+
+.brik-woo .wc_payment_methods {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.brik-woo .wc_payment_method {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.625rem;
+  margin: 0;
+  padding: 0.875rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--card);
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.brik-woo .wc_payment_method:has(> input:checked) {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 1px var(--primary);
+}
+
+.brik-woo .wc_payment_method > label {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.brik-woo .wc_payment_method > label img {
+  display: inline-block;
+  max-height: 1.5rem;
+  width: auto;
+}
+
+.brik-woo .payment_box {
+  flex-basis: 100%;
+  margin: 0.25rem 0 0 1.625rem;
+  color: var(--muted-foreground);
+  font-size: 0.8125rem;
+}
+
+.brik-woo .payment_box fieldset {
+  margin: 0.5rem 0 0;
+  padding: 0;
+  border: 0;
+}
+
+.brik-woo .woocommerce-terms-and-conditions-wrapper,
+.brik-woo .woocommerce-privacy-policy-text {
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+  line-height: 1.6;
+}
+
+.brik-woo .woocommerce-privacy-policy-text a,
+.brik-woo .woocommerce-terms-and-conditions-wrapper a {
+  color: var(--foreground);
+  text-decoration: underline;
+}
+
+/* ---------------------------------------------------------------------------
+ * Cart.
+ * ------------------------------------------------------------------------ */
+.brik-woo_cart .woocommerce {
+  display: grid;
+  gap: 2rem 3rem;
+  align-items: start;
+}
+
+@media (min-width: 981px) {
+  .brik-woo_cart .woocommerce:has(> .woocommerce-cart-form) {
+    grid-template-columns: minmax(0, 1fr) minmax(20rem, 24rem);
+  }
+
+  .brik-woo_cart .woocommerce > :not(.woocommerce-cart-form):not(.cart-collaterals) {
+    grid-column: 1 / -1;
+  }
+
+  .brik-woo_cart.brik-woo--sticky .cart-collaterals {
+    position: sticky;
+    top: 1.5rem;
+  }
+}
+
+.brik-woo_cart table.cart {
+  display: block;
+  border-top: 1px solid var(--border);
+}
+
+.brik-woo_cart table.cart :is(thead) {
+  display: none;
+}
+
+.brik-woo_cart table.cart :is(tbody) {
+  display: block;
+}
+
+.brik-woo_cart table.cart tr.cart_item {
+  display: grid;
+  grid-template-columns: 6rem minmax(0, 1fr) auto;
+  grid-template-areas:
+    "thumb name subtotal"
+    "thumb price price"
+    "thumb qty remove";
+  gap: 0.25rem 1.25rem;
+  align-items: start;
+  padding: 1.25rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.brik-woo_cart table.cart tr.cart_item td {
+  display: block;
+  padding: 0;
+  border: 0;
+  text-align: left;
+}
+
+.brik-woo_cart td.product-thumbnail {
+  grid-area: thumb;
+}
+
+.brik-woo_cart td.product-thumbnail img {
+  width: 6rem;
+  height: 6rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--muted);
+  object-fit: cover;
+}
+
+.brik-woo_cart td.product-name {
+  grid-area: name;
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+
+.brik-woo_cart td.product-name a:hover {
+  text-decoration: underline;
+}
+
+.brik-woo_cart td.product-price {
+  grid-area: price;
+  color: var(--muted-foreground);
+  font-size: 0.8125rem;
+}
+
+.brik-woo_cart td.product-quantity {
+  grid-area: qty;
+  align-self: end;
+  padding-top: 0.75rem !important;
+}
+
+.brik-woo_cart td.product-subtotal {
+  grid-area: subtotal;
+  font-weight: 600;
+  text-align: right !important;
+  font-variant-numeric: tabular-nums;
+}
+
+.brik-woo_cart td.product-remove {
+  grid-area: remove;
+  align-self: end;
+  justify-self: end;
+}
+
+.brik-woo_cart td.product-remove a.remove {
+  display: inline-grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: calc(var(--radius) - 2px);
+  color: var(--muted-foreground);
+  font-size: 1.25rem;
+  line-height: 1;
+  text-decoration: none;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.brik-woo_cart td.product-remove a.remove:hover {
+  background: color-mix(in oklab, var(--destructive) 10%, transparent);
+  color: var(--destructive);
+}
+
+.brik-woo_cart table.cart tr:not(.cart_item) {
+  display: block;
+}
+
+.brik-woo_cart td.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 1.25rem 0 0 !important;
+  border: 0 !important;
+}
+
+.brik-woo_cart td.actions .coupon {
+  display: flex;
+  flex: 1 1 18rem;
+  gap: 0.5rem;
+  max-width: 26rem;
+}
+
+.brik-woo_cart td.actions .coupon label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+}
+
+.brik-woo_cart td.actions .coupon input {
+  flex: 1;
+}
+
+.brik-woo_cart td.actions > .button[name="update_cart"] {
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+  color: var(--muted-foreground);
+}
+
+.brik-woo_cart .cart-collaterals {
+  display: grid;
+  gap: 1rem;
+}
+
+.brik-woo_cart .cart_totals {
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) + 4px);
+  background: var(--card);
+  color: var(--card-foreground);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.05);
+}
+
+.brik-woo_cart .cart_totals > h2 {
+  margin-bottom: 0.5rem;
+  font-size: 1.125rem;
+}
+
+.brik-woo_cart .cart_totals table {
+  display: block;
+}
+
+.brik-woo_cart .cart_totals table :is(tbody) {
+  display: block;
+}
+
+.brik-woo_cart .cart_totals tr {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.brik-woo_cart .cart_totals tr.woocommerce-shipping-totals {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.brik-woo_cart .cart_totals tr :is(th, td) {
+  padding: 0;
+  border: 0;
+}
+
+.brik-woo_cart .cart_totals th {
+  color: var(--muted-foreground);
+  font-weight: 400;
+}
+
+.brik-woo_cart .cart_totals tr.order-total {
+  border-bottom: 0;
+  padding-top: 1rem;
+}
+
+.brik-woo_cart .cart_totals tr.order-total th {
+  color: var(--foreground);
+  font-weight: 600;
+}
+
+.brik-woo_cart .cart_totals tr.order-total td {
+  font-size: 1.25rem;
+}
+
+.brik-woo_cart .cart_totals .includes_tax {
+  display: block;
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+
+.brik-woo_cart .wc-proceed-to-checkout {
+  padding-top: 1rem;
+}
+
+.brik-woo_cart .wc-proceed-to-checkout .checkout-button {
+  width: 100%;
+  height: 2.75rem;
+  font-size: 0.9375rem;
+}
+
+.brik-woo_cart .shipping-calculator-button {
+  display: inline-block;
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  text-decoration: underline;
+}
+
+.brik-woo_cart .shipping-calculator-form {
+  margin-top: 0.75rem;
+  text-align: left;
+}
+
+.brik-woo_cart .return-to-shop {
+  display: none;
+}
+
+.brik-woo .coupon-error-notice {
+  flex-basis: 100%;
+  margin: 0;
+  color: var(--destructive);
+  font-size: 0.75rem;
+}
+
+.brik-woo_cart td.actions .coupon {
+  flex-wrap: wrap;
+}
+
+.brik-woo_cart .woocommerce:has(.brik-cart-empty) {
+  display: block;
+}
+
+@media (max-width: 640px) {
+  .brik-woo_cart table.cart tr.cart_item {
+    grid-template-columns: 4.5rem minmax(0, 1fr) auto;
+    column-gap: 0.875rem;
+  }
+
+  .brik-woo_cart td.product-thumbnail img {
+    width: 4.5rem;
+    height: 4.5rem;
+  }
+
+  .brik-woo_cart td.actions .coupon {
+    max-width: none;
+  }
+
+  .brik-woo_cart td.actions > .button[name="update_cart"] {
+    width: 100%;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * Checkout.
+ * ------------------------------------------------------------------------ */
+.brik-woo_checkout .woocommerce {
+  display: grid;
+  gap: 1rem;
+}
+
+.brik-woo_checkout .woocommerce-form-coupon-toggle .woocommerce-info,
+.brik-woo_checkout .woocommerce-form-login-toggle .woocommerce-info {
+  margin: 0;
+}
+
+.brik-woo_checkout form.checkout_coupon,
+.brik-woo_checkout form.woocommerce-form-login {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.75rem;
+  max-width: 32rem;
+  padding: 1rem;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+}
+
+.brik-woo_checkout form.checkout_coupon > p:first-child,
+.brik-woo_checkout form.woocommerce-form-login > p:first-child {
+  grid-column: 1 / -1;
+  color: var(--muted-foreground);
+  font-size: 0.875rem;
+}
+
+.brik-woo_checkout form.checkout_coupon .form-row,
+.brik-woo_checkout form.woocommerce-form-login .form-row {
+  margin: 0;
+}
+
+.brik-woo_checkout form.woocommerce-form-login {
+  grid-template-columns: 1fr;
+}
+
+.brik-woo_checkout form.checkout {
+  display: grid;
+  gap: 2rem;
+  align-items: start;
+  margin-top: 0.5rem;
+}
+
+@media (min-width: 981px) {
+  .brik-woo_checkout form.checkout {
+    grid-template-columns: minmax(0, 1fr) minmax(22rem, 27rem);
+    column-gap: 3.5rem;
+  }
+
+  .brik-woo_checkout #order_review {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .brik-woo_checkout.brik-woo--sticky #order_review {
+    position: sticky;
+    top: 1.5rem;
+  }
+}
+
+.brik-woo_checkout #customer_details {
+  display: grid;
+  gap: 2.25rem;
+  min-width: 0;
+}
+
+.brik-woo_checkout #customer_details > * {
+  float: none;
+  width: auto;
+  max-width: none;
+  margin: 0;
+}
+
+.brik-woo_checkout :is(.woocommerce-billing-fields, .woocommerce-shipping-fields, .woocommerce-additional-fields, .woocommerce-account-fields) > h3,
+.brik-co-step {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0 0 1.25rem;
+  font-size: 1.125rem;
+}
+
+.brik-woo_checkout :is(.woocommerce-billing-fields__field-wrapper, .woocommerce-shipping-fields__field-wrapper, .woocommerce-additional-fields__field-wrapper) {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.brik-woo_checkout :is(.woocommerce-billing-fields__field-wrapper, .woocommerce-shipping-fields__field-wrapper, .woocommerce-additional-fields__field-wrapper) .form-row {
+  margin: 0;
+  grid-column: 1 / -1;
+}
+
+.brik-woo_checkout :is(.woocommerce-billing-fields__field-wrapper, .woocommerce-shipping-fields__field-wrapper) :is(.form-row-first, .form-row-last) {
+  grid-column: span 1;
+}
+
+@media (max-width: 560px) {
+  .brik-woo_checkout :is(.woocommerce-billing-fields__field-wrapper, .woocommerce-shipping-fields__field-wrapper) :is(.form-row-first, .form-row-last) {
+    grid-column: 1 / -1;
+  }
+}
+
+.brik-woo_checkout #ship-to-different-address {
+  margin: 0;
+  padding: 0.875rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.brik-woo_checkout #ship-to-different-address label {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  width: 100%;
+  cursor: pointer;
+}
+
+.brik-woo_checkout .shipping_address {
+  margin-top: 1.25rem;
+}
+
+.brik-woo_checkout .woocommerce-account-fields .create-account {
+  margin-top: 0.5rem;
+}
+
+/* Numbered steps. */
+.brik-woo--steps form.checkout {
+  counter-reset: brik-step;
+}
+
+.brik-woo--steps :is(.woocommerce-billing-fields, .woocommerce-additional-fields) > h3,
+.brik-woo--steps .brik-co-step {
+  counter-increment: brik-step;
+}
+
+.brik-woo--steps :is(.woocommerce-billing-fields, .woocommerce-additional-fields) > h3::before,
+.brik-woo--steps .brik-co-step::before {
+  content: counter(brik-step);
+  display: inline-grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 9999px;
+  background: var(--primary);
+  color: var(--primary-foreground);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+/* Order summary card. */
+.brik-woo_checkout #order_review {
+  display: grid;
+  gap: 1.25rem;
+  min-width: 0;
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) + 4px);
+  background: color-mix(in oklab, var(--muted) 45%, var(--card));
+  color: var(--card-foreground);
+}
+
+.brik-woo_checkout #order_review_heading {
+  display: none;
+}
+
+.brik-co-summary-title {
+  margin: 0 0 -0.5rem;
+  font-size: 1.125rem;
+}
+
+.brik-woo_checkout #order_review .brik-co-step {
+  margin: 0.25rem 0 -0.25rem;
+}
+
+.brik-woo_checkout .woocommerce-checkout-review-order-table thead {
+  display: none;
+}
+
+.brik-woo_checkout .woocommerce-checkout-review-order-table td.product-name {
+  font-weight: 500;
+}
+
+.brik-co-item {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+}
+
+.brik-co-thumb {
+  position: relative;
+  flex-shrink: 0;
+  width: 3.5rem;
+  height: 3.5rem;
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) - 2px);
+  background: var(--background);
+}
+
+.brik-co-thumb img {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  object-fit: cover;
+}
+
+.brik-co-thumb[data-qty]::after {
+  content: attr(data-qty);
+  position: absolute;
+  top: -0.5rem;
+  right: -0.5rem;
+  display: grid;
+  place-items: center;
+  min-width: 1.25rem;
+  height: 1.25rem;
+  padding: 0 0.3rem;
+  border-radius: 9999px;
+  background: var(--muted-foreground);
+  color: var(--background);
+  font-size: 0.6875rem;
+  font-weight: 600;
+}
+
+.brik-woo_checkout .woocommerce-checkout-review-order-table .product-quantity {
+  display: none;
+}
+
+.brik-woo_checkout .woocommerce-checkout-review-order-table tfoot th {
+  color: var(--muted-foreground);
+}
+
+.brik-woo_checkout .woocommerce-checkout-review-order-table tfoot tr.order-total th {
+  color: var(--foreground);
+}
+
+.brik-woo_checkout .woocommerce-checkout-review-order-table tfoot tr.order-total td {
+  font-size: 1.25rem;
+}
+
+.brik-woo_checkout .woocommerce-checkout-review-order-table tr.woocommerce-shipping-totals {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.brik-woo_checkout .woocommerce-checkout-review-order-table td.product-name {
+  vertical-align: middle;
+}
+
+.brik-woo .wc_payment_method:has(> input[style*="none"]) .payment_box {
+  margin-left: 0;
+}
+
+.brik-woo_checkout .woocommerce-checkout-review-order-table tr.woocommerce-shipping-totals :is(th, td) {
+  display: block;
+  border: 0;
+  padding-bottom: 0;
+}
+
+.brik-woo_checkout .woocommerce-checkout-review-order-table tr.woocommerce-shipping-totals td {
+  padding: 0.5rem 0 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.brik-woo_checkout #payment {
+  display: grid;
+  gap: 1rem;
+  background: none;
+}
+
+.brik-woo_checkout #payment .place-order {
+  display: grid;
+  gap: 0.875rem;
+  margin: 0;
+}
+
+.brik-woo_checkout #place_order {
+  width: 100%;
+  height: 3rem;
+  font-size: 1rem;
+}
+
+.brik-co-secure {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+}
+
+.brik-woo_checkout .blockUI.blockOverlay {
+  border-radius: inherit;
+  background: color-mix(in oklab, var(--background) 60%, transparent) !important;
+  opacity: 1 !important;
+}
+
+/* ---------------------------------------------------------------------------
+ * Order received.
+ * ------------------------------------------------------------------------ */
+.brik-or-check {
+  animation: brik-or-pop 0.5s cubic-bezier(0.3, 1.6, 0.5, 1) both;
+}
+
+@keyframes brik-or-pop {
+  from {
+    transform: scale(0.4);
+    opacity: 0;
+  }
+}
+
+.brik-or-details :is(.woocommerce-thankyou-order-received, .woocommerce-order-overview) {
+  display: none;
+}
+
+.brik-or .woocommerce-order {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.brik-or .woocommerce-order > p:not(.woocommerce-thankyou-order-received) {
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--muted);
+  font-size: 0.875rem;
+}
+
+.brik-or :is(.woocommerce-order-details, .woocommerce-customer-details, .woocommerce-bacs-bank-details) {
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) + 4px);
+  background: var(--card);
+  color: var(--card-foreground);
+}
+
+.brik-or :is(.woocommerce-order-details__title, .woocommerce-column__title, .wc-bacs-bank-details-heading) {
+  margin-bottom: 0.75rem;
+  font-size: 1.125rem;
+}
+
+.brik-or .woocommerce-customer-details .addresses {
+  display: grid;
+  gap: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .brik-or .woocommerce-customer-details .addresses {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.brik-woo address {
+  color: var(--muted-foreground);
+  font-size: 0.875rem;
+  font-style: normal;
+  line-height: 1.7;
+}
+
+.brik-woo address p {
+  margin: 0;
+}
+
+.brik-or-head dl {
+  overflow: hidden;
+}
+
+.brik-or-head dl > div {
+  background: var(--card);
+}
+
+/* ---------------------------------------------------------------------------
+ * My account.
+ * ------------------------------------------------------------------------ */
+.brik-woo_account .woocommerce {
+  display: grid;
+  gap: 2rem 3rem;
+  align-items: start;
+}
+
+@media (min-width: 981px) {
+  .brik-woo--nav-v .woocommerce:has(> .brik-acc-nav) {
+    grid-template-columns: 15rem minmax(0, 1fr);
+  }
+}
+
+.brik-acc-nav ul {
+  display: grid;
+  gap: 0.125rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.brik-acc-link {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: calc(var(--radius) - 2px);
+  color: var(--muted-foreground);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.brik-acc-link:hover {
+  background: var(--accent);
+  color: var(--accent-foreground);
+}
+
+.brik-acc-link[aria-current="page"] {
+  background: var(--muted);
+  color: var(--foreground);
+}
+
+.brik-acc-link:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent);
+}
+
+.brik-acc-nav .woocommerce-MyAccount-navigation-link--customer-logout {
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.brik-acc-nav .woocommerce-MyAccount-navigation-link--customer-logout .brik-acc-link:hover {
+  background: color-mix(in oklab, var(--destructive) 10%, transparent);
+  color: var(--destructive);
+}
+
+@media (max-width: 980px) {
+  .brik-woo_account .brik-acc-nav ul {
+    display: flex;
+    gap: 0.25rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding-bottom: 0.25rem;
+  }
+
+  .brik-woo_account .brik-acc-nav li {
+    flex-shrink: 0;
+  }
+
+  .brik-acc-nav .woocommerce-MyAccount-navigation-link--customer-logout {
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+}
+
+.brik-woo--nav-h .brik-acc-nav ul {
+  display: flex;
+  gap: 0.25rem;
+  overflow-x: auto;
+  padding: 0.25rem;
+  border-radius: var(--radius);
+  background: var(--muted);
+  scrollbar-width: none;
+}
+
+.brik-woo--nav-h .brik-acc-link[aria-current="page"] {
+  background: var(--background);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.08);
+}
+
+.brik-woo--nav-h .brik-acc-nav .woocommerce-MyAccount-navigation-link--customer-logout {
+  margin: 0 0 0 auto;
+  padding: 0;
+  border: 0;
+}
+
+.brik-woo_account .woocommerce-MyAccount-content {
+  display: grid;
+  gap: 1.25rem;
+  min-width: 0;
+  font-size: 0.9375rem;
+}
+
+.brik-woo_account .woocommerce-MyAccount-content > p {
+  color: var(--muted-foreground);
+}
+
+.brik-woo_account .woocommerce-MyAccount-content > p:first-of-type {
+  color: var(--foreground);
+  font-size: 1.125rem;
+}
+
+.brik-woo_account .woocommerce-MyAccount-content > p a {
+  color: var(--foreground);
+  font-weight: 500;
+  text-decoration: underline;
+}
+
+.brik-acc-cards {
+  margin-top: 0.5rem !important;
+}
+
+/* Orders table: a card on wide screens, stacked rows on phones. */
+.brik-woo_account table.woocommerce-orders-table,
+.brik-woo_account table.woocommerce-table--order-downloads {
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) + 4px);
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+}
+
+.brik-woo_account :is(table.woocommerce-orders-table, table.woocommerce-table--order-downloads) :is(th, td) {
+  padding: 0.875rem 1rem;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+}
+
+.brik-woo_account :is(table.woocommerce-orders-table, table.woocommerce-table--order-downloads) thead th {
+  background: var(--muted);
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.brik-woo_account :is(table.woocommerce-orders-table, table.woocommerce-table--order-downloads) tbody tr:last-child :is(th, td) {
+  border-bottom: 0;
+}
+
+.brik-woo_account .woocommerce-orders-table__cell-order-number a {
+  font-weight: 600;
+}
+
+.brik-woo_account .woocommerce-orders-table__cell-order-status {
+  font-size: 0;
+}
+
+.brik-woo_account .woocommerce-orders-table__cell-order-status::after {
+  content: none;
+}
+
+.brik-woo_account td.woocommerce-orders-table__cell-order-status {
+  font-size: 0.75rem;
+}
+
+.brik-woo_account td.woocommerce-orders-table__cell-order-status {
+  color: var(--muted-foreground);
+  font-weight: 500;
+}
+
+.brik-woo_account [class*="--status-completed"] td.woocommerce-orders-table__cell-order-status {
+  color: #059669;
+}
+
+.brik-woo_account [class*="--status-processing"] td.woocommerce-orders-table__cell-order-status {
+  color: #0284c7;
+}
+
+.brik-woo_account [class*="--status-on-hold"] td.woocommerce-orders-table__cell-order-status,
+.brik-woo_account [class*="--status-pending"] td.woocommerce-orders-table__cell-order-status {
+  color: #d97706;
+}
+
+.brik-woo_account :is([class*="--status-cancelled"], [class*="--status-failed"], [class*="--status-refunded"]) td.woocommerce-orders-table__cell-order-status {
+  color: var(--destructive);
+}
+
+.brik-woo_account .woocommerce-orders-table__cell-order-actions {
+  text-align: right !important;
+}
+
+.brik-woo_account .woocommerce-orders-table__cell-order-actions .button {
+  height: 2rem;
+  padding: 0 0.75rem;
+  font-size: 0.8125rem;
+}
+
+.brik-woo_account .woocommerce-orders-table__cell-order-actions .button + .button {
+  margin-left: 0.25rem;
+}
+
+@media (max-width: 767px) {
+  .brik-woo_account table.woocommerce-orders-table thead {
+    display: none;
+  }
+
+  .brik-woo_account table.woocommerce-orders-table,
+  .brik-woo_account table.woocommerce-orders-table :is(tbody, tr, th, td) {
+    display: block;
+  }
+
+  .brik-woo_account table.woocommerce-orders-table tr {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .brik-woo_account table.woocommerce-orders-table :is(th, td) {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.375rem 1rem;
+    border: 0;
+  }
+
+  .brik-woo_account table.woocommerce-orders-table :is(th, td)[data-title]::before {
+    content: attr(data-title);
+    color: var(--muted-foreground);
+    font-weight: 400;
+  }
+}
+
+.brik-woo_account .woocommerce-pagination {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+/* Addresses. */
+.brik-woo_account .woocommerce-Addresses {
+  display: grid;
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .brik-woo_account .woocommerce-Addresses {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.brik-woo_account .woocommerce-Address {
+  display: grid;
+  gap: 0.75rem;
+  padding: 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) + 4px);
+  background: var(--card);
+}
+
+.brik-woo_account .woocommerce-Address-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.brik-woo_account .woocommerce-Address-title h2 {
+  font-size: 1rem;
+}
+
+.brik-woo_account .woocommerce-Address-title .edit {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  text-decoration: underline;
+}
+
+/* Account forms. */
+.brik-woo_account :is(.woocommerce-EditAccountForm, .woocommerce-address-fields, .woocommerce-ResetPassword) {
+  max-width: 40rem;
+}
+
+.brik-woo_account .woocommerce-address-fields__field-wrapper,
+.brik-woo_account .woocommerce-EditAccountForm {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 1rem;
+}
+
+.brik-woo_account .woocommerce-address-fields__field-wrapper .form-row,
+.brik-woo_account .woocommerce-EditAccountForm > * {
+  grid-column: 1 / -1;
+}
+
+.brik-woo_account :is(.woocommerce-address-fields__field-wrapper, .woocommerce-EditAccountForm) :is(.form-row-first, .form-row-last) {
+  grid-column: span 1;
+}
+
+.brik-woo_account .woocommerce-EditAccountForm fieldset {
+  margin: 0.5rem 0 1rem;
+  padding: 1.25rem 1.25rem 0.25rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.brik-woo_account .woocommerce-EditAccountForm legend {
+  padding: 0 0.375rem;
+  font-weight: 600;
+}
+
+.brik-woo_account #account_display_name_description,
+.brik-woo_account .woocommerce-form-row em {
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+}
+
+.brik-woo_account .woocommerce-MyAccount-content > h2,
+.brik-woo_account .woocommerce-MyAccount-content > h3,
+.brik-woo_account .woocommerce-MyAccount-content form > h2,
+.brik-woo_account .woocommerce-MyAccount-content form > h3 {
+  font-size: 1.25rem;
+}
+
+.brik-woo_account :is(.woocommerce-order-details, .woocommerce-customer-details) {
+  padding: 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) + 4px);
+}
+
+.brik-woo_account .woocommerce-customer-details .addresses {
+  display: grid;
+  gap: 1rem;
+}
+
+.brik-woo_account mark {
+  padding: 0 0.25rem;
+  border-radius: 4px;
+  background: var(--muted);
+  color: var(--foreground);
+  font-weight: 600;
+}
+
+/* Login and registration. */
+.brik-woo_account #customer_login {
+  display: grid;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 56rem;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .brik-woo_account #customer_login {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.brik-woo_account #customer_login > div,
+.brik-woo_account .woocommerce > form.woocommerce-form-login,
+.brik-woo_account .woocommerce > form.lost_reset_password,
+.brik-woo_account .woocommerce > h2 + form.woocommerce-form-login {
+  float: none;
+  width: auto;
+  padding: 1.75rem;
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) + 4px);
+  background: var(--card);
+  color: var(--card-foreground);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.05);
+}
+
+.brik-woo_account .woocommerce > form.woocommerce-form-login,
+.brik-woo_account .woocommerce > form.lost_reset_password {
+  width: 100%;
+  max-width: 28rem;
+  margin: 0 auto;
+}
+
+.brik-woo_account .woocommerce > h2 {
+  display: none;
+}
+
+.brik-woo_account #customer_login h2 {
+  margin-bottom: 1.25rem;
+  font-size: 1.25rem;
+}
+
+.brik-woo_account :is(.woocommerce-form-login, .woocommerce-form-register) {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.brik-woo_account .woocommerce-form-login > .form-row:not(.woocommerce-form-row) {
+  display: flex;
+  flex-direction: row-reverse;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.brik-woo_account :is(.woocommerce-form-login__submit, .woocommerce-form-register__submit) {
+  width: 100%;
+}
+
+.brik-woo_account .woocommerce-form-login > .form-row:not(.woocommerce-form-row) .woocommerce-form-login__submit {
+  width: auto;
+  flex: 1 1 100%;
+}
+
+.brik-woo_account .woocommerce-LostPassword {
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+.brik-woo_account .woocommerce-LostPassword a {
+  color: var(--muted-foreground);
+  text-decoration: underline;
+}
+
+.brik-woo_account .woocommerce-form-register > p:not(.form-row) {
+  color: var(--muted-foreground);
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+.brik-woo_account .password-input {
+  position: relative;
+  display: block;
+}
+
+.brik-woo_account .show-password-input {
+  position: absolute;
+  top: 50%;
+  right: 0.5rem;
+  width: 1.75rem;
+  height: 1.75rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--muted-foreground);
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.brik-woo_account .show-password-input::after {
+  content: "";
+  display: block;
+  width: 1rem;
+  height: 1rem;
+  margin: auto;
+  background: currentColor;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0'/%3E%3Ccircle cx='12' cy='12' r='3'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+.brik-woo_account .woocommerce-password-strength {
+  margin-top: 0.375rem;
+  padding: 0.375rem 0.625rem;
+  border-radius: calc(var(--radius) - 4px);
+  background: var(--muted);
+  font-size: 0.75rem;
+}
+
+.brik-woo_account .woocommerce-password-strength.strong {
+  color: #059669;
+}
+
+.brik-woo_account .woocommerce-password-strength:is(.short, .bad) {
+  color: var(--destructive);
+}
+
+.brik-woo_account .woocommerce-password-hint {
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+}
+
+/* ---------------------------------------------------------------------------
+ * Quick view form: WooCommerce's single add-to-cart markup.
+ * ------------------------------------------------------------------------ */
+.brik-qv-form form.cart {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.brik-qv-form form.cart.variations_form,
+.brik-qv-form form.cart.grouped_form {
+  display: grid;
+}
+
+.brik-qv-form .single_add_to_cart_button {
+  flex: 1;
+  height: 2.75rem !important;
+}
+
+.brik-qv-form table.variations {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.brik-qv-form table.variations tr {
+  display: grid;
+  gap: 0.375rem;
+  margin-bottom: 0.875rem;
+}
+
+.brik-qv-form table.variations :is(th, td) {
+  padding: 0;
+  text-align: left;
+}
+
+.brik-qv-form table.variations th label {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.brik-qv-form .reset_variations {
+  display: inline-block;
+  margin-top: 0.375rem;
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+  text-decoration: underline;
+}
+
+.brik-qv-form .woocommerce-variation-add-to-cart {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.brik-qv-form .single_variation {
+  font-size: 0.875rem;
+}
+
+.brik-qv-form .woocommerce-variation-price {
+  margin-bottom: 0.5rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.brik-qv-form .stock,
+.brik-woo .stock {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.brik-qv-form .stock.in-stock,
+.brik-woo .stock.in-stock {
+  color: #059669;
+}
+
+.brik-qv-form .stock.out-of-stock,
+.brik-woo .stock.out-of-stock {
+  color: var(--destructive);
+}
+
+.brik-qv-form table.group_table {
+  width: 100%;
+  font-size: 0.875rem;
+}
+
+.brik-qv-form table.group_table td {
+  padding: 0.5rem 0.5rem 0.5rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.brik-qv-form table.group_table .quantity {
+  height: 2.25rem;
+}
+
+.brik-qv-form table.group_table .quantity input.qty {
+  width: 2.5rem;
+}
+
+.dark .brik-qv-form .quantity,
+.brik-qv-dialog:is(.dark *) .quantity {
+  background: color-mix(in oklab, var(--input) 30%, transparent);
+}
+
+/* The summary table lays out as rows of flex lines, so shipping options can span the card. */
+.brik-woo_checkout .woocommerce-checkout-review-order-table,
+.brik-woo_checkout .woocommerce-checkout-review-order-table :is(tbody, tfoot) {
+  display: block;
+}
+
+.brik-woo_checkout .woocommerce-checkout-review-order-table tr:not(.woocommerce-shipping-totals) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.brik-woo_checkout .woocommerce-checkout-review-order-table tr:not(.woocommerce-shipping-totals) :is(th, td) {
+  border: 0;
+}
+
+.brik-woo_checkout .woocommerce-checkout-review-order-table tr.order-total {
+  border-bottom: 0;
+}

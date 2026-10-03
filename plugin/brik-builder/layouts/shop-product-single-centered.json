@@ -1,0 +1,231 @@
+{
+ "title": "Shop — product page (full-width gallery, sticky details)",
+ "category": "shop",
+ "kind": "section",
+ "tree": [
+  {
+   "type": "section",
+   "attrs": {
+    "padding": "24px 24px 0",
+    "padding@mobile": "12px 16px 0"
+   },
+   "children": [
+    {
+     "type": "row",
+     "attrs": {
+      "columns": "1"
+     },
+     "children": [
+      {
+       "type": "column",
+       "children": [
+        {
+         "type": "woo_notices",
+         "attrs": {}
+        },
+        {
+         "type": "woo_breadcrumb",
+         "attrs": {
+          "separator": "slash"
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "section",
+   "attrs": {
+    "padding": "24px 24px 80px",
+    "padding@mobile": "12px 16px 48px"
+   },
+   "children": [
+    {
+     "type": "row",
+     "attrs": {
+      "columns": "7/12,5/12",
+      "columns@tablet": "1",
+      "gap": "64px",
+      "gap@tablet": "32px",
+      "align_items": "start"
+     },
+     "children": [
+      {
+       "type": "column",
+       "attrs": {
+        "gap": "48px"
+       },
+       "children": [
+        {
+         "type": "product_gallery",
+         "attrs": {
+          "thumbs": "left",
+          "ratio": "4:5",
+          "zoom": true,
+          "lightbox": true,
+          "badge": true,
+          "rounded": "2xl"
+         }
+        },
+        {
+         "type": "product_tabs",
+         "attrs": {
+          "style": "accordion",
+          "panel_style": "plain"
+         }
+        }
+       ]
+      },
+      {
+       "type": "column",
+       "attrs": {
+        "gap": "18px",
+        "padding": "32px",
+        "padding@mobile": "0",
+        "border_width": "1px",
+        "border_width@mobile": "0",
+        "border_style": "solid",
+        "border_color": "var(--border)",
+        "radius": "calc(var(--radius) + 8px)",
+        "bg_color": "var(--card)",
+        "bg_color@mobile": "transparent",
+        "shadow": "sm",
+        "shadow@mobile": "none",
+        "sticky": true
+       },
+       "children": [
+        {
+         "type": "product_badge",
+         "attrs": {
+          "sale": false,
+          "new": true,
+          "featured": true
+         }
+        },
+        {
+         "type": "product_title",
+         "attrs": {
+          "level": "h1",
+          "size": "h3"
+         }
+        },
+        {
+         "type": "product_rating",
+         "attrs": {}
+        },
+        {
+         "type": "product_price",
+         "attrs": {
+          "size": "lg",
+          "badge": true
+         }
+        },
+        {
+         "type": "product_short_description",
+         "attrs": {
+          "size": "sm"
+         }
+        },
+        {
+         "type": "product_stock",
+         "attrs": {
+          "style": "dot"
+         }
+        },
+        {
+         "type": "product_add_to_cart",
+         "attrs": {
+          "selector_style": "auto",
+          "buy_now": true,
+          "sticky_mobile": true,
+          "show_stock": false
+         }
+        },
+        {
+         "type": "icon_list",
+         "attrs": {
+          "layout": "inline",
+          "size": "sm",
+          "icon_style": "plain",
+          "items": [
+           {
+            "text": "Free shipping over $50",
+            "icon": "truck"
+           },
+           {
+            "text": "30-day returns",
+            "icon": "rotate-ccw"
+           },
+           {
+            "text": "Secure checkout",
+            "icon": "shield-check"
+           }
+          ],
+          "text_color": "var(--muted-foreground)"
+         }
+        },
+        {
+         "type": "product_meta",
+         "attrs": {
+          "layout": "stacked",
+          "terms": "badges",
+          "border_width": "1px 0 0",
+          "border_style": "solid",
+          "border_color": "var(--border)",
+          "padding": "18px 0 0"
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "section",
+   "attrs": {
+    "padding": "72px 24px",
+    "padding@mobile": "48px 16px",
+    "border_width": "1px 0 0",
+    "border_style": "solid",
+    "border_color": "var(--border)"
+   },
+   "children": [
+    {
+     "type": "row",
+     "attrs": {
+      "columns": "1"
+     },
+     "children": [
+      {
+       "type": "column",
+       "attrs": {
+        "gap": "56px"
+       },
+       "children": [
+        {
+         "type": "product_upsells",
+         "attrs": {
+          "title": "Pairs well with",
+          "limit": 4,
+          "columns": 4
+         }
+        },
+        {
+         "type": "product_related",
+         "attrs": {
+          "title": "More to explore",
+          "limit": 4,
+          "columns": 4
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -399,6 +399,18 @@ const NEEDS = {
   term: 'terms',
   in_term: 'terms',
   author: 'authors',
+  // WooCommerce rules pick from a fixed post type or taxonomy.
+  product: 'ids',
+  product_cat: 'terms',
+  product_tag: 'terms',
+  product_in_cat: 'terms',
+};
+
+const FIXED = {
+  product: { post_type: 'product' },
+  product_cat: { taxonomy: 'product_cat' },
+  product_tag: { taxonomy: 'product_tag' },
+  product_in_cat: { taxonomy: 'product_cat' },
 };
 
 function Conditions() {
@@ -432,8 +444,8 @@ function Conditions() {
           />
           <Select className="w-52" value={c.rule} onChange={(rule) => update(i, { rule, ids: [], post_type: '', taxonomy: '' })} options={Object.entries(schema.conditions).map(([v, l]) => ({ value: v, label: l }))} />
           {NEEDS[c.rule] === 'post_type' && <Select className="w-40" value={c.post_type || ''} onChange={(post_type) => update(i, { post_type })} placeholder="Any type" options={Object.entries(schema.post_types).map(([v, l]) => ({ value: v, label: l }))} />}
-          {NEEDS[c.rule] === 'terms' && <Select className="w-40" value={c.taxonomy || ''} onChange={(taxonomy) => update(i, { taxonomy, ids: [] })} placeholder="Taxonomy" options={Object.entries(schema.taxonomies).map(([v, l]) => ({ value: v, label: l }))} />}
-          {(NEEDS[c.rule] === 'ids' || (NEEDS[c.rule] === 'terms' && c.taxonomy)) && <IdPicker rule={c} onChange={(ids) => update(i, { ids })} />}
+          {NEEDS[c.rule] === 'terms' && !FIXED[c.rule] && <Select className="w-40" value={c.taxonomy || ''} onChange={(taxonomy) => update(i, { taxonomy, ids: [] })} placeholder="Taxonomy" options={Object.entries(schema.taxonomies).map(([v, l]) => ({ value: v, label: l }))} />}
+          {(NEEDS[c.rule] === 'ids' || (NEEDS[c.rule] === 'terms' && (c.taxonomy || FIXED[c.rule]))) && <IdPicker rule={{ ...c, ...(FIXED[c.rule] || {}) }} onChange={(ids) => update(i, { ids, ...(FIXED[c.rule] || {}) })} />}
           <IconButton icon="trash-2" label="Remove rule" className="ml-auto" onClick={() => set(conditions.filter((_, j) => j !== i))} />
         </div>
       ))}
@@ -446,7 +458,7 @@ function IdPicker({ rule, onChange }) {
   const [q, setQ] = useState('');
   const [results, setResults] = useState([]);
   const [labels, setLabels] = useState({});
-  const term = rule.rule === 'term' || rule.rule === 'in_term';
+  const term = NEEDS[rule.rule] === 'terms';
 
   useEffect(() => {
     if (!q) {
@@ -454,7 +466,7 @@ function IdPicker({ rule, onChange }) {
       return;
     }
     const t = setTimeout(() => {
-      search(term ? { what: 'term', taxonomy: rule.taxonomy, q } : { q }).then(setResults);
+      search(term ? { what: 'term', taxonomy: rule.taxonomy, q } : rule.post_type ? { q, post_type: rule.post_type } : { q }).then(setResults);
     }, 250);
     return () => clearTimeout(t);
   }, [q]);

@@ -11,6 +11,9 @@ final class Plugin {
 		add_action( 'init', array( __CLASS__, 'register_meta' ) );
 
 		Content\Content::init();
+		if ( class_exists( 'WooCommerce' ) ) {
+			Woo\Woo::init();
+		}
 		ThemeBuilder::init();
 		Library::init();
 		Frontend::init();

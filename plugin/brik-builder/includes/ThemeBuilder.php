@@ -91,7 +91,9 @@ final class ThemeBuilder {
 	 * Rules the condition editor offers.
 	 */
 	public static function rule_types() {
-		return array(
+		return apply_filters(
+			'brik/condition_types',
+			array(
 			'entire_site' => __( 'Entire site', 'brik-builder' ),
 			'front_page'  => __( 'Front page', 'brik-builder' ),
 			'blog'        => __( 'Blog (posts page)', 'brik-builder' ),
@@ -104,6 +106,7 @@ final class ThemeBuilder {
 			'date'        => __( 'Date archive', 'brik-builder' ),
 			'search'      => __( 'Search results', 'brik-builder' ),
 			'404'         => __( '404 page', 'brik-builder' ),
+			)
 		);
 	}
 

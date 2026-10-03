@@ -13,7 +13,7 @@
 <p align="center">
   <b>Design any WordPress site visually — or let your AI assistant build it for you.</b><br>
   Drag &amp; drop builder · shadcn/ui-quality components · animated 3D sections · theme builder ·<br>
-  custom post types &amp; fields · listings &amp; forms · built-in MCP server · 100% open source
+  custom post types &amp; fields · WooCommerce · built-in MCP server · 100% open source
 </p>
 
 <p align="center">
@@ -143,6 +143,23 @@ entire site, front page, blog, post types, specific posts, archives, taxonomy te
 - **Forms that do things**: create or update posts (with image uploads, custom fields and terms),
   register users, send email, save entries, call webhooks
 
+### WooCommerce
+
+<table>
+<tr>
+<td width="50%"><img src=".github/assets/product.jpg" alt="Product page built with Brik"></td>
+<td width="50%"><img src=".github/assets/shop.jpg" alt="Shop page with filters"></td>
+</tr>
+</table>
+
+- Product page elements: gallery with zoom, lightbox and variation images; add to cart with color swatches,
+  size pills, quantity stepper, AJAX add and buy now; tabs, reviews, stock, badges, related and upsells
+- Product grids and carousels, quick view, category cards, result count and sorting
+- Filters for price, categories, attributes (swatches and pills), rating, stock and sale — with a mobile sheet
+- Header mini cart with a slide-out drawer and free-shipping progress; restyled cart, checkout, account and thank-you pages
+- Theme builder conditions for products, shop, categories, cart, checkout and account, plus `{product:price}`-style tags
+- Uses WooCommerce's own forms underneath, so gateways and extensions keep working
+
 ## 🤖 Build with AI (MCP)
 
 <img src=".github/assets/mcp.jpg" alt="Connect AI screen" width="100%">
@@ -164,8 +181,8 @@ Then just ask:
 >
 > *"Add an Events post type with date, venue and ticket link fields, then create five sample events."*
 
-Clients get 37 tools — pages, individual elements, templates, menus, design tokens, presets, the
-library, media, content types and entries — plus a building guide, and every change goes through
+Clients get 37 tools (41 with WooCommerce) — pages, individual elements, templates, menus, design tokens, presets, the
+library, media, content types and entries, and WooCommerce products — plus a building guide, and every change goes through
 the same validation and sanitization as the visual builder. See [docs/MCP.md](docs/MCP.md).
 
 ## 🚀 Quick start
@@ -232,7 +249,6 @@ Read [docs/MODULES.md](docs/MODULES.md), [docs/ARCHITECTURE.md](docs/ARCHITECTUR
 
 ## 🗺 Roadmap
 
-- WooCommerce elements (product grids, cart and checkout parts)
 - Revisions browser for builder content
 - Role-based element access
 - A/B testing

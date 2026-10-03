@@ -1,0 +1,36 @@
+{
+ "title": "Shop — cart",
+ "category": "shop",
+ "kind": "section",
+ "tree": [
+  {
+   "type": "section",
+   "attrs": {
+    "padding": "48px 24px 96px",
+    "padding@mobile": "32px 16px 64px"
+   },
+   "children": [
+    {
+     "type": "row",
+     "children": [
+      {
+       "type": "column",
+       "children": [
+        {
+         "type": "woo_cart",
+         "attrs": {
+          "title": "Shopping cart",
+          "sticky_totals": true,
+          "cross_sells": true,
+          "suggestions": "best_selling",
+          "suggestions_count": 4
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

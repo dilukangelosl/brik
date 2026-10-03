@@ -1,0 +1,360 @@
+{
+ "title": "Shop — home hero, featured, categories, sale",
+ "category": "shop",
+ "kind": "section",
+ "tree": [
+  {
+   "type": "section",
+   "attrs": {
+    "padding": "72px 24px",
+    "padding@mobile": "40px 16px"
+   },
+   "children": [
+    {
+     "type": "row",
+     "attrs": {
+      "columns": "1/2,1/2",
+      "gap": "64px",
+      "gap@tablet": "40px",
+      "align_items": "center"
+     },
+     "children": [
+      {
+       "type": "column",
+       "attrs": {
+        "gap": "24px"
+       },
+       "children": [
+        {
+         "type": "badge",
+         "attrs": {
+          "text": "New season · Autumn edit",
+          "variant": "secondary"
+         }
+        },
+        {
+         "type": "heading",
+         "attrs": {
+          "text": "Everyday essentials, <span class=\"text-muted-foreground\">made to last.</span>",
+          "level": "h1",
+          "style": "display"
+         }
+        },
+        {
+         "type": "text",
+         "attrs": {
+          "content": "<p>Considered basics in honest materials. Free shipping on orders over $100 and easy 30-day returns.</p>",
+          "size": "lead"
+         }
+        },
+        {
+         "type": "button_group",
+         "attrs": {
+          "buttons": [
+           {
+            "text": "Shop the collection",
+            "link": {
+             "url": "/store/"
+            },
+            "variant": "default",
+            "size": "lg",
+            "icon": "arrow-right",
+            "icon_position": "end"
+           },
+           {
+            "text": "Browse categories",
+            "link": {
+             "url": "#categories"
+            },
+            "variant": "outline",
+            "size": "lg"
+           }
+          ]
+         }
+        },
+        {
+         "type": "icon_list",
+         "attrs": {
+          "layout": "inline",
+          "size": "sm",
+          "icon": "check",
+          "items": [
+           {
+            "text": "Free shipping over $100"
+           },
+           {
+            "text": "30-day returns"
+           },
+           {
+            "text": "Secure checkout"
+           }
+          ]
+         }
+        }
+       ]
+      },
+      {
+       "type": "column",
+       "children": [
+        {
+         "type": "image",
+         "attrs": {
+          "image": {
+           "url": "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=1200&q=80",
+           "alt": "Folded knitwear on a shelf"
+          },
+          "ratio": "4:5",
+          "rounded": "xl",
+          "img_shadow": "xl"
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "section",
+   "attrs": {
+    "padding": "48px 24px",
+    "padding@mobile": "32px 16px"
+   },
+   "children": [
+    {
+     "type": "row",
+     "attrs": {
+      "sizing": "auto",
+      "justify": "space-between",
+      "align_items": "end",
+      "direction@mobile": "horizontal",
+      "padding": "0 0 28px",
+      "gap": "16px"
+     },
+     "children": [
+      {
+       "type": "column",
+       "attrs": {
+        "gap": "8px"
+       },
+       "children": [
+        {
+         "type": "heading",
+         "attrs": {
+          "text": "Featured",
+          "level": "p",
+          "style": "eyebrow"
+         }
+        },
+        {
+         "type": "heading",
+         "attrs": {
+          "text": "Picked for you",
+          "level": "h2",
+          "style": "h2"
+         }
+        }
+       ]
+      },
+      {
+       "type": "column",
+       "children": [
+        {
+         "type": "button",
+         "attrs": {
+          "text": "View all",
+          "variant": "ghost",
+          "icon": "arrow-right",
+          "icon_position": "end",
+          "link": {
+           "url": "/store/"
+          }
+         }
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "type": "row",
+     "children": [
+      {
+       "type": "column",
+       "children": [
+        {
+         "type": "products",
+         "attrs": {
+          "source": "featured",
+          "per_page": 8,
+          "layout": "carousel",
+          "columns": 4,
+          "columns@tablet": 3,
+          "columns@mobile": 2,
+          "arrows": true,
+          "card_style": "minimal",
+          "card_ratio": "4:5",
+          "quick_view": true
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "section",
+   "attrs": {
+    "padding": "48px 24px",
+    "padding@mobile": "32px 16px",
+    "css_id": "categories"
+   },
+   "children": [
+    {
+     "type": "row",
+     "attrs": {
+      "padding": "0 0 28px"
+     },
+     "children": [
+      {
+       "type": "column",
+       "attrs": {
+        "gap": "8px"
+       },
+       "children": [
+        {
+         "type": "heading",
+         "attrs": {
+          "text": "Categories",
+          "level": "p",
+          "style": "eyebrow"
+         }
+        },
+        {
+         "type": "heading",
+         "attrs": {
+          "text": "Shop by category",
+          "level": "h2",
+          "style": "h2"
+         }
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "type": "row",
+     "children": [
+      {
+       "type": "column",
+       "children": [
+        {
+         "type": "product_categories",
+         "attrs": {
+          "source": "top",
+          "orderby": "count",
+          "limit": 4,
+          "style": "overlay",
+          "columns": 4,
+          "columns@tablet": 2,
+          "columns@mobile": 2,
+          "card_ratio": "3:4"
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "section",
+   "attrs": {
+    "padding": "48px 24px 96px",
+    "padding@mobile": "32px 16px 64px"
+   },
+   "children": [
+    {
+     "type": "row",
+     "attrs": {
+      "columns": "1/2,1/2",
+      "gap": "0px",
+      "align_items": "stretch",
+      "radius": "24px",
+      "overflow": "hidden",
+      "bg_color": "var(--primary)",
+      "text_color": "var(--primary-foreground)"
+     },
+     "children": [
+      {
+       "type": "column",
+       "attrs": {
+        "gap": "20px",
+        "padding": "56px",
+        "padding@mobile": "32px",
+        "v_align": "center"
+       },
+       "children": [
+        {
+         "type": "badge",
+         "attrs": {
+          "text": "Limited time",
+          "variant": "secondary"
+         }
+        },
+        {
+         "type": "heading",
+         "attrs": {
+          "text": "Up to 40% off seasonal favourites",
+          "level": "h2",
+          "style": "h1",
+          "title_text_color": "var(--primary-foreground)"
+         }
+        },
+        {
+         "type": "text",
+         "attrs": {
+          "content": "<p>Hoodies, caps and accessories at their lowest prices of the year. While stocks last.</p>",
+          "text_color": "color-mix(in oklab, var(--primary-foreground) 75%, transparent)"
+         }
+        },
+        {
+         "type": "button",
+         "attrs": {
+          "text": "Shop the sale",
+          "variant": "secondary",
+          "size": "lg",
+          "icon": "arrow-right",
+          "icon_position": "end",
+          "link": {
+           "url": "/store/?bf_shop_sale=1"
+          }
+         }
+        }
+       ]
+      },
+      {
+       "type": "column",
+       "attrs": {
+        "min_height": "320px"
+       },
+       "children": [
+        {
+         "type": "image",
+         "attrs": {
+          "image": {
+           "url": "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=1200&q=80",
+           "alt": "Clothes on a rail"
+          },
+          "ratio": "4:3",
+          "fit": "cover"
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -19,3 +19,5 @@ import './modules/tabs.js';
 import './modules/theme-toggle.js';
 import './modules/toggle.js';
 import './modules/video.js';
+import './modules/woo-product.js';
+import './modules/woo-shop.js';

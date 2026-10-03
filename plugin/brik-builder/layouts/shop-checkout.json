@@ -1,0 +1,34 @@
+{
+ "title": "Shop — checkout",
+ "category": "shop",
+ "kind": "section",
+ "tree": [
+  {
+   "type": "section",
+   "attrs": {
+    "padding": "48px 24px 96px",
+    "padding@mobile": "32px 16px 64px"
+   },
+   "children": [
+    {
+     "type": "row",
+     "children": [
+      {
+       "type": "column",
+       "children": [
+        {
+         "type": "woo_checkout",
+         "attrs": {
+          "title": "Checkout",
+          "steps": true,
+          "sticky_summary": true
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

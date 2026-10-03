@@ -1,0 +1,82 @@
+{
+ "title": "Shop — header with menu and cart",
+ "category": "shop",
+ "kind": "section",
+ "tree": [
+  {
+   "type": "section",
+   "attrs": {
+    "tag": "header",
+    "sticky": true,
+    "padding": "12px 24px",
+    "padding@mobile": "10px 16px",
+    "bg_color": "color-mix(in oklab, var(--background) 85%, transparent)",
+    "backdrop_blur": 12,
+    "border_width": "0 0 1px 0",
+    "border_style": "solid",
+    "border_color": "var(--border)",
+    "z_index": 50
+   },
+   "children": [
+    {
+     "type": "row",
+     "attrs": {
+      "columns": "auto 1fr auto",
+      "columns@tablet": "1fr auto auto",
+      "columns@mobile": "1fr auto auto",
+      "direction@mobile": "horizontal",
+      "gap": "24px",
+      "gap@mobile": "8px",
+      "align_items": "center"
+     },
+     "children": [
+      {
+       "type": "column",
+       "children": [
+        {
+         "type": "site_logo",
+         "attrs": {
+          "max_height": "32px"
+         }
+        }
+       ]
+      },
+      {
+       "type": "column",
+       "children": [
+        {
+         "type": "menu",
+         "attrs": {
+          "align": "center",
+          "align@tablet": "right",
+          "link_style": "ghost",
+          "breakpoint": "tablet"
+         }
+        }
+       ]
+      },
+      {
+       "type": "column",
+       "attrs": {
+        "layout": "inline",
+        "gap": "4px"
+       },
+       "children": [
+        {
+         "type": "mini_cart",
+         "attrs": {
+          "mode": "drawer",
+          "icon": "shopping-bag",
+          "free_shipping": true,
+          "cross_sells": true,
+          "auto_open": true
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

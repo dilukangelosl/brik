@@ -40,6 +40,12 @@ if ( ! brik_theme_location( 'header' ) ) :
 					</div>
 				</nav>
 
+				<?php
+				if ( function_exists( 'brik_theme_cart_link' ) ) {
+					brik_theme_cart_link();
+				}
+				?>
+
 				<?php if ( brik_theme_show_mode_toggle() ) : ?>
 					<button type="button" class="icon-button mode-toggle" aria-label="<?php esc_attr_e( 'Toggle dark mode', 'brik' ); ?>" aria-pressed="false">
 						<?php brik_theme_the_icon( 'sun' ); ?>

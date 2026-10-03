@@ -1,0 +1,1413 @@
+/*
+ * Single product modules.
+ *
+ * The add to cart form, notices and review form are WooCommerce's own markup, so they are
+ * styled here rather than with utilities. Selectors start with ".brik .brik-…" so they win over
+ * woocommerce.css (".woocommerce button.button.alt" and friends) without !important.
+ */
+
+.brik {
+  --brik-success: oklch(0.6 0.14 155);
+  --brik-warning: oklch(0.7 0.15 70);
+}
+
+.brik .screen-reader-text {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Price ------------------------------------------------------------------ */
+
+.brik .brik-price-amount {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.625rem;
+  margin: 0;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+  color: var(--foreground);
+}
+
+.brik .brik-price-amount ins {
+  order: -1;
+  text-decoration: none;
+  background: none;
+  color: inherit;
+}
+
+.brik .brik-price-amount del {
+  font-size: 0.62em;
+  font-weight: 400;
+  color: var(--muted-foreground);
+  text-decoration-thickness: 1px;
+  opacity: 1;
+}
+
+.brik .brik-price-amount .woocommerce-price-suffix {
+  font-size: 0.6em;
+  font-weight: 400;
+  color: var(--muted-foreground);
+}
+
+.brik .brik-price-badge[hidden] {
+  display: none;
+}
+
+/* Add to cart ------------------------------------------------------------ */
+
+.brik .brik-atc {
+  --brik-atc-h: 2.75rem;
+  --brik-var-radius: calc(var(--radius) - 2px);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.brik .brik-atc--btn-default {
+  --brik-atc-h: 2.25rem;
+}
+
+.brik .brik-atc--btn-xl {
+  --brik-atc-h: 3rem;
+}
+
+.brik .brik-atc form.cart {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 0.75rem;
+  margin: 0;
+}
+
+.brik .brik-atc form.variations_form,
+.brik .brik-atc form.grouped_form {
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.brik .brik-atc .woocommerce-variation-add-to-cart,
+.brik .brik-atc .brik-atc-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 0.75rem;
+}
+
+/* Variation table → stacked fields. */
+.brik .brik-atc table.variations,
+.brik .brik-atc table.variations tbody,
+.brik .brik-atc table.variations tr,
+.brik .brik-atc table.variations th,
+.brik .brik-atc table.variations td {
+  display: block;
+  width: auto;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: left;
+}
+
+.brik .brik-atc table.variations tbody {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.brik .brik-atc table.variations th.label {
+  margin-bottom: 0.625rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 500;
+}
+
+.brik .brik-atc table.variations th.label label {
+  display: inline;
+  margin: 0;
+  font-weight: 500;
+  color: var(--foreground);
+}
+
+.brik .brik-atc .brik-var-chosen {
+  margin-left: 0.25rem;
+  font-weight: 400;
+  color: var(--muted-foreground);
+}
+
+.brik .brik-atc table.variations td.value {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.brik .brik-atc .brik-var-field {
+  position: relative;
+  min-width: 0;
+}
+
+/* The select stays in the form for WooCommerce's variation script. */
+.brik .brik-atc .brik-var-field--buttons select {
+  position: absolute;
+  inset: 0;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.brik .brik-atc .brik-var-field--select {
+  width: 100%;
+  max-width: 20rem;
+}
+
+.brik .brik-atc .brik-var-field--select select {
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: var(--brik-atc-h);
+  padding: 0 2.25rem 0 0.875rem;
+  border: 1px solid var(--input);
+  border-radius: var(--brik-var-radius);
+  background: var(--background);
+  color: var(--foreground);
+  font-size: 0.875rem;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.brik .brik-atc .brik-var-field--select select:focus-visible {
+  border-color: var(--ring);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent);
+}
+
+.brik .brik-atc .brik-var-caret {
+  position: absolute;
+  top: 50%;
+  right: 0.75rem;
+  translate: 0 -50%;
+  pointer-events: none;
+  color: var(--muted-foreground);
+}
+
+.brik .brik-atc .brik-var-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.brik .brik-atc .brik-var-option {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+}
+
+.brik .brik-atc .brik-var-pill {
+  min-width: 2.75rem;
+  height: 2.5rem;
+  padding: 0 1rem;
+  border: 1px solid var(--input);
+  border-radius: var(--brik-var-radius);
+  background: var(--background);
+  color: var(--foreground);
+  font-size: 0.875rem;
+  font-weight: 500;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+
+.brik .brik-atc .brik-var-pill:hover {
+  border-color: color-mix(in oklab, var(--foreground) 35%, var(--input));
+  background: var(--accent);
+}
+
+.brik .brik-atc .brik-var-pill[aria-pressed="true"] {
+  border-color: var(--brik-var-active, var(--primary));
+  background: var(--brik-var-active, var(--primary));
+  color: var(--primary-foreground);
+}
+
+.brik .brik-atc .brik-var-swatch {
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 3px;
+  border: 1px solid var(--border);
+  border-radius: 9999px;
+  background: var(--background);
+}
+
+.brik .brik-atc .brik-var-swatch:hover {
+  border-color: color-mix(in oklab, var(--foreground) 40%, var(--border));
+}
+
+.brik .brik-atc .brik-var-swatch[aria-pressed="true"] {
+  border-color: var(--foreground);
+  box-shadow: 0 0 0 1px var(--foreground);
+}
+
+.brik .brik-atc .brik-var-dot {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 9999px;
+  background: var(--brik-swatch);
+  box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.12);
+}
+
+.brik .brik-atc .brik-var-option:focus-visible {
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent);
+}
+
+.brik .brik-atc .brik-var-option.is-unavailable {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.brik .brik-atc .brik-var-pill.is-unavailable {
+  text-decoration: line-through;
+  text-decoration-color: color-mix(in oklab, currentColor 60%, transparent);
+}
+
+.brik .brik-atc .brik-var-swatch.is-unavailable::after {
+  content: "";
+  position: absolute;
+  inset: 50% 3px auto;
+  height: 1.5px;
+  background: var(--foreground);
+  rotate: -45deg;
+}
+
+.brik .brik-atc .brik-var-option[hidden] {
+  display: none;
+}
+
+.brik .brik-atc .brik-var-options.is-shaking {
+  animation: brik-atc-shake 0.4s ease;
+}
+
+@keyframes brik-atc-shake {
+  20%, 60% { translate: -4px 0; }
+  40%, 80% { translate: 4px 0; }
+}
+
+.brik .brik-atc .reset_variations {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.8125rem;
+  color: var(--muted-foreground);
+  text-decoration: none;
+  visibility: hidden;
+}
+
+.brik .brik-atc .reset_variations:hover {
+  color: var(--foreground);
+}
+
+.brik .brik-atc .single_variation_wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.brik .brik-atc .single_variation:empty,
+.brik .brik-atc .woocommerce-variation:empty {
+  display: none;
+}
+
+.brik .brik-atc .woocommerce-variation {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.brik .brik-atc .woocommerce-variation > div:empty {
+  display: none;
+}
+
+.brik .brik-atc .woocommerce-variation-description {
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+}
+
+.brik .brik-atc .woocommerce-variation-price .price {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.brik .brik-atc .woocommerce-variation-price ins {
+  order: -1;
+  text-decoration: none;
+}
+
+.brik .brik-atc .woocommerce-variation-price del {
+  font-size: 0.75em;
+  font-weight: 400;
+  color: var(--muted-foreground);
+}
+
+/* A product price module on the page already follows the variation. */
+.brik .brik-atc.has-live-price .woocommerce-variation-price {
+  display: none;
+}
+
+/* Stock messages printed by WooCommerce. */
+.brik .brik-atc p.stock,
+.brik .brik-atc .woocommerce-variation-availability p {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--foreground);
+}
+
+.brik .brik-atc p.stock::before {
+  content: "";
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 9999px;
+  background: var(--brik-success);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--brik-success) 20%, transparent);
+}
+
+.brik .brik-atc p.stock.out-of-stock {
+  color: var(--destructive);
+}
+
+.brik .brik-atc p.stock.out-of-stock::before {
+  background: var(--destructive);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--destructive) 20%, transparent);
+}
+
+.brik .brik-atc p.stock.available-on-backorder::before {
+  background: var(--brik-warning);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--brik-warning) 25%, transparent);
+}
+
+/* Quantity stepper. */
+.brik .brik-atc .quantity {
+  display: inline-flex;
+  align-items: stretch;
+  height: var(--brik-atc-h);
+  border: 1px solid var(--input);
+  border-radius: calc(var(--radius) - 2px);
+  background: var(--background);
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  overflow: hidden;
+  float: none;
+  margin: 0;
+}
+
+.brik .brik-atc .quantity:focus-within {
+  border-color: var(--ring);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent);
+}
+
+.brik .brik-atc .quantity .qty {
+  width: 3rem;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--foreground);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  outline: none;
+  box-shadow: none;
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+.brik .brik-atc .quantity .qty::-webkit-inner-spin-button,
+.brik .brik-atc .quantity .qty::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.brik .brik-atc .brik-qty-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--muted-foreground);
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.brik .brik-atc .brik-qty-btn:hover {
+  background: var(--accent);
+  color: var(--accent-foreground);
+}
+
+.brik .brik-atc .brik-qty-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.brik .brik-atc .quantity:has(input[type="hidden"]),
+.brik .brik-atc--no-qty form.cart > .quantity,
+.brik .brik-atc--no-qty .woocommerce-variation-add-to-cart > .quantity {
+  display: none;
+}
+
+/* Buttons. */
+.brik .brik-atc .button.single_add_to_cart_button,
+.brik .brik-atc .button.brik-buy-now,
+.brik-atc-sticky .brik-atc-sticky-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: var(--brik-atc-h);
+  margin: 0;
+  padding: 0 1.5rem;
+  border: 1px solid transparent;
+  border-radius: var(--brik-atc-radius, calc(var(--radius) - 2px));
+  font-family: inherit;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+  text-decoration: none;
+  text-shadow: none;
+  cursor: pointer;
+  float: none;
+  vertical-align: middle;
+  transition: background-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease, transform 0.1s ease;
+}
+
+.brik .brik-atc .button.single_add_to_cart_button {
+  background: var(--brik-atc-bg, var(--primary));
+  color: var(--brik-atc-fg, var(--primary-foreground));
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.08);
+}
+
+.brik .brik-atc .button.single_add_to_cart_button:hover {
+  background: color-mix(in oklab, var(--brik-atc-bg, var(--primary)) 90%, transparent);
+  color: var(--brik-atc-fg, var(--primary-foreground));
+}
+
+.brik .brik-atc .button.single_add_to_cart_button:active,
+.brik .brik-atc .button.brik-buy-now:active {
+  transform: translateY(1px);
+}
+
+.brik .brik-atc .button.single_add_to_cart_button:focus-visible,
+.brik .brik-atc .button.brik-buy-now:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent);
+}
+
+.brik .brik-atc .button.single_add_to_cart_button.disabled,
+.brik .brik-atc .button.single_add_to_cart_button:disabled,
+.brik .brik-atc .button.single_add_to_cart_button.disabled:hover {
+  background: var(--brik-atc-bg, var(--primary));
+  color: var(--brik-atc-fg, var(--primary-foreground));
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.brik .brik-atc .button.brik-buy-now {
+  border-color: var(--input);
+  background: var(--background);
+  color: var(--foreground);
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+
+.brik .brik-atc .button.brik-buy-now:hover {
+  background: var(--accent);
+  color: var(--accent-foreground);
+}
+
+.brik .brik-atc--full .button.single_add_to_cart_button {
+  flex: 1 1 12rem;
+}
+
+.brik .brik-atc--full .button.brik-buy-now,
+.brik .brik-atc--full.brik-atc--external .button.single_add_to_cart_button {
+  flex: 1 1 100%;
+}
+
+/* Grouped forms stack vertically, so the buttons size by width instead. */
+.brik .brik-atc form.grouped_form > .button {
+  flex: none;
+  align-self: flex-start;
+}
+
+.brik .brik-atc--full form.grouped_form > .button {
+  align-self: stretch;
+}
+
+.brik .brik-atc table.group_table td.woocommerce-grouped-product-list-item__quantity {
+  width: 1%;
+  white-space: nowrap;
+}
+
+.brik .brik-atc .button.is-loading {
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+.brik .brik-atc .button.is-loading::before {
+  content: "";
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 9999px;
+  animation: brik-atc-spin 0.7s linear infinite;
+}
+
+.brik .brik-atc .button.is-added::before {
+  content: "";
+  width: 1rem;
+  height: 1rem;
+  background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+@keyframes brik-atc-spin {
+  to { rotate: 360deg; }
+}
+
+/* Grouped products. */
+.brik .brik-atc table.group_table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  font-size: 0.875rem;
+}
+
+.brik .brik-atc table.group_table td {
+  padding: 0.75rem 1rem;
+  border-top: 1px solid var(--border);
+  vertical-align: middle;
+}
+
+.brik .brik-atc table.group_table tr:first-child td {
+  border-top: 0;
+}
+
+.brik .brik-atc table.group_table .woocommerce-grouped-product-list-item__label a {
+  font-weight: 500;
+  color: var(--foreground);
+  text-decoration: none;
+}
+
+.brik .brik-atc table.group_table .woocommerce-grouped-product-list-item__price {
+  text-align: right;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.brik .brik-atc table.group_table .woocommerce-grouped-product-list-item__price del {
+  margin-right: 0.375rem;
+  font-weight: 400;
+  color: var(--muted-foreground);
+}
+
+.brik .brik-atc table.group_table .woocommerce-grouped-product-list-item__price ins {
+  text-decoration: none;
+}
+
+.brik .brik-atc table.group_table .quantity {
+  --brik-atc-h: 2.25rem;
+}
+
+.brik .brik-atc table.group_table .quantity .qty {
+  width: 2.5rem;
+}
+
+.brik .brik-atc table.group_table .brik-qty-btn {
+  width: 2rem;
+}
+
+.brik .brik-atc table.group_table p.stock {
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+.brik .brik-atc table.group_table a.button {
+  display: inline-flex;
+  align-items: center;
+  height: 2.25rem;
+  padding: 0 0.875rem;
+  border: 1px solid var(--input);
+  border-radius: calc(var(--radius) - 2px);
+  background: var(--background);
+  color: var(--foreground);
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+
+@media (max-width: 767px) {
+  .brik .brik-atc table.group_table td {
+    padding: 0.625rem 0.75rem;
+  }
+}
+
+/* Sticky bar on phones. */
+.brik-atc-sticky {
+  position: fixed;
+  inset: auto 0 0;
+  z-index: 60;
+  padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--border);
+  background: color-mix(in oklab, var(--background) 92%, transparent);
+  color: var(--foreground);
+  box-shadow: 0 -8px 24px -12px rgb(0 0 0 / 0.18);
+  backdrop-filter: saturate(1.4) blur(12px);
+  translate: 0 110%;
+  transition: translate 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.brik-atc-sticky.is-visible {
+  translate: 0 0;
+}
+
+.brik-atc-sticky[hidden] {
+  display: none;
+}
+
+.brik-atc-sticky-inner {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  max-width: 40rem;
+  margin: 0 auto;
+}
+
+.brik-atc-sticky .brik-atc-sticky-button {
+  --brik-atc-h: 2.5rem;
+  padding: 0 1rem;
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+
+.brik-atc-sticky .brik-price-amount {
+  flex-wrap: nowrap;
+  gap: 0.25rem 0.375rem;
+  font-size: 0.875rem;
+  white-space: nowrap;
+}
+
+@media (min-width: 768px) {
+  .brik-atc-sticky {
+    display: none !important;
+  }
+}
+
+/* Toast after adding to cart. */
+.brik-woo-toasts {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 100000;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: min(24rem, calc(100vw - 2rem));
+  pointer-events: none;
+  font-family: var(--brik-font-body, ui-sans-serif, system-ui, sans-serif);
+}
+
+.brik-woo-toasts.has-sticky {
+  bottom: calc(5.5rem + env(safe-area-inset-bottom));
+}
+
+@media (max-width: 767px) {
+  .brik-woo-toasts {
+    top: 1rem;
+    bottom: auto;
+    right: 1rem;
+  }
+
+  .brik-woo-toasts.has-sticky {
+    bottom: auto;
+  }
+}
+
+.brik-woo-toast {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.875rem;
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) + 2px);
+  background: var(--popover);
+  color: var(--popover-foreground);
+  box-shadow: 0 10px 30px -10px rgb(0 0 0 / 0.25), 0 2px 6px -2px rgb(0 0 0 / 0.08);
+  pointer-events: auto;
+  line-height: 1.4;
+  animation: brik-toast-in 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.brik-woo-toast.is-leaving {
+  animation: brik-toast-out 0.2s ease forwards;
+}
+
+@keyframes brik-toast-in {
+  from { opacity: 0; translate: 0 0.75rem; scale: 0.97; }
+}
+
+@keyframes brik-toast-out {
+  to { opacity: 0; translate: 0 0.5rem; scale: 0.97; }
+}
+
+.brik-woo-toast-media {
+  flex: none;
+  width: 3rem;
+  height: 3rem;
+  border-radius: calc(var(--radius) - 2px);
+  border: 1px solid var(--border);
+  background: var(--muted);
+  object-fit: cover;
+}
+
+.brik-woo-toast-icon {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 9999px;
+  background: color-mix(in oklab, var(--brik-success, oklch(0.6 0.14 155)) 15%, transparent);
+  color: var(--brik-success, oklch(0.6 0.14 155));
+}
+
+.brik-woo-toast.is-error .brik-woo-toast-icon {
+  background: color-mix(in oklab, var(--destructive) 15%, transparent);
+  color: var(--destructive);
+}
+
+.brik-woo-toast-icon svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.brik-woo-toast-body {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.brik-woo-toast-title {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.brik-woo-toast-text {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--muted-foreground);
+}
+
+.brik-woo-toast-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.625rem;
+}
+
+.brik-woo-toast-actions a {
+  display: inline-flex;
+  align-items: center;
+  height: 2rem;
+  padding: 0 0.75rem;
+  border: 1px solid var(--input);
+  border-radius: calc(var(--radius) - 2px);
+  background: var(--background);
+  color: var(--foreground);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background-color 0.15s ease;
+}
+
+.brik-woo-toast-actions a:hover {
+  background: var(--accent);
+}
+
+.brik-woo-toast-actions a.is-primary {
+  border-color: transparent;
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+
+.brik-woo-toast-actions a.is-primary:hover {
+  background: color-mix(in oklab, var(--primary) 90%, transparent);
+}
+
+.brik-woo-toast-close {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin: -0.25rem -0.25rem 0 0;
+  padding: 0;
+  border: 0;
+  border-radius: calc(var(--radius) - 4px);
+  background: transparent;
+  color: var(--muted-foreground);
+  cursor: pointer;
+}
+
+.brik-woo-toast-close:hover {
+  background: var(--accent);
+  color: var(--foreground);
+}
+
+.brik-woo-toast-close svg {
+  width: 0.875rem;
+  height: 0.875rem;
+}
+
+/* Gallery ---------------------------------------------------------------- */
+
+.brik .brik-pg {
+  display: grid;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+@media (min-width: 768px) {
+  .brik .brik-pg--thumbs-left {
+    grid-template-columns: 4.5rem minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .brik .brik-pg--thumbs-left .brik-pg-thumbs {
+    order: -1;
+    flex-direction: column;
+    max-height: 36rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+}
+
+.brik .brik-pg-track {
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  border-radius: inherit;
+}
+
+.brik .brik-pg-track::-webkit-scrollbar {
+  display: none;
+}
+
+.brik .brik-pg-track:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent);
+}
+
+.brik .brik-pg-slide {
+  margin: 0;
+}
+
+.brik .brik-pg-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.35s ease, opacity 0.25s ease;
+  will-change: transform;
+}
+
+.brik .brik-pg-link {
+  cursor: zoom-in;
+}
+
+.brik .brik-pg-slide.is-swapping img {
+  opacity: 0.4;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .brik .brik-pg--zoom .brik-pg-slide.is-zooming img {
+    transform: scale(2);
+    transform-origin: var(--zx, 50%) var(--zy, 50%);
+    transition: transform 0.2s ease;
+  }
+
+  .brik .brik-pg--zoom .brik-pg-stage:hover .brik-pg-hint {
+    opacity: 0;
+  }
+}
+
+.brik .brik-pg-hint {
+  transition: opacity 0.2s ease;
+}
+
+.brik .brik-pg-arrow {
+  opacity: 0;
+  cursor: pointer;
+}
+
+.brik .brik-pg-arrow[disabled] {
+  opacity: 0 !important;
+  pointer-events: none;
+}
+
+.brik .brik-pg-stage:hover .brik-pg-arrow,
+.brik .brik-pg-arrow:focus-visible {
+  opacity: 1;
+}
+
+@media (hover: none), (max-width: 767px) {
+  .brik .brik-pg-arrow {
+    display: none;
+  }
+}
+
+.brik .brik-pg-dot {
+  display: block;
+  width: 0.375rem;
+  height: 0.375rem;
+  border-radius: 9999px;
+  background: rgb(255 255 255 / 0.6);
+  box-shadow: 0 0 0 1px rgb(0 0 0 / 0.12);
+  transition: width 0.2s ease, background-color 0.2s ease;
+}
+
+.brik .brik-pg-dot[aria-current="true"] {
+  width: 1.125rem;
+  background: #fff;
+}
+
+.brik .brik-pg-thumbs {
+  display: flex;
+  gap: 0.625rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 2px;
+}
+
+.brik .brik-pg--thumbs-bottom .brik-pg-thumbs .brik-pg-thumb {
+  width: 4.5rem;
+}
+
+.brik .brik-pg-thumb {
+  padding: 0;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.brik .brik-pg-thumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.brik .brik-pg-thumb:hover {
+  opacity: 1;
+}
+
+.brik .brik-pg-thumb[aria-current="true"] {
+  opacity: 1;
+  border-color: var(--foreground);
+  box-shadow: 0 0 0 1px var(--foreground);
+}
+
+.brik .brik-pg-thumb:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent);
+}
+
+@media (max-width: 767px) {
+  .brik .brik-pg-thumbs {
+    display: none;
+  }
+}
+
+/* Stock ------------------------------------------------------------------ */
+
+.brik .brik-stock {
+  margin: 0;
+  --brik-stock: var(--brik-success);
+  color: var(--foreground);
+}
+
+.brik .brik-stock[data-status="lowstock"],
+.brik .brik-stock[data-status="onbackorder"] {
+  --brik-stock: var(--brik-warning);
+}
+
+.brik .brik-stock[data-status="outofstock"] {
+  --brik-stock: var(--destructive);
+  color: var(--destructive);
+}
+
+.brik .brik-stock-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 9999px;
+  background: var(--brik-stock);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--brik-stock) 20%, transparent);
+}
+
+.brik .brik-stock--badge {
+  border-color: color-mix(in oklab, var(--brik-stock) 35%, transparent);
+  background: color-mix(in oklab, var(--brik-stock) 10%, transparent);
+}
+
+.brik .brik-stock[hidden] {
+  display: none;
+}
+
+/* Additional information --------------------------------------------------- */
+
+.brik .brik-attr-table {
+  border-collapse: collapse;
+}
+
+.brik .brik-attr-table th,
+.brik .brik-attr-table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.brik .brik-attr-table th {
+  width: 35%;
+  font-weight: 500;
+  color: var(--muted-foreground);
+}
+
+.brik .brik-attr-table td {
+  color: var(--foreground);
+}
+
+.brik .brik-attr-table td p {
+  margin: 0;
+}
+
+.brik .brik-attr-table td a {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: color-mix(in oklab, currentColor 30%, transparent);
+}
+
+.brik .brik-attr-table tr + tr {
+  border-top: 1px solid var(--border);
+}
+
+.brik .brik-attr-table--striped tr:nth-child(odd) {
+  background: color-mix(in oklab, var(--muted) 60%, transparent);
+}
+
+.brik .brik-attr-table--striped tr + tr {
+  border-top: 0;
+}
+
+.brik .brik-attr-wrap:has(.brik-attr-table--plain) {
+  border: 0;
+  border-radius: 0;
+}
+
+.brik .brik-attr-table--plain th,
+.brik .brik-attr-table--plain td {
+  padding-inline: 0;
+}
+
+/* Reviews ---------------------------------------------------------------- */
+
+.brik .brik-reviews-grid {
+  display: grid;
+  gap: 2rem;
+}
+
+@media (min-width: 1024px) {
+  .brik .brik-reviews-grid {
+    grid-template-columns: 18rem minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .brik .brik-reviews-summary {
+    position: sticky;
+    top: calc(var(--brik-sticky-offset, 6rem));
+  }
+}
+
+.brik .brik-reviews-list ol > li {
+  list-style: none;
+}
+
+.brik .brik-reviews-list ol > li + li {
+  border-top: 1px solid var(--border);
+}
+
+.brik .brik-review-form-wrap .comment-reply-title small {
+  margin-left: 0.5rem;
+  font-size: 0.8125rem;
+  font-weight: 400;
+}
+
+.brik .brik-review-form-wrap .comment-reply-title small a {
+  color: var(--muted-foreground);
+  text-decoration: underline;
+}
+
+.brik .brik-review-form p {
+  margin: 0;
+}
+
+.brik .brik-review-form .form-submit {
+  display: flex;
+}
+
+.brik .brik-review-form .comment-form-cookies-consent {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+}
+
+.brik .brik-review-form .comment-form-cookies-consent input {
+  width: 1rem;
+  height: 1rem;
+  accent-color: var(--primary);
+}
+
+.brik .brik-review-form fieldset {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+@media (min-width: 640px) {
+  .brik .brik-review-form {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .brik .brik-review-form > * {
+    grid-column: 1 / -1;
+  }
+
+  .brik .brik-review-form > .comment-form-author {
+    grid-column: 1;
+  }
+
+  .brik .brik-review-form > .comment-form-email {
+    grid-column: 2;
+  }
+}
+
+/* Star picker: radios in reverse order so ":hover ~" can light up the lower stars. */
+.brik .brik-rate-stars {
+  display: inline-flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  gap: 0.125rem;
+}
+
+.brik .brik-rate-star {
+  display: inline-flex;
+  padding: 0.125rem;
+  border-radius: calc(var(--radius) - 4px);
+  color: color-mix(in oklab, var(--muted-foreground) 40%, transparent);
+  cursor: pointer;
+  transition: color 0.12s ease, transform 0.12s ease;
+}
+
+.brik .brik-rate-star svg {
+  fill: currentColor;
+  stroke: currentColor;
+}
+
+.brik .brik-rate-star:hover,
+.brik .brik-rate-star:hover ~ .brik-rate-star,
+.brik .brik-rate-input:checked ~ .brik-rate-star {
+  color: oklch(0.83 0.16 84);
+}
+
+.brik .brik-rate-stars:hover .brik-rate-input:checked ~ .brik-rate-star:not(:hover):not(:hover ~ .brik-rate-star) {
+  color: color-mix(in oklab, var(--muted-foreground) 40%, transparent);
+}
+
+.brik .brik-rate-star:hover {
+  transform: scale(1.1);
+}
+
+.brik .brik-rate-input:focus-visible + .brik-rate-star {
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent);
+}
+
+.brik .brik-rate.is-invalid .brik-rate-stars {
+  animation: brik-atc-shake 0.4s ease;
+}
+
+/* Linked products grid ---------------------------------------------------- */
+
+.brik .brik-product-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--brik-cols, 4), minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+/* Notices ---------------------------------------------------------------- */
+
+.brik .brik-woo-notices .woocommerce-notices-wrapper:empty,
+.brik.brik-woo-page-notices .woocommerce-notices-wrapper:empty {
+  display: none;
+}
+
+.brik.brik-woo-page-notices {
+  max-width: var(--brik-container, 1200px);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.brik.brik-woo-page-notices:has(.woocommerce-notices-wrapper:not(:empty)) {
+  padding-top: 1.5rem;
+}
+
+.brik .brik-woo-notices .woocommerce-notices-wrapper,
+.brik.brik-woo-page-notices .woocommerce-notices-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.brik :is(.brik-woo-notices, .brik-woo-notices-inner) :is(.woocommerce-message, .woocommerce-info, .woocommerce-error),
+.brik.brik-woo-page-notices :is(.woocommerce-message, .woocommerce-info, .woocommerce-error) {
+  --brik-notice: var(--brik-success);
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  margin: 0;
+  padding: 0.875rem 1rem 0.875rem 2.75rem;
+  border: 1px solid color-mix(in oklab, var(--brik-notice) 30%, var(--border));
+  border-radius: var(--radius);
+  background: color-mix(in oklab, var(--brik-notice) 7%, var(--background));
+  color: var(--foreground);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  list-style: none;
+  outline: none;
+}
+
+.brik .brik-woo-notices :is(.woocommerce-info),
+.brik.brik-woo-page-notices .woocommerce-info {
+  --brik-notice: oklch(0.6 0.13 245);
+}
+
+.brik .brik-woo-notices .woocommerce-error,
+.brik.brik-woo-page-notices .woocommerce-error {
+  --brik-notice: var(--destructive);
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
+}
+
+.brik .brik-woo-notices--outline :is(.woocommerce-message, .woocommerce-info, .woocommerce-error) {
+  border-color: var(--border);
+  background: var(--card);
+}
+
+.brik .brik-woo-notices :is(.woocommerce-message, .woocommerce-info, .woocommerce-error)::before,
+.brik.brik-woo-page-notices :is(.woocommerce-message, .woocommerce-info, .woocommerce-error)::before {
+  content: "";
+  position: absolute;
+  top: 1.0625rem;
+  left: 1rem;
+  width: 1rem;
+  height: 1rem;
+  background: var(--brik-notice);
+  font-family: inherit;
+  -webkit-mask: var(--brik-notice-icon) center / contain no-repeat;
+  mask: var(--brik-notice-icon) center / contain no-repeat;
+  --brik-notice-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='m9 12 2 2 4-4'/%3E%3C/svg%3E");
+}
+
+.brik .brik-woo-notices .woocommerce-info::before,
+.brik.brik-woo-page-notices .woocommerce-info::before {
+  --brik-notice-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='M12 16v-4'/%3E%3Cpath d='M12 8h.01'/%3E%3C/svg%3E");
+}
+
+.brik .brik-woo-notices .woocommerce-error::before,
+.brik.brik-woo-page-notices .woocommerce-error::before {
+  --brik-notice-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='M12 8v4'/%3E%3Cpath d='M12 16h.01'/%3E%3C/svg%3E");
+}
+
+.brik .brik-woo-notices .woocommerce-error li,
+.brik.brik-woo-page-notices .woocommerce-error li {
+  margin: 0;
+  list-style: none;
+}
+
+.brik .brik-woo-notices :is(.woocommerce-message, .woocommerce-info, .woocommerce-error) .button,
+.brik.brik-woo-page-notices :is(.woocommerce-message, .woocommerce-info, .woocommerce-error) .button {
+  order: 2;
+  display: inline-flex;
+  align-items: center;
+  height: 2rem;
+  margin: 0 0 0 auto;
+  padding: 0 0.75rem;
+  border: 1px solid var(--input);
+  border-radius: calc(var(--radius) - 2px);
+  background: var(--background);
+  color: var(--foreground);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1;
+  text-decoration: none;
+  float: none;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+
+.brik .brik-woo-notices :is(.woocommerce-message, .woocommerce-info, .woocommerce-error) .button:hover,
+.brik.brik-woo-page-notices :is(.woocommerce-message, .woocommerce-info, .woocommerce-error) .button:hover {
+  background: var(--accent);
+}
+
+.brik .brik-woo-notices :is(.woocommerce-message, .woocommerce-info, .woocommerce-error) a:not(.button),
+.brik.brik-woo-page-notices :is(.woocommerce-message, .woocommerce-info, .woocommerce-error) a:not(.button) {
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Tabs and accordion ------------------------------------------------------- */
+
+.brik .brik-ptabs-panel > .brik-prose > :first-child,
+.brik .brik-ptabs-panel > :first-child {
+  margin-top: 0;
+}

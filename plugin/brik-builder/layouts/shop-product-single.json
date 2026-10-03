@@ -1,0 +1,198 @@
+{
+ "title": "Shop — product page (gallery + details)",
+ "category": "shop",
+ "kind": "section",
+ "tree": [
+  {
+   "type": "section",
+   "attrs": {
+    "padding": "32px 24px 72px",
+    "padding@mobile": "16px 16px 48px"
+   },
+   "children": [
+    {
+     "type": "row",
+     "attrs": {
+      "columns": "1/2,1/2",
+      "columns@tablet": "1",
+      "gap": "56px",
+      "gap@tablet": "32px",
+      "align_items": "start"
+     },
+     "children": [
+      {
+       "type": "column",
+       "attrs": {
+        "sticky": true
+       },
+       "children": [
+        {
+         "type": "product_gallery",
+         "attrs": {
+          "thumbs": "bottom",
+          "ratio": "1:1",
+          "zoom": true,
+          "lightbox": true,
+          "badge": true
+         }
+        }
+       ]
+      },
+      {
+       "type": "column",
+       "attrs": {
+        "gap": "20px"
+       },
+       "children": [
+        {
+         "type": "woo_notices",
+         "attrs": {}
+        },
+        {
+         "type": "woo_breadcrumb",
+         "attrs": {
+          "separator": "chevron"
+         }
+        },
+        {
+         "type": "product_title",
+         "attrs": {
+          "level": "h1",
+          "size": "h2"
+         }
+        },
+        {
+         "type": "product_rating",
+         "attrs": {
+          "show_average": true,
+          "show_count": true
+         }
+        },
+        {
+         "type": "product_price",
+         "attrs": {
+          "size": "xl",
+          "badge": true
+         }
+        },
+        {
+         "type": "product_short_description",
+         "attrs": {}
+        },
+        {
+         "type": "divider",
+         "attrs": {}
+        },
+        {
+         "type": "product_add_to_cart",
+         "attrs": {
+          "selector_style": "auto",
+          "buy_now": true,
+          "sticky_mobile": true,
+          "full_width": true
+         }
+        },
+        {
+         "type": "icon_list",
+         "attrs": {
+          "layout": "inline",
+          "size": "sm",
+          "icon_style": "plain",
+          "items": [
+           {
+            "text": "Free shipping over $50",
+            "icon": "truck"
+           },
+           {
+            "text": "30-day returns",
+            "icon": "rotate-ccw"
+           },
+           {
+            "text": "Secure checkout",
+            "icon": "shield-check"
+           }
+          ],
+          "text_color": "var(--muted-foreground)"
+         }
+        },
+        {
+         "type": "divider",
+         "attrs": {}
+        },
+        {
+         "type": "product_meta",
+         "attrs": {
+          "layout": "stacked"
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "section",
+   "attrs": {
+    "padding": "8px 24px 72px",
+    "padding@mobile": "0 16px 48px"
+   },
+   "children": [
+    {
+     "type": "row",
+     "attrs": {
+      "columns": "1"
+     },
+     "children": [
+      {
+       "type": "column",
+       "children": [
+        {
+         "type": "product_tabs",
+         "attrs": {
+          "style": "tabs",
+          "variant": "underline"
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "section",
+   "attrs": {
+    "padding": "72px 24px",
+    "padding@mobile": "48px 16px",
+    "bg_color": "color-mix(in oklch, var(--muted) 45%, transparent)",
+    "border_width": "1px 0 0",
+    "border_color": "var(--border)",
+    "border_style": "solid"
+   },
+   "children": [
+    {
+     "type": "row",
+     "attrs": {
+      "columns": "1"
+     },
+     "children": [
+      {
+       "type": "column",
+       "children": [
+        {
+         "type": "product_related",
+         "attrs": {
+          "title": "You may also like",
+          "limit": 4,
+          "columns": 4
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

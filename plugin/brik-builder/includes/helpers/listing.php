@@ -1030,7 +1030,9 @@ function brik_listing_results( array $a, Renderer $renderer, array $opt ) {
 			}
 			$inner = $renderer->render_nodes( $tree );
 		} else {
-			$inner = brik_listing_card( $p, $a );
+			// Lets other card renderers take over for their post types (the shop card for products).
+			$inner = apply_filters( 'brik/listing_card', null, $p, $a );
+			$inner = null !== $inner ? $inner : brik_listing_card( $p, $a );
 		}
 		$style  = $stagger ? ' style="--brik-i:' . (int) $i . '"' : '';
 		$items .= '<div class="brik-listing-item" data-post-id="' . (int) $p->ID . '"' . $style . '>' . $inner . '</div>';
