@@ -1,0 +1,188 @@
+[
+  {
+    "id": "secbad1",
+    "type": "section",
+    "attrs": {
+      "bg_color": "#ffffff"
+    },
+    "children": [
+      {
+        "id": "rowbad1",
+        "type": "row",
+        "children": [
+          {
+            "id": "colbad1",
+            "type": "column",
+            "children": [
+              {
+                "id": "h1first",
+                "type": "heading",
+                "attrs": {
+                  "text": "Welcome to the bad page",
+                  "level": "h1"
+                }
+              },
+              {
+                "id": "h1second",
+                "type": "heading",
+                "attrs": {
+                  "text": "Another main heading",
+                  "level": "h1"
+                }
+              },
+              {
+                "id": "hskip",
+                "type": "heading",
+                "attrs": {
+                  "text": "A heading that skips levels",
+                  "level": "h4"
+                }
+              },
+              {
+                "id": "hempty",
+                "type": "heading",
+                "attrs": {
+                  "text": "",
+                  "level": "h3"
+                }
+              },
+              {
+                "id": "lowcontrast",
+                "type": "text",
+                "attrs": {
+                  "content": "<p>This grey text is hard to read on white.</p>",
+                  "text_color": "#c4c4c4"
+                }
+              },
+              {
+                "id": "imgnoalt",
+                "type": "image",
+                "attrs": {
+                  "image": {
+                    "url": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=500&fit=crop"
+                  },
+                  "alt": ""
+                }
+              },
+              {
+                "id": "imgfname",
+                "type": "image",
+                "attrs": {
+                  "image": {
+                    "url": "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=800&h=500&fit=crop"
+                  },
+                  "alt": "IMG_2041.jpg"
+                }
+              },
+              {
+                "id": "iconbtn",
+                "type": "button",
+                "attrs": {
+                  "text": "",
+                  "icon": "arrow-right",
+                  "link": {
+                    "url": "/contact-us/"
+                  }
+                }
+              },
+              {
+                "id": "brokenbtn",
+                "type": "button",
+                "attrs": {
+                  "text": "Read our story",
+                  "link": {
+                    "url": "/this-page-does-not-exist-xyz/"
+                  }
+                }
+              },
+              {
+                "id": "tinybtn",
+                "type": "button",
+                "attrs": {
+                  "text": "Go",
+                  "size": "sm",
+                  "button_padding": "1px 4px",
+                  "button_font_size": "10px",
+                  "link": {
+                    "url": "/"
+                  }
+                }
+              },
+              {
+                "id": "linkstext",
+                "type": "text",
+                "attrs": {
+                  "content": "<p><a href=\"https://example.com/deal?ref=brik\" target=\"_blank\">click here</a> for the partner deal.</p>"
+                }
+              },
+              {
+                "id": "widetext",
+                "type": "text",
+                "attrs": {
+                  "content": "<p>This block has a fixed width of 1200 pixels.</p>",
+                  "width": "1200px"
+                }
+              },
+              {
+                "id": "rawhtml",
+                "type": "code",
+                "attrs": {
+                  "code": "<style>.audit-nofocus:focus{outline:none}</style><a class=\"audit-nofocus\" href=\"/\">No focus ring</a><div onclick=\"void(0)\">Fake button</div><label>Name <input type=\"text\" name=\"n\"></label><input type=\"email\" name=\"e\" placeholder=\"Your email\"><a href=\"#top\" tabindex=\"3\">Jump</a><span aria-hidden=\"true\"><a href=\"/about/\">About</a></span><audio autoplay src=\"/wp-content/uploads/none.mp3\"></audio>"
+                }
+              },
+              {
+                "id": "faqacc",
+                "type": "accordion",
+                "attrs": {
+                  "items": [
+                    {
+                      "title": "How much does it cost?",
+                      "content": "<p>It is free for small teams.</p>"
+                    },
+                    {
+                      "title": "Can I cancel anytime?",
+                      "content": "<p>Yes, from your account page.</p>"
+                    },
+                    {
+                      "title": "Do you offer refunds?",
+                      "content": "<p>Within 30 days.</p>"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "secdark1",
+    "type": "section",
+    "attrs": {
+      "bg_color": "#1f2937"
+    },
+    "children": [
+      {
+        "id": "rowdark1",
+        "type": "row",
+        "children": [
+          {
+            "id": "coldark1",
+            "type": "column",
+            "children": [
+              {
+                "id": "darktext",
+                "type": "text",
+                "attrs": {
+                  "content": "<p>Dark grey text on a dark section.</p>",
+                  "text_color": "#374151"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

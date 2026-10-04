@@ -28,7 +28,8 @@ final class Library {
 			'section' => __( 'Section', 'brik-builder' ),
 			'row'     => __( 'Row', 'brik-builder' ),
 			'module'  => __( 'Module', 'brik-builder' ),
-			'loop'    => __( 'Loop item', 'brik-builder' ),
+			'loop'      => __( 'Loop item', 'brik-builder' ),
+			'component' => __( 'Component', 'brik-builder' ),
 		);
 	}
 

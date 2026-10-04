@@ -6,12 +6,13 @@ import { reload } from './canvas.js';
 import { Icon } from './icons.js';
 import { ModuleGrid, useLibrary, insertLibraryItem, insertBundled } from './LeftPanel.jsx';
 import { StructurePreview, ColorControl, Control } from './fields.jsx';
+import { getModal } from './registry.js';
 import { cn, Dialog, Button, Input, Textarea, Select, Switch, Tabs, Label, IconButton, Empty } from './ui.jsx';
 
 export function Modals() {
   const modal = useStore((s) => s.modal);
   if (!modal) return null;
-  const C = MODALS[modal.type];
+  const C = MODALS[modal.type] || getModal(modal.type);
   return C ? <C {...modal.props} /> : null;
 }
 

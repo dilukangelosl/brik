@@ -35,7 +35,7 @@ return array(
 	'title'       => __( 'Gallery', 'brik-builder' ),
 	'category'    => 'media',
 	'icon'        => 'images',
-	'description' => 'Image gallery with lightbox (prev/next, keyboard, swipe). images: list of {id,url,alt,caption}. layout: grid|masonry|justified. columns: 1-8 (responsive, grid/masonry). gap: CSS length. ratio: grid tile ratio (auto|1:1|4:3|3:2|16:9|3:4|4:5…). row_height: justified row height. action: lightbox|file|none. captions: none|below|overlay. size: WP image size. rounded: none|sm|md|lg|xl|2xl. hover_zoom: bool.',
+	'description' => 'Image gallery with lightbox (prev/next, keyboard, swipe). images: list of {id,url,alt,caption}. layout: grid|masonry|justified. columns: 1-8 (responsive, grid/masonry). gap: CSS length. ratio: grid tile ratio (auto|1:1|4:3|3:2|16:9|3:4|4:5…). row_height: justified row height. action: lightbox|file|none. captions: none|below|overlay. size: WP image size. rounded: none|sm|md|lg|xl|2xl. hover_zoom: bool. decorative: bool, hides purely visual images from screen readers.',
 	'fields'      => array_merge(
 		array(
 			'images'     => Fields::field( 'gallery', __( 'Images', 'brik-builder' ), 'content', array( 'default' => $brik_gallery_default ) ),
@@ -46,6 +46,7 @@ return array(
 			'gap'        => Fields::field( 'unit', __( 'Gap', 'brik-builder' ), 'content', array( 'default' => '12px', 'responsive' => true, 'css' => array( Fields::WRAP . ' .brik-gallery-items', '--brik-gap' ) ) ),
 			'size'       => Fields::field( 'select', __( 'Image size', 'brik-builder' ), 'content', array( 'default' => 'large', 'options' => Fields::opts( brik_image_size_options() ) ) ),
 			'action'     => Fields::field( 'select', __( 'On click', 'brik-builder' ), 'content', array( 'default' => 'lightbox', 'options' => Fields::opts( array( 'lightbox' => __( 'Open lightbox', 'brik-builder' ), 'file' => __( 'Open image file', 'brik-builder' ), 'none' => __( 'Nothing', 'brik-builder' ) ) ) ) ),
+			'decorative' => Fields::field( 'toggle', __( 'Decorative images', 'brik-builder' ), 'content', array( 'description' => __( 'Purely visual: screen readers skip the images (empty alt).', 'brik-builder' ) ) ),
 			'captions'   => Fields::field( 'select', __( 'Captions', 'brik-builder' ), 'content', array( 'default' => 'overlay', 'options' => Fields::opts( array( 'none' => __( 'Hidden', 'brik-builder' ), 'below' => __( 'Below image', 'brik-builder' ), 'overlay' => __( 'Overlay on hover', 'brik-builder' ) ) ) ) ),
 			'rounded'    => Fields::field( 'select', __( 'Rounded corners', 'brik-builder' ), 'image_style', array( 'tab' => 'design', 'group_label' => __( 'Image style', 'brik-builder' ), 'default' => 'md', 'options' => Fields::opts( brik_radius_options() ) ) ),
 			'hover_zoom' => Fields::field( 'toggle', __( 'Zoom on hover', 'brik-builder' ), 'image_style', array( 'tab' => 'design', 'group_label' => __( 'Image style', 'brik-builder' ), 'default' => true ) ),
@@ -75,12 +76,19 @@ return array(
 		$group  = $ctx->uid();
 		$out    = '';
 
-		foreach ( $items as $item ) {
+		// Decorative images get empty alt; their links still need a name.
+		$decorative = ! empty( $a['decorative'] );
+		foreach ( $items as $i => $item ) {
 			$caption = $item['caption'];
+			/* translators: 1: image number, 2: image count */
+			$name    = $decorative ? ' aria-label="' . esc_attr( sprintf( __( 'Open image %1$d of %2$d', 'brik-builder' ), $i + 1, count( $items ) ) ) . '"' : '';
 			$img     = brik_media_img(
 				$item,
 				$size,
-				array(
+				( $decorative ? array(
+					'alt'  => '',
+					'role' => 'presentation',
+				) : array() ) + array(
 					'class' => brik_cls(
 						'brik-gallery-img block w-full',
 						$ratio || 'justified' === $layout ? 'h-full object-cover' : 'h-auto',
@@ -96,15 +104,16 @@ return array(
 
 			if ( 'lightbox' === $a['action'] ) {
 				$link = sprintf(
-					'<a href="%1$s" class="%2$s" data-brik-lightbox="%3$s" data-caption="%4$s">%5$s</a>',
+					'<a href="%1$s" class="%2$s" data-brik-lightbox="%3$s" data-caption="%4$s"%6$s>%5$s</a>',
 					esc_url( $item['full'] ),
 					esc_attr( $frame . ' cursor-zoom-in outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50' ),
 					esc_attr( $group ),
 					esc_attr( $caption ),
-					$img
+					$img,
+					$name
 				);
 			} elseif ( 'file' === $a['action'] ) {
-				$link = '<a href="' . esc_url( $item['full'] ) . '" class="' . esc_attr( $frame . ' outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50' ) . '" target="_blank" rel="noopener">' . $img . '</a>';
+				$link = '<a href="' . esc_url( $item['full'] ) . '" class="' . esc_attr( $frame . ' outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50' ) . '" target="_blank" rel="noopener"' . $name . '>' . $img . '</a>';
 			} else {
 				$link = '<div class="' . esc_attr( $frame ) . '">' . $img . '</div>';
 			}

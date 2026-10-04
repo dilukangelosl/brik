@@ -4,7 +4,7 @@ Theme URI: https://github.com/dilukangelosl/brik
 Author: Diluk Angelo
 Author URI: https://github.com/dilukangelosl
 Description: A clean, neutral base theme in the shadcn/ui style, made to pair with the Brik Builder plugin. It renders Brik theme-builder headers and footers natively, gives Brik-built pages the full width of the screen, and shares the builder's design tokens (colors, radius, fonts, container width, dark mode) so everything on the site looks like one system. Without the plugin it is a complete blog theme with a sticky header, card grid archives, readable single posts, styled blocks and comments, and a dark mode toggle.
-Version: 1.1.0
+Version: 1.2.0
 Requires at least: 6.3
 Tested up to: 6.8
 Requires PHP: 7.4

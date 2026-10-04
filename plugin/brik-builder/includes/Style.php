@@ -25,6 +25,13 @@ final class Style {
 
 	private $fonts = array();
 
+	/** Builder canvas output: hover rules also match a forcing class (state inspector). */
+	public $canvas = false;
+
+	public function __construct( $canvas = false ) {
+		$this->canvas = (bool) $canvas;
+	}
+
 	public static function states() {
 		return array( 'desktop', 'tablet', 'mobile', 'hover' );
 	}
@@ -65,53 +72,7 @@ final class Style {
 
 	public function add_node( array $node, array $def, array $attrs ) {
 		$wrap      = self::selector( $node );
-		$has_hover = false;
-		$composite = array();
-
-		foreach ( $def['fields'] as $key => $field ) {
-			if ( ! empty( $field['composite'] ) ) {
-				$composite[ $field['composite'] ][ $key ] = $field;
-				continue;
-			}
-			if ( empty( $field['css'] ) ) {
-				continue;
-			}
-			$css = $field['css'];
-			foreach ( self::states() as $state ) {
-				$v = self::raw_value( $attrs, $key, $state );
-				if ( null === $v || is_array( $v ) ) {
-					continue;
-				}
-				if ( 'hover' === $state ) {
-					$has_hover = true;
-					$sel       = isset( $css['hover_selector'] ) ? $css['hover_selector'] : Fields::hover_selector( $css['selector'] );
-				} else {
-					$sel = $css['selector'];
-				}
-				$decl = $this->declaration( $css, $v, $field );
-				if ( '' !== $decl ) {
-					$this->push( $state, str_replace( Fields::WRAP, $wrap, $sel ), $decl );
-				}
-				if ( ! empty( $css['font'] ) ) {
-					$this->fonts[] = (string) $v;
-				}
-			}
-		}
-
-		foreach ( $composite as $kind => $fields ) {
-			foreach ( self::states() as $state ) {
-				if ( ! $this->state_touches( $attrs, array_keys( $fields ), $state ) ) {
-					continue;
-				}
-				if ( 'hover' === $state ) {
-					$has_hover = true;
-				}
-				$decl = $this->composite( $kind, $fields, $attrs, $state );
-				if ( '' !== $decl ) {
-					$this->push( $state, 'hover' === $state ? $wrap . ':hover' : $wrap, $decl );
-				}
-			}
-		}
+		$has_hover = $this->add_fields( $wrap, $def['fields'], $attrs );
 
 		$transition = isset( $attrs['transition'] ) ? $attrs['transition'] : '';
 		if ( $has_hover || '' !== $transition ) {
@@ -157,6 +118,61 @@ final class Style {
 	}
 
 	/**
+	 * Rules for field-driven styles under any wrapper selector (elements, global CSS classes).
+	 * Returns whether any hover rule was written.
+	 */
+	public function add_fields( $wrap, array $fields_def, array $attrs ) {
+		$has_hover = false;
+		$composite = array();
+
+		foreach ( $fields_def as $key => $field ) {
+			if ( ! empty( $field['composite'] ) ) {
+				$composite[ $field['composite'] ][ $key ] = $field;
+				continue;
+			}
+			if ( empty( $field['css'] ) ) {
+				continue;
+			}
+			$css = $field['css'];
+			foreach ( self::states() as $state ) {
+				$v = self::raw_value( $attrs, $key, $state );
+				if ( null === $v || is_array( $v ) ) {
+					continue;
+				}
+				if ( 'hover' === $state ) {
+					$has_hover = true;
+					$sel       = isset( $css['hover_selector'] ) ? $css['hover_selector'] : Fields::hover_selector( $css['selector'] );
+				} else {
+					$sel = $css['selector'];
+				}
+				$decl = $this->declaration( $css, $v, $field );
+				if ( '' !== $decl ) {
+					$this->push( $state, str_replace( Fields::WRAP, $wrap, $sel ), $decl );
+				}
+				if ( ! empty( $css['font'] ) ) {
+					$this->fonts[] = (string) $v;
+				}
+			}
+		}
+
+		foreach ( $composite as $kind => $fields ) {
+			foreach ( self::states() as $state ) {
+				if ( ! $this->state_touches( $attrs, array_keys( $fields ), $state ) ) {
+					continue;
+				}
+				if ( 'hover' === $state ) {
+					$has_hover = true;
+				}
+				$decl = $this->composite( $kind, $fields, $attrs, $state );
+				if ( '' !== $decl ) {
+					$this->push( $state, 'hover' === $state ? $wrap . ':hover' : $wrap, $decl );
+				}
+			}
+		}
+		return $has_hover;
+	}
+
+	/**
 	 * Push a declaration for a selector and state. Exposed for modules with computed styles.
 	 */
 	public function push( $state, $selector, $declaration ) {
@@ -172,6 +188,9 @@ final class Style {
 		foreach ( $this->rules as $state => $selectors ) {
 			$block = '';
 			foreach ( $selectors as $sel => $decls ) {
+				if ( 'hover' === $state && $this->canvas ) {
+					$sel .= ',' . str_replace( ':hover', '.bk-force-hover', $sel );
+				}
 				$block .= $sel . '{' . implode( ';', $decls ) . '}';
 			}
 			if ( '' === $block ) {

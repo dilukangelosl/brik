@@ -298,6 +298,10 @@ function brik_nav_is_current( $url ) {
 	if ( ! is_array( $parts ) || ( ! empty( $parts['host'] ) && strtolower( $parts['host'] ) !== strtolower( $here['host'] ) ) ) {
 		return false;
 	}
+	// Links to a section of a page (/#features) aren't the page itself.
+	if ( ! empty( $parts['fragment'] ) ) {
+		return false;
+	}
 	$path = untrailingslashit( isset( $parts['path'] ) ? $parts['path'] : '' );
 	return $path === $here['path'];
 }

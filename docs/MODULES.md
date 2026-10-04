@@ -106,6 +106,9 @@ Helpers for element-level design groups:
 
   Prefer native elements first: `<details>` for disclosure, `<dialog>` for modals, CSS scroll
   snap for carousels.
+* Each behaviour script loads only on pages whose markup matches the selector passed to `on()`,
+  so keep that selector a literal (`[data-brik-tabs]`, `.brik-foo`). Classes a script adds
+  later should appear as string literals in it, so the per-page stylesheet keeps their rules.
 * Heavy effects (canvas, WebGL, scroll-driven animation) go in `assets/src/fx/{name}.js` and are
   loaded only on pages that use them: call `$ctx->script( '{name}' )` from `render`. Inside, import
   helpers from `./_api.js` (`on`, `loop` — an rAF loop that pauses off-screen, `fitCanvas`,

@@ -5,21 +5,24 @@ import { library as loadLibrary, libraryItem, deleteLibraryItem } from './api.js
 import { setDragging, dragging, scrollTo } from './canvas.js';
 import { Icon } from './icons.js';
 import { cn, Input, IconButton, Tabs, Empty, Button } from './ui.jsx';
+import { getPanels } from './registry.js';
 
 export function LeftPanel() {
   const left = useStore((s) => s.left);
   if (!left) return null;
   return (
-    <aside className="flex w-72 shrink-0 flex-col border-r border-border bg-background">
+    <aside className={cn('flex shrink-0 flex-col border-r border-border bg-background', (getPanels().find((p) => p.id === left) || {}).wide ? 'w-96' : 'w-72')}>
       <div className="flex h-11 items-center justify-between border-b border-border px-3">
         <Tabs
           value={left}
           onChange={(v) => setState({ left: v })}
+          className="min-w-0 overflow-x-auto"
           tabs={[
             { value: 'modules', label: 'Add', icon: 'plus' },
             { value: 'layers', label: 'Layers', icon: 'layers' },
             { value: 'library', label: 'Library', icon: 'library' },
-          ]}
+            ...getPanels().filter((p) => p.tab !== false).map((p) => ({ value: p.id, label: p.label, icon: p.icon })),
+          ].map((t) => ({ ...t, title: t.label, label: t.value === left ? t.label : null }))}
         />
         <IconButton icon="panel-left-close" label="Close panel" size="icon-sm" onClick={() => setState({ left: null })} />
       </div>
@@ -27,6 +30,7 @@ export function LeftPanel() {
         {left === 'modules' && <ModulesPanel />}
         {left === 'layers' && <LayersPanel />}
         {left === 'library' && <LibraryPanel />}
+        {getPanels().map((p) => left === p.id && <p.component key={p.id} />)}
       </div>
     </aside>
   );

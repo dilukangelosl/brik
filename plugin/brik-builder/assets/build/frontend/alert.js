@@ -1,0 +1,1 @@
+(()=>{var i=(o,t)=>window.brik.on(o,t);i(".brik-alert [data-brik-dismiss]",o=>{o.addEventListener("click",()=>{if(document.body.classList.contains("brik-canvas-mode"))return;let t=o.closest(".brik-alert");t&&(t.hidden=!0)})});})();

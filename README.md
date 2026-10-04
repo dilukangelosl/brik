@@ -43,8 +43,10 @@ alternative to Divi and Elementor:
   even if you switch the plugin off.
 - **AI-native.** A built-in [Model Context Protocol](https://modelcontextprotocol.io) server lets
   Claude, Cursor, VS Code or any MCP client create pages, headers, menus and content types for you.
-- **Fast.** Server-rendered markup, tiny scoped stylesheets, and heavy effects that only load on the
-  pages that use them — and pause when they're off screen.
+- **Fast by default.** Every page gets one optimized stylesheet with only the rules it uses, critical CSS
+  inlined, and JavaScript only for the elements on it. A typical page ships 37–89% less CSS and 45–97% less JS.
+- **Honest about quality.** Built-in performance, accessibility, SEO and responsive audits tell you what's
+  wrong in plain language and fix most of it in one click.
 
 ## ✨ Features
 
@@ -160,6 +162,71 @@ entire site, front page, blog, post types, specific posts, archives, taxonomy te
 - Theme builder conditions for products, shop, categories, cart, checkout and account, plus `{product:price}`-style tags
 - Uses WooCommerce's own forms underneath, so gateways and extensions keep working
 
+### Performance as a feature, not a setting
+
+<table>
+<tr>
+<td width="50%"><img src=".github/assets/performance.jpg" alt="Performance score panel"></td>
+<td width="50%"><img src=".github/assets/audit.jpg" alt="Accessibility, SEO and responsive audit"></td>
+</tr>
+</table>
+
+- One minified stylesheet per page, tree-shaken from the full design system, with above-the-fold CSS inlined
+- Element scripts load only when that element is on the page — a plain page ships about 2 KB of JavaScript
+- Fonts self-hosted automatically (no requests to Google), optional WebP/AVIF uploads, lazy embeds, high-priority hero images
+- A performance score in the builder with concrete savings: *"The carousel loads 2.7 KB of JavaScript — removing it saves 2.7 KB"*
+- **Clean this page** finds empty and redundant wrappers, default values and hidden-everywhere elements, shows the savings and fixes them (undoable)
+
+### Audits that point at the problem
+
+- **Accessibility** — missing alt text (or mark images decorative), heading order, colour contrast with the real ratio, unlabeled buttons and fields, removed focus styles, ARIA misuse
+- **SEO** — H1 count, heading outline, search preview, heavy images, broken links, `rel` on external links, FAQ schema suggestions
+- **Responsive problems** — sweeps 1440 → 360 px and flags horizontal overflow, clipped text, oversized headings, tiny tap targets and overlaps, with *Show me at 390px*
+- Click any issue to jump to the element; most have a one-click fix
+
+### Design system, classes and components
+
+<table>
+<tr>
+<td width="50%"><img src=".github/assets/design-system.jpg" alt="Design system panel"></td>
+<td width="50%"><img src=".github/assets/inspector.jpg" alt="CSS inspector"></td>
+</tr>
+</table>
+
+- Real global CSS classes (`.button-primary`, `.card`) — create one from an element's styles and reuse it everywhere
+- Variables for spacing, radius, type scale and shadows (`--space-md`, `--radius-lg`) with a picker in every field
+- A design system panel showing tokens, typography, classes, components and breakpoints in one tree
+- Figma-style components: edit the master and every instance updates, override text, links, images and icons per instance while the design stays locked, and **detach** safely into an independent copy
+
+### Editor tools for people who care about the details
+
+- A responsive timeline on every field (`D 48 · T 38 · M 30`) and one-click fluid `clamp()` values
+- A breakpoint simulator: drag the canvas to any width from 320 to 1920 px
+- **Why is this broken?** — explains hidden, clipped, covered or invisible elements and fixes them
+- A CSS inspector with box model, computed and generated styles, variables and forced `:hover` / `:focus` / `:active`
+- Designer and Developer modes; Developer adds HTML/CSS/JSON views of every element
+- **No lock-in:** convert any page to Gutenberg blocks or static HTML, and back
+
+### Versions, staging and scheduled publishing
+
+<table>
+<tr>
+<td width="50%"><img src=".github/assets/versions.jpg" alt="Version history"></td>
+<td width="50%"><img src=".github/assets/query-builder.jpg" alt="Visual query builder"></td>
+</tr>
+</table>
+
+- Every save is a version with a readable summary (*"Changed hero", "Added pricing section"*)
+- Preview any version, compare it section by section and **restore only one section**
+- Save to staging, share a private preview link with your client, compare staging with production and deploy
+- Schedule a deploy for launch day, or a rollback for when the promotion ends
+
+### Data-aware content
+
+- Dynamic data from posts, authors, terms, meta, ACF, Meta Box, Pods, WooCommerce, the current user and the site, with a searchable picker and live previews
+- A visual query builder for listings that reads like a sentence — and shows the equivalent `WP_Query`
+- Display conditions with nested AND/OR groups: user role, login state, post fields, URL parameters, dates, device, cart total, past purchases, language and more
+
 ## 🤖 Build with AI (MCP)
 
 <img src=".github/assets/mcp.jpg" alt="Connect AI screen" width="100%">
@@ -181,8 +248,9 @@ Then just ask:
 >
 > *"Add an Events post type with date, venue and ticket link fields, then create five sample events."*
 
-Clients get 37 tools (41 with WooCommerce) — pages, individual elements, templates, menus, design tokens, presets, the
-library, media, content types and entries, and WooCommerce products — plus a building guide, and every change goes through
+Clients get 66 tools (70 with WooCommerce) — pages, individual elements, templates, menus, design tokens, classes,
+components, presets, the library, media, content types and entries, queries, audits, performance reports, versions,
+staging and WooCommerce products — plus a building guide, and every change goes through
 the same validation and sanitization as the visual builder. See [docs/MCP.md](docs/MCP.md).
 
 ## 🚀 Quick start
@@ -249,7 +317,6 @@ Read [docs/MODULES.md](docs/MODULES.md), [docs/ARCHITECTURE.md](docs/ARCHITECTUR
 
 ## 🗺 Roadmap
 
-- Revisions browser for builder content
 - Role-based element access
 - A/B testing
 

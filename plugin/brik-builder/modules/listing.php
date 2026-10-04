@@ -11,8 +11,9 @@ use Brik\Fields;
 defined( 'ABSPATH' ) || exit;
 
 $brik_off = array( '', 'false', '0' );
-$brik_q   = array( 'group_label' => __( 'Query', 'brik-builder' ) );
-$brik_ql  = array_merge( $brik_q, array( 'show_if' => array( 'use_main_query' => $brik_off ) ) );
+// The basic query settings are hidden once a visual query (attribute "query") is set.
+$brik_q   = array( 'group_label' => __( 'Query', 'brik-builder' ), 'show_if' => array( 'query' => '' ) );
+$brik_ql  = array_merge( $brik_q, array( 'show_if' => array( 'query' => '', 'use_main_query' => $brik_off ) ) );
 $brik_p   = array( 'group_label' => __( 'Pagination', 'brik-builder' ) );
 $brik_c   = array(
 	'group_label' => __( 'Built-in card', 'brik-builder' ),
@@ -25,6 +26,7 @@ return array(
 	'category'    => 'post',
 	'icon'        => 'layout-list',
 	'description' => 'Query-driven list of posts of any type (incl. custom post types), each rendered with a LOOP ITEM: a library item of kind "loop" designed in the builder (create it with save_to_library kind "loop"; inside it {post_title}, {post_url}, {featured_image}, {field:name}, {meta:key} and post_* modules resolve to each listed post). loop_item: library item id; empty = built-in card (image, term badge, title, excerpt, date/author, read more; card_image, card_ratio 16:9|4:3|3:2|1:1, card_terms, card_taxonomy, card_excerpt, card_excerpt_length, card_meta, card_more_text, title_tag). '
+		. 'query: visual query object {post_type, where: {relation, rules}, order: [{by, dir}], limit, offset, exclude_current, search, author}; when set it replaces the basic query settings below (see get_guide, Data section). '
 		. 'Query: use_main_query (bool; archive/search templates use the page\'s own posts), post_type, taxonomy + terms (comma separated ids or slugs) + terms_operator IN|NOT IN|AND, meta_query repeater [{field, compare: =|!=|>|>=|<|<=|LIKE|NOT LIKE|IN|NOT IN|BETWEEN|EXISTS|NOT EXISTS, value (comma separated for IN/BETWEEN), type: CHAR|NUMERIC|DATE}] + meta_relation AND|OR, search, author: ""|current|ids + author_ids, orderby: date|title|menu_order|rand|modified|comment_count|meta_value|meta_value_num (+ orderby_field), order DESC|ASC, posts_per_page (1-100), offset, exclude_current, related (bool) + related_by terms|field + related_taxonomy / related_field (relationship field holding post ids). '
 		. 'Layout: layout grid|list|masonry|carousel (CSS scroll snap, arrows bool), columns (responsive, default 3/2/1), gap (responsive), equal_height. pagination: none|numbered|load_more|infinite (+ load_more_text). empty_message. animate (bool, staggered entrance) + stagger (ms). '
 		. 'Set css_id (e.g. "projects") so a listing_filter can target it; without one the node id is used. Filter values travel as ?bf_{css_id}_{filter}=… and are read server-side too, so filtered pages work without JavaScript.',
@@ -40,6 +42,7 @@ return array(
 			'stagger'         => Fields::field( 'number', __( 'Stagger (ms)', 'brik-builder' ), 'content', array( 'default' => 60, 'min' => 0, 'max' => 500, 'show_if' => array( 'animate' => true ), 'css' => array( 'selector' => Fields::WRAP . ' .brik-listing-items', 'prop' => '--brik-stagger', 'value' => '{{v}}ms' ) ) ),
 			'empty_message'   => Fields::field( 'text', __( 'Empty message', 'brik-builder' ), 'content', array( 'default' => __( 'Nothing found. Try adjusting your filters.', 'brik-builder' ) ) ),
 
+			'query'           => Fields::field( 'query', __( 'Visual query', 'brik-builder' ), 'query', array( 'group_label' => __( 'Query', 'brik-builder' ) ) ),
 			'use_main_query'  => Fields::field( 'toggle', __( 'Use the page\'s own posts', 'brik-builder' ), 'query', array_merge( $brik_q, array( 'description' => __( 'For archive and search templates.', 'brik-builder' ) ) ) ),
 			'post_type'       => Fields::field( 'post_type', __( 'Post type', 'brik-builder' ), 'query', array_merge( $brik_ql, array( 'default' => 'post' ) ) ),
 			'taxonomy'        => Fields::field( 'taxonomy', __( 'Taxonomy', 'brik-builder' ), 'query', $brik_ql ),

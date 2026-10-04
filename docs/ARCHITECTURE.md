@@ -61,6 +61,27 @@ Front-end JS is vanilla and only covers what the platform doesn't: tabs, carouse
 countdown, lightbox, mobile menu, AJAX forms, scroll animations. Accordions use `<details>`,
 modals use `<dialog>`.
 
+## Performance
+
+Optimized assets are on by default (Brik → Settings → Performance) and never apply to the
+builder canvas, which always loads the complete stylesheet and bundle.
+
+* **CSS** — each page gets one minified file in `uploads/brik/css/{post}-{hash}.css`: the
+  front-end library shaken down to rules whose classes the page's markup (header/footer/body
+  templates included) can use, plus classes its scripts add at runtime and markup some modules
+  fetch over AJAX, followed by the tokens, self-hosted `@font-face` rules and element CSS. The
+  hash covers every input, so a changed page or setting gets a new file. The CSS for the first
+  screen (header + first two sections) is inlined and the file loads without blocking.
+* **JS** — `frontend/core.js` plus one script per `frontend/modules/*.js`, loaded when the
+  selector passed to `on()` matches the rendered markup (`tools/frontend-split.mjs` writes the
+  manifest). Scripts start once the page stylesheet has loaded.
+* **Fonts** — `fonts_mode`: self-hosted (default; downloaded once to `uploads/brik/fonts`),
+  Google, or system fonts.
+* **Media** — the first image of the page loads eagerly with `fetchpriority="high"`, the rest
+  and all iframes lazily; optional WebP/AVIF conversion of uploads and `<picture>` sources.
+* `brik/v1/perf/{id}` (and the MCP tool `performance_report`) scores a page; `…/clean` (and
+  `clean_page`) removes dead weight from its tree.
+
 ## Builder
 
 `post.php?post=ID&action=brik` opens a full-screen app. The canvas is an iframe of the real

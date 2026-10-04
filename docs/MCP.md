@@ -153,6 +153,24 @@ npx -y @modelcontextprotocol/inspector --cli https://example.com/wp-json/brik/v1
 | `list_menus` / `create_menu` | Navigation menus, nested items, theme locations. |
 | `upload_media` | Import an image, video or PDF from a URL into the media library. |
 | `render_preview` | Render a saved page or an unsaved tree; HTML, CSS size and warnings. |
+| `performance_report` | Score a page 0–100: scripts per element, CSS (full vs optimized), DOM size, image weights, fonts, third parties, suggestions with savings. |
+| `clean_page` | Remove dead weight without changing the look (dry run by default): redundant wrappers, empty elements, duplicates, default-valued settings, oversized image sizes. |
+| `audit_page` | Accessibility and SEO findings for a page with node ids, scores, heading outline and fix ids; checks internal links (external optional). |
+| `apply_audit_fixes` | Apply the safe audit fixes (or chosen ones), save, and report before/after scores. |
+| `list_versions` / `get_version` | Version history grouped by day with summaries; one version's tree. |
+| `compare_versions` | Section-level diff between two versions, `current`, `live` or `staging`. |
+| `restore_version` | Restore a whole version or only some sections, to live or staging. |
+| `save_staging` / `deploy_staging` | Keep changes in a staging copy, then publish them. |
+| `staging_preview_link` | A private link that shows the staging copy to anyone, logged out included. |
+| `schedule_deploy` / `schedule_rollback` / `cancel_schedule` | Scheduled publishing and rollbacks (site timezone). |
+| `list_data_sources` | Dynamic data tags available for a post type or post, with live preview values. |
+| `preview_query` | Run a visual listing query: count, sample posts and the equivalent `WP_Query` arguments. |
+| `list_classes` / `save_class` / `delete_class` / `apply_class` | Global CSS classes and applying them to elements. |
+| `list_variables` / `save_variables` | Spacing, radius, type, shadow and custom variables. |
+| `create_component` / `list_components` | Components from a tree or an existing element, with their override policy. |
+| `set_component_overrides` / `detach_component` | Per-instance overrides (locked fields are refused) and detaching into an independent copy. |
+| `make_fluid` | Turn a length attribute into a fluid `clamp()` between 390 and 1440 px. |
+| `convert_page` / `restore_brik_page` | Convert a page to core blocks or static HTML (dry run first), and switch Brik back on. |
 | `search_icons` | Find Lucide icon names and `brand:*` logos by keyword. |
 | `update_site` | Site title, tagline, front page and posts page. |
 

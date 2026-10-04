@@ -111,8 +111,16 @@ export function jumpTo(index) {
  * Node actions.
  * ---------------------------------------------------------------------- */
 
+/** The breakpoint being edited; a custom canvas width maps to the matching one. */
+export function effectiveDevice(s = state) {
+  if (s.device !== 'custom') return s.device;
+  const w = s.canvasWidth || 1280;
+  return w <= 767 ? 'mobile' : w <= 980 ? 'tablet' : 'desktop';
+}
+
 function attrKey(key, field) {
-  const { device, mode } = state;
+  const { mode } = state;
+  const device = effectiveDevice();
   if (mode === 'hover' && field && field.hover) return `${key}@hover`;
   if (device !== 'desktop' && field && field.responsive) return `${key}@${device}`;
   return key;
@@ -145,7 +153,10 @@ export function setAttrs(id, patch, label = 'Edit') {
 }
 
 export function replaceNode(id, node, label = 'Edit') {
-  commit(label, T.update(state.tree, id, () => node), { ids: [id] });
+  // A new id has nothing to patch in the canvas, so re-render from the parent.
+  const { parent } = T.locate(state.tree, id);
+  const change = node.id === id ? { ids: [id] } : parent ? { ids: [parent.id] } : { full: true };
+  commit(label, T.update(state.tree, id, () => node), change, node.id === id ? {} : { selected: node.id });
 }
 
 /** Insert nodes; parentId null = root. Selects the first inserted node. */

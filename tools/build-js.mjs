@@ -2,6 +2,7 @@
 import { readdir, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import * as esbuild from 'esbuild';
+import { splitBuilds, writeManifest } from './frontend-split.mjs';
 
 const root = fileURLToPath(new URL('../plugin/brik-builder/assets/', import.meta.url));
 const watch = process.argv.includes('--watch');
@@ -32,6 +33,8 @@ const builds = [
     loader: { '.js': 'jsx' },
   },
   { ...common, entryPoints: { frontend: `${root}src/frontend/index.js` } },
+  // Core + one script per module, loaded only on pages that render it.
+  ...splitBuilds(root, modules, common),
 ];
 if (fx.length) {
   builds.push({ ...common, outdir: `${root}build/fx`, entryPoints: Object.fromEntries(fx.map((f) => [f.replace(/\.js$/, ''), `${root}src/fx/${f}`])) });
@@ -41,4 +44,5 @@ if (watch) {
   for (const options of builds) await (await esbuild.context(options)).watch();
 } else {
   await Promise.all(builds.map((options) => esbuild.build(options)));
+  await writeManifest(root, modules, fx);
 }

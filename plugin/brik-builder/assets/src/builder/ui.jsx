@@ -97,6 +97,8 @@ export function Tabs({ tabs, value, onChange, className }) {
           type="button"
           role="tab"
           aria-selected={value === t.value}
+          title={t.title}
+          aria-label={t.title}
           onClick={() => onChange(t.value)}
           className={cn(
             'inline-flex h-7 flex-1 items-center justify-center gap-1.5 rounded-md px-2.5 text-xs font-medium whitespace-nowrap transition-all cursor-pointer',

@@ -27,10 +27,13 @@ export function mount(root = document) {
 }
 
 export function ready() {
-  const start = () => {
+  const begin = () => {
     started = true;
     mount(document);
   };
+  // With critical CSS inlined, the page stylesheet loads without blocking; behaviours that
+  // measure layout wait for it (window.brikCss resolves on load, error or a timeout).
+  const start = () => (window.brikCss ? window.brikCss.then(begin, begin) : begin());
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', start);
   } else {

@@ -1,9 +1,10 @@
 import { useState, useMemo, config } from './wp.js';
-import { useStore, setState, getState, select, setAttr, replaceNode, styleAttrs, toast } from './store.js';
+import { useStore, setState, getState, select, setAttr, replaceNode, styleAttrs, toast, effectiveDevice } from './store.js';
 import * as T from './tree.js';
 import { saveSettings } from './api.js';
 import { Icon } from './icons.js';
 import { NodeField, visible } from './fields.jsx';
+import { Slot } from './registry.js';
 import { cn, Tabs, Collapsible, IconButton, Button, Input, Popover, Empty, Label, Select } from './ui.jsx';
 
 const TAB_LIST = [
@@ -36,7 +37,7 @@ function NodeSettings({ node, schema, tree }) {
   const [tab, setTab] = useState('content');
   const [query, setQuery] = useState('');
   const mode = useStore((s) => s.mode);
-  const device = useStore((s) => s.device);
+  const device = useStore((s) => effectiveDevice(s));
   const def = schema.byType[node.type];
   const path = T.pathTo(tree, node.id) || [];
 
@@ -92,6 +93,7 @@ function NodeSettings({ node, schema, tree }) {
           <AdminLabel node={node} def={def} />
           <Presets node={node} def={def} />
         </div>
+        <Slot name="nodeHeader" node={node} def={def} />
         <Tabs tabs={TAB_LIST} value={tab} onChange={setTab} className="w-full" />
         <div className="flex items-center gap-2">
           <div className="relative flex-1">
@@ -120,6 +122,7 @@ function NodeSettings({ node, schema, tree }) {
             </Collapsible>
           );
         })}
+        <Slot name="nodeFooter" node={node} def={def} tab={tab} />
       </div>
     </div>
   );

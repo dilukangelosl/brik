@@ -152,7 +152,8 @@ function apply(res, ids) {
     }
   }
 
-  let style = doc.getElementById('brik-css');
+  // style#, not getElementById: the "brik" stylesheet <link> carries the same id.
+  let style = doc.querySelector('style#brik-css');
   if (!style) {
     style = doc.createElement('style');
     style.id = 'brik-css';

@@ -3,6 +3,7 @@ import { useStore, setState, undo, redo, openModal } from './store.js';
 import { save } from './api.js';
 import { Icon } from './icons.js';
 import { cn, Button, IconButton, Popover } from './ui.jsx';
+import { Slot } from './registry.js';
 
 const DEVICES = [
   ['desktop', 'monitor', 'Desktop'],
@@ -54,6 +55,7 @@ export function TopBar() {
         <IconButton icon="plus" label="Add element (⌘⇧A)" active={left === 'modules'} onClick={() => togglePanel('modules')} />
         <IconButton icon="layers" label="Layers (⌘⇧L)" active={left === 'layers'} onClick={() => togglePanel('layers')} />
         <IconButton icon="library" label="Library & layouts" active={left === 'library'} onClick={() => togglePanel('library')} />
+        <Slot name="topBarLeft" />
         <span className="mx-1 h-5 w-px bg-border" />
         <button type="button" className="min-w-0 truncate rounded px-1.5 py-1 text-sm font-medium hover:bg-accent cursor-pointer" onClick={() => openModal('page')} title="Settings">
           {title || 'Untitled'}
@@ -73,9 +75,11 @@ export function TopBar() {
             <Icon name={icon} size={15} />
           </button>
         ))}
+        <Slot name="topBarCenter" />
       </div>
 
       <div className="flex items-center gap-1">
+        <Slot name="topBarRight" />
         <IconButton icon="undo-2" label="Undo (⌘Z)" disabled={!canUndo} onClick={undo} />
         <IconButton icon="redo-2" label="Redo (⌘⇧Z)" disabled={!canRedo} onClick={redo} />
         <IconButton icon="palette" label="Design system" onClick={() => openModal('design')} />

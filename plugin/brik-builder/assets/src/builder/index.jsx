@@ -10,6 +10,8 @@ import { SettingsPanel } from './SettingsPanel.jsx';
 import { Modals } from './Modals.jsx';
 import { ContextMenu } from './ContextMenu.jsx';
 import { Toasts } from './Toasts.jsx';
+import { Slot } from './registry.js';
+import './features/index.js';
 
 const WIDTHS = { desktop: '100%', tablet: '820px', mobile: '390px' };
 
@@ -20,6 +22,7 @@ function Canvas() {
   const ref = useRef(null);
   const wrap = useRef(null);
   const device = store.useStore((s) => s.device);
+  const customWidth = store.useStore((s) => s.canvasWidth);
   const ready = store.useStore((s) => !!s.canvasReady);
   const [box, setBox] = useState({ w: 0, h: 0 });
   useEffect(() => {
@@ -29,16 +32,19 @@ function Canvas() {
     return () => ro.disconnect();
   }, []);
 
-  const scale = device === 'desktop' && box.w && box.w < DESKTOP_MIN ? box.w / DESKTOP_MIN : 1;
+  // Desktop, and custom widths wider than the canvas area, are scaled down to fit.
+  const fitWidth = device === 'desktop' ? DESKTOP_MIN : device === 'custom' && customWidth ? customWidth : 0;
+  const scale = fitWidth && box.w && box.w < fitWidth ? box.w / fitWidth : 1;
   const style =
     scale < 1
-      ? { width: DESKTOP_MIN, height: box.h / scale, transform: `scale(${scale})`, transformOrigin: 'top left', position: 'absolute', left: 0, top: 0 }
-      : { width: WIDTHS[device], height: '100%' };
+      ? { width: fitWidth, height: box.h / scale, transform: `scale(${scale})`, transformOrigin: 'top left', position: 'absolute', left: 0, top: 0 }
+      : { width: device === 'custom' && customWidth ? `${customWidth}px` : WIDTHS[device], height: '100%' };
   if (device !== 'desktop') style.boxShadow = '0 0 0 1px var(--border), 0 10px 30px -10px rgb(0 0 0 / .2)';
 
   return (
     <div ref={wrap} className="bk-canvas-wrap relative flex flex-1 justify-center overflow-hidden bg-muted/60">
       <iframe ref={ref} title="Page preview" src={config.canvasUrl} className="bg-white" style={style} />
+      <Slot name="canvasOverlay" />
       {!ready && (
         <div className="absolute inset-0 flex items-center justify-center bg-background">
           <span className="bk-spinner" />

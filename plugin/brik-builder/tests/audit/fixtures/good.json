@@ -1,0 +1,18 @@
+[
+  {"id": "secgood1", "type": "section", "children": [
+    {"id": "rowgood1", "type": "row", "children": [
+      {"id": "colgood1", "type": "column", "children": [
+        {"id": "goodh1", "type": "heading", "attrs": {"text": "Analytics your whole team understands", "level": "h1"}},
+        {"id": "goodtext", "type": "text", "attrs": {"content": "<p>Track every launch and see what moves the numbers. <a href=\"/\">Back to the home page</a>.</p>"}},
+        {"id": "goodh2", "type": "heading", "attrs": {"text": "Why teams switch", "level": "h2"}},
+        {"id": "goodimg", "type": "image", "attrs": {"image": {"url": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=500&fit=crop"}, "alt": "Mountain ridge above the clouds"}},
+        {"id": "gooddeco", "type": "image", "attrs": {"image": {"url": "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=800&h=500&fit=crop"}, "decorative": true}},
+        {"id": "goodbtn", "type": "button", "attrs": {"text": "Start a free trial", "link": {"url": "/", "new_tab": true}}},
+        {"id": "goodfaq", "type": "accordion", "attrs": {"faq_schema": true, "items": [
+          {"title": "Is there a free plan?", "content": "<p>Yes.</p>"},
+          {"title": "Can I export data?", "content": "<p>Yes, as CSV.</p>"}
+        ]}}
+      ]}
+    ]}
+  ]}
+]

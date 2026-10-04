@@ -28,7 +28,7 @@ final class Renderer {
 	public function __construct( $post_id = 0, $canvas = false ) {
 		$this->post_id = (int) $post_id;
 		$this->canvas  = (bool) $canvas;
-		$this->style   = new Style();
+		$this->style   = new Style( $this->canvas );
 	}
 
 	/**
@@ -39,6 +39,9 @@ final class Renderer {
 
 	/** Effect scripts requested while rendering (see Context::script()). */
 	public $scripts = array();
+
+	/** How many times each module type was rendered. */
+	public $types = array();
 
 	/** Top-level nodes of the tree being rendered, so sections can look at their neighbours. */
 	public $root = array();
@@ -88,6 +91,7 @@ final class Renderer {
 			return '';
 		}
 
+		$this->types[ $node['type'] ] = ( isset( $this->types[ $node['type'] ] ) ? $this->types[ $node['type'] ] : 0 ) + 1;
 		$this->style->add_node( $node, $def, $attrs );
 		if ( 'effects' === $def['category'] || ! empty( $attrs['bg_effect'] ) ) {
 			$this->effects = true;
@@ -177,6 +181,15 @@ final class Renderer {
 		}
 		if ( ! empty( $attrs['css_class'] ) ) {
 			$classes[] = $attrs['css_class'];
+		}
+		// Global CSS classes are referenced by id, so renaming a class never breaks its usages.
+		if ( ! empty( $attrs['classes'] ) && is_array( $attrs['classes'] ) ) {
+			$defined = (array) Settings::get( 'classes' );
+			foreach ( $attrs['classes'] as $class_id ) {
+				if ( is_string( $class_id ) && ! empty( $defined[ $class_id ]['name'] ) ) {
+					$classes[] = 'cls-' . $defined[ $class_id ]['name'];
+				}
+			}
 		}
 		$classes = array_merge( $classes, $ctx->classes );
 

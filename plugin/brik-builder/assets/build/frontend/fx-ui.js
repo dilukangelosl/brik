@@ -1,0 +1,1 @@
+(()=>{var n=(o,e)=>window.brik.on(o,e);var t="IntersectionObserver"in window?new IntersectionObserver(o=>{for(let e of o)e.target.classList.toggle("is-offscreen",!e.isIntersecting)}):null;n("[data-brik-fx-pause]",o=>{t&&t.observe(o)});})();

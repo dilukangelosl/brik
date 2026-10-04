@@ -4,7 +4,7 @@ Tags: page builder, visual editor, drag and drop, theme builder, mcp
 Requires at least: 6.3
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.1.0
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -98,6 +98,16 @@ Yes. A module is a single PHP file that returns its definition. Register it on t
 Under Brik → Submissions, visible to administrators.
 
 == Changelog ==
+
+= 1.2.0 =
+* Performance: per-page optimized CSS with critical CSS inlined, per-element JavaScript, self-hosted fonts, WebP/AVIF uploads, a performance score with savings suggestions and a one-click page cleaner.
+* Design system: global CSS classes, spacing/radius/type/shadow variables, a design system panel and components with overridable content and safe detach.
+* Accessibility, SEO and responsive audits with click-to-element issues and one-click fixes.
+* Version history with section-level compare and restore, staging with shareable preview links, deploy and scheduled publish or rollback.
+* Dynamic data from ACF, Meta Box, Pods, WooCommerce, users, terms and meta; a visual query builder for listings; nested display conditions.
+* Responsive timeline, fluid values, a custom-width breakpoint simulator, "Why is this broken?" diagnostics, a CSS inspector and Designer/Developer modes.
+* Convert a page to Gutenberg blocks or static HTML and back.
+* Fixes: MCP validation of rows without columns, anchor links no longer marked as the current menu item.
 
 = 1.1.0 =
 * WooCommerce: product page elements, product grids with quick view, product filters, mini cart drawer, styled cart, checkout, account and order pages.

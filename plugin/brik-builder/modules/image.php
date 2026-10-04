@@ -14,11 +14,12 @@ return array(
 	'title'       => __( 'Image', 'brik-builder' ),
 	'category'    => 'media',
 	'icon'        => 'image',
-	'description' => 'Single image. image: {id,url,alt} or URL. alt overrides the media alt text. size: WP image size (thumbnail|medium|large|full…). action: none|link|lightbox (link uses "link"). caption: text. ratio: auto|16:9|4:3|3:2|1:1|21:9|2:3|3:4|4:5|9:16 with fit: cover|contain. rounded: none|sm|md|lg|xl|2xl|full. shadow: none|sm|md|lg|xl|2xl. hover_zoom: bool. full: stretch to column width. align: left|center|right.',
+	'description' => 'Single image. image: {id,url,alt} or URL. alt overrides the media alt text. size: WP image size (thumbnail|medium|large|full…). action: none|link|lightbox (link uses "link"). caption: text. ratio: auto|16:9|4:3|3:2|1:1|21:9|2:3|3:4|4:5|9:16 with fit: cover|contain. rounded: none|sm|md|lg|xl|2xl|full. shadow: none|sm|md|lg|xl|2xl. hover_zoom: bool. full: stretch to column width. align: left|center|right. decorative: bool, hides a purely visual image from screen readers (empty alt).',
 	'fields'      => array_merge(
 		array(
 			'image'      => Fields::field( 'image', __( 'Image', 'brik-builder' ), 'content', array( 'default' => array( 'url' => brik_sample_image( '1506905925346-21bda4d32df4', 1600, 1000 ), 'alt' => __( 'Mountain ridge above the clouds at sunrise', 'brik-builder' ) ) ) ),
 			'alt'        => Fields::field( 'text', __( 'Alt text', 'brik-builder' ), 'content', array( 'description' => __( 'Leave empty to use the alt text from the media library.', 'brik-builder' ) ) ),
+			'decorative' => Fields::field( 'toggle', __( 'Decorative image', 'brik-builder' ), 'content', array( 'description' => __( 'Purely visual: screen readers skip it (empty alt).', 'brik-builder' ) ) ),
 			'size'       => Fields::field( 'select', __( 'Image size', 'brik-builder' ), 'content', array( 'default' => 'large', 'options' => Fields::opts( brik_image_size_options() ) ) ),
 			'action'     => Fields::field( 'select', __( 'On click', 'brik-builder' ), 'content', array( 'default' => 'none', 'options' => Fields::opts( array( 'none' => __( 'Nothing', 'brik-builder' ), 'link' => __( 'Open link', 'brik-builder' ), 'lightbox' => __( 'Open in lightbox', 'brik-builder' ) ) ) ) ),
 			'link'       => Fields::field( 'link', __( 'Link', 'brik-builder' ), 'content', array( 'show_if' => array( 'action' => 'link' ) ) ),
@@ -42,7 +43,7 @@ return array(
 		}
 		$item  = $items[0];
 		$ratio = brik_aspect_class( $a['ratio'] );
-		$alt   = '' !== $a['alt'] ? $a['alt'] : $item['alt'];
+		$alt   = ! empty( $a['decorative'] ) ? '' : ( '' !== $a['alt'] ? $a['alt'] : $item['alt'] );
 
 		// Responsive ratios: the desktop value drives the class, smaller screens override via CSS.
 		foreach ( array( 'tablet', 'mobile' ) as $state ) {
@@ -56,7 +57,7 @@ return array(
 		$img = brik_media_img(
 			$item,
 			$a['size'] ? $a['size'] : 'large',
-			array(
+			( ! empty( $a['decorative'] ) ? array( 'role' => 'presentation' ) : array() ) + array(
 				'alt'   => $alt,
 				'class' => brik_cls(
 					'brik-image-img block max-w-full',

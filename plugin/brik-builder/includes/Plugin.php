@@ -23,6 +23,14 @@ final class Plugin {
 		Mcp::init();
 		Admin::init();
 
+		// Feature modules (each folder under includes/ with a matching class).
+		foreach ( array( 'Perf\\Perf', 'Audit\\Audit', 'Versions\\Versions', 'Data\\Data', 'Design\\Design', 'Editor\\Editor' ) as $feature ) {
+			$class = __NAMESPACE__ . '\\' . $feature;
+			if ( class_exists( $class ) ) {
+				$class::init();
+			}
+		}
+
 		do_action( 'brik/loaded' );
 	}
 

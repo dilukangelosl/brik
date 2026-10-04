@@ -931,7 +931,7 @@ final class McpTools {
 		return $args;
 	}
 
-	private static function warn( $message ) {
+	public static function warn( $message ) {
 		if ( count( self::$warnings ) < 60 ) {
 			self::$warnings[] = $message;
 		}
@@ -1058,7 +1058,7 @@ final class McpTools {
 	 */
 	private static function store( $post, array $tree, $page = null ) {
 		$saved = Data::save( $post->ID, $tree, $page );
-		self::validate( $saved );
+		self::check( $saved );
 		return $saved;
 	}
 
@@ -1107,6 +1107,18 @@ final class McpTools {
 	 * Report problems an author would want to fix: unknown types and attributes, invalid
 	 * option values, row structures that don't match their columns.
 	 */
+	/**
+	 * Run the checks without letting a failure undo a save that already happened.
+	 */
+	private static function check( array $nodes ) {
+		try {
+			self::validate( $nodes );
+		} catch ( \Throwable $e ) {
+			/* translators: %s: error message */
+			self::warn( sprintf( __( 'Some checks could not run: %s', 'brik-builder' ), $e->getMessage() ) );
+		}
+	}
+
 	private static function validate( array $nodes ) {
 		foreach ( $nodes as $node ) {
 			$type = $node['type'];
@@ -1129,7 +1141,8 @@ final class McpTools {
 					}
 					continue;
 				}
-				if ( ! isset( $def['fields'][ $base ] ) ) {
+				// Attributes handled by add-ons (conditions, classes, component overrides) rather than module fields.
+				if ( ! isset( $def['fields'][ $base ] ) && ! in_array( $base, (array) apply_filters( 'brik/extra_attrs', array( 'visibility_rules', 'classes', 'overrides' ) ), true ) ) {
 					/* translators: 1: attribute, 2: node */
 					self::warn( sprintf( __( 'Unknown attribute "%1$s" on %2$s (ignored when rendering). See get_module.', 'brik-builder' ), $key, $at ) );
 					continue;
@@ -1161,9 +1174,10 @@ final class McpTools {
 					self::warn( sprintf( __( 'Unknown icon "%1$s" on %2$s. Use search_icons to find a valid name.', 'brik-builder' ), $value, $at ) );
 				}
 			}
-			if ( 'row' === $type && ! empty( $node['children'] ) ) {
-				$columns = isset( $attrs['columns'] ) ? (string) $attrs['columns'] : '1';
-				$count   = count( array_filter( explode( ',', $columns ), 'strlen' ) );
+			// Rows sized by their content or as equal columns don't use fractions.
+			if ( 'row' === $type && ! empty( $node['children'] ) && empty( $attrs['sizing'] ) ) {
+				$columns = isset( $attrs['columns'] ) && '' !== trim( (string) $attrs['columns'] ) ? trim( (string) $attrs['columns'] ) : '1';
+				$count   = ctype_digit( $columns ) ? max( 1, (int) $columns ) : max( 1, count( array_filter( explode( ',', $columns ), 'strlen' ) ) );
 				// More columns than fractions is fine when they fill whole lines: the grid wraps.
 				$children = count( $node['children'] );
 				if ( $children < $count || 0 !== $children % $count ) {
@@ -1812,7 +1826,7 @@ final class McpTools {
 		} else {
 			return new WP_Error( 'brik_mcp_args', __( 'Pass post_id, tree or both.', 'brik-builder' ) );
 		}
-		self::validate( $tree );
+		self::check( $tree );
 
 		if ( $post_id ) {
 			$GLOBALS['post'] = get_post( $post_id ); // phpcs:ignore WordPress.WP.GlobalVariablesOverride
@@ -2121,7 +2135,7 @@ final class McpTools {
 		if ( '' === $id ) {
 			return new WP_Error( 'brik_mcp_args', __( 'Preset id must contain letters or digits.', 'brik-builder' ) );
 		}
-		self::validate(
+		self::check(
 			array(
 				array(
 					'id'    => 'preset',
@@ -2208,7 +2222,7 @@ final class McpTools {
 			return $id;
 		}
 		$saved = Data::get( $id );
-		self::validate( $saved );
+		self::check( $saved );
 		$out                = Library::item( $id );
 		$out['builder_url'] = Builder::url( $id );
 		$out['outline']     = self::outline( $saved );
@@ -3157,6 +3171,6 @@ MD;
 				'HERO'       => $json( $hero ),
 				'FEATURES'   => $json( $features ),
 			)
-		) . ( class_exists( 'WooCommerce' ) ? Woo\Mcp::guide() : '' );
+		) . ( class_exists( 'WooCommerce' ) ? Woo\Mcp::guide() : '' ) . (string) apply_filters( 'brik/mcp_guide', '' );
 	}
 }

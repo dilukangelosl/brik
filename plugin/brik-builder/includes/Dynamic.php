@@ -57,7 +57,8 @@ final class Dynamic {
 			$post_id = get_the_ID();
 		}
 
-		if ( 0 === strpos( $tag, 'meta:' ) ) {
+		// Protected keys and modifiers ({meta:_price}, {meta:price|number}) go to the brik/dynamic_value filter.
+		if ( 0 === strpos( $tag, 'meta:' ) && false === strpos( $tag, '|' ) && ! is_protected_meta( substr( $tag, 5 ), 'post' ) ) {
 			$v = get_post_meta( $post_id, substr( $tag, 5 ), true );
 			return is_scalar( $v ) ? esc_html( (string) $v ) : '';
 		}

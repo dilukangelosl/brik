@@ -3,3 +3,5 @@ node_modules/
 *.log
 /dist/
 dev/_tmp*
+marketing/video/out/
+marketing/video/public/*.mp4

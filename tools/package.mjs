@@ -13,6 +13,6 @@ execFileSync('npm', ['run', 'build'], { cwd: root, stdio: 'inherit' });
 const zip = (cwd, name, folder, exclude = []) =>
   execFileSync('zip', ['-rq', `${dist}/${name}`, folder, '-x', '*.DS_Store', ...exclude], { cwd, stdio: 'inherit' });
 
-zip(`${root}plugin`, 'brik-builder.zip', 'brik-builder', ['brik-builder/assets/src/*/_modules.*']);
+zip(`${root}plugin`, 'brik-builder.zip', 'brik-builder', ['brik-builder/assets/src/*/_modules.*', 'brik-builder/tests/*']);
 zip(`${root}theme`, 'brik.zip', 'brik');
 console.log('dist/brik-builder.zip, dist/brik.zip');

@@ -3,6 +3,7 @@ import * as store from './store.js';
 import * as T from './tree.js';
 import { addAfter } from './canvas.js';
 import { Icon } from './icons.js';
+import { getSlot } from './registry.js';
 
 export function ContextMenu() {
   const menu = store.useStore((s) => s.menu);
@@ -38,6 +39,10 @@ export function ContextMenu() {
     null,
     ['library', 'Save to library', () => store.openModal('save-library', { id: node.id })],
     ...(parent ? [['arrow-up-left', 'Select parent', () => store.select(parent.id), 'Esc']] : []),
+    null,
+    ...getSlot('contextMenu')
+      .filter((x) => !x.when || x.when(node))
+      .map((x) => [x.icon, x.label, () => x.action(node)]),
     null,
     ['trash-2', 'Delete', () => store.removeNode(node.id), 'Del'],
   ];

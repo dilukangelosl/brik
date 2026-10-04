@@ -1,0 +1,1 @@
+(()=>{var o=(r,i)=>window.brik.on(r,i);o(".brik-pricing_table",r=>{let i=r.querySelector(".brik-pricing-grid"),t=r.querySelectorAll("[data-brik-billing]");!i||!t.length||t.forEach(e=>{e.addEventListener("click",()=>{i.dataset.billing=e.dataset.brikBilling,t.forEach(n=>n.setAttribute("aria-pressed",String(n===e)))})})});})();

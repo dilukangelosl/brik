@@ -121,10 +121,16 @@ final class Frontend {
 			$css .= $page['custom_css'];
 		}
 
-		self::$rendered[ $key ] = array(
-			'html'  => $html,
-			'css'   => $css,
-			'fonts' => $renderer->style->fonts(),
+		// Lets the performance layer post-process markup and see what was rendered.
+		self::$rendered[ $key ] = apply_filters(
+			'brik/rendered',
+			array(
+				'html'  => $html,
+				'css'   => $css,
+				'fonts' => $renderer->style->fonts(),
+			),
+			$post_id,
+			$renderer
 		);
 		return self::$rendered[ $key ];
 	}
@@ -143,6 +149,8 @@ final class Frontend {
 		if ( self::$needed && ! Builder::is_canvas() ) {
 			echo "<script>document.documentElement.classList.add('brik-anim-ready')</script>\n";
 		}
+		// Empty when the CSS already ships in an optimized per-page stylesheet.
+		$css = (string) apply_filters( 'brik/head_css', $css );
 		if ( '' !== $css ) {
 			echo '<style id="brik-css">' . $css . "</style>\n"; // phpcs:ignore WordPress.Security.EscapeOutput -- generated, values cleaned in Style.
 		}

@@ -99,6 +99,7 @@ final class Fonts {
 		if ( ! $query ) {
 			return '';
 		}
-		return 'https://fonts.googleapis.com/css2?' . implode( '&', $query ) . '&display=swap';
+		// Filtered so fonts can be self-hosted or skipped (see Perf\LocalFonts).
+		return (string) apply_filters( 'brik/fonts_url', 'https://fonts.googleapis.com/css2?' . implode( '&', $query ) . '&display=swap', $families );
 	}
 }

@@ -1,11 +1,12 @@
 // Settings field controls. Each control gets { value, onChange, field, placeholder }.
 import { useState, useEffect, useRef, useMemo } from './wp.js';
-import { useStore, getState, setAttr, attrKey, replaceNode } from './store.js';
+import { useStore, getState, setAttr, attrKey, replaceNode, effectiveDevice } from './store.js';
 import * as T from './tree.js';
 import { search, library as loadLibrary } from './api.js';
 import { Icon, iconNames, brandNames, iconSvg } from './icons.js';
 import { loadIconTags } from './api.js';
 import { MenuTreeControl } from './menutree.jsx';
+import { Slot, getControl } from './registry.js';
 import { cn, Input, Textarea, Select, Switch, Segmented, Popover, Button, IconButton, Label, Tabs, inputClass } from './ui.jsx';
 
 /* ------------------------------------------------------------------------
@@ -46,7 +47,7 @@ function inherited(attrs, key, k) {
  * ---------------------------------------------------------------------- */
 
 export function NodeField({ node, fkey, field, def }) {
-  const device = useStore((s) => s.device);
+  const device = useStore((s) => effectiveDevice(s));
   const mode = useStore((s) => s.mode);
   const k = attrKey(fkey, field);
   const attrs = node.attrs || {};
@@ -72,7 +73,7 @@ export function NodeField({ node, fkey, field, def }) {
   );
 }
 
-function FieldLabel({ field, scoped, device, mode, hasValue, onReset }) {
+function FieldLabel({ field, scoped, device, mode, hasValue, onReset, node, fkey }) {
   if (field.type === 'toggle') return null;
   return (
     <div className="flex min-h-5 items-center justify-between gap-2">
@@ -81,11 +82,14 @@ function FieldLabel({ field, scoped, device, mode, hasValue, onReset }) {
         {scoped && mode === 'hover' && <Icon name="mouse-pointer-2" size={12} className="text-brand" />}
         {scoped && mode !== 'hover' && <Icon name={device === 'tablet' ? 'tablet' : 'smartphone'} size={12} className="text-brand" />}
       </Label>
-      {hasValue && (
-        <button type="button" className="text-muted-foreground hover:text-foreground cursor-pointer" title="Reset" onClick={onReset}>
-          <Icon name="rotate-ccw" size={12} />
-        </button>
-      )}
+      <span className="flex items-center gap-1.5">
+        <Slot name="fieldLabel" node={node} fkey={fkey} field={field} />
+        {hasValue && (
+          <button type="button" className="text-muted-foreground hover:text-foreground cursor-pointer" title="Reset" onClick={onReset}>
+            <Icon name="rotate-ccw" size={12} />
+          </button>
+        )}
+      </span>
     </div>
   );
 }
@@ -96,7 +100,7 @@ function FieldLabel({ field, scoped, device, mode, hasValue, onReset }) {
 
 export function Control(props) {
   const { field } = props;
-  const C = CONTROLS[field.type] || TextControl;
+  const C = getControl(field.type) || CONTROLS[field.type] || TextControl;
   return <C {...props} />;
 }
 
@@ -232,6 +236,7 @@ function TextControl({ value, onChange, field, placeholder, fkey }) {
           ))}
         </datalist>
       )}
+      <Slot name="textAddons" value={draft} onChange={update} field={field} />
       <DynamicTags onInsert={(t) => update(`${draft}${t}`)} />
     </div>
   );

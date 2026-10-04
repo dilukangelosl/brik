@@ -30,6 +30,15 @@ final class Settings {
 			'custom_css'   => '',
 			'google_fonts' => true,
 			'mcp_enabled'  => true,
+			// Performance (see Perf\Perf).
+			'perf_assets'   => true,
+			'perf_critical' => true,
+			'fonts_mode'    => 'local',
+			'image_format'  => '',
+			'perf_lazy'     => true,
+			'perf_picture'  => false,
+			'variables'    => array(),
+			'classes'      => array(),
 		);
 	}
 
@@ -68,9 +77,21 @@ final class Settings {
 				return array_values( array_filter( array_map( 'sanitize_key', (array) $value ), 'post_type_exists' ) );
 			case 'google_fonts':
 			case 'mcp_enabled':
+			case 'perf_assets':
+			case 'perf_critical':
+			case 'perf_lazy':
+			case 'perf_picture':
 				return (bool) $value;
+			case 'fonts_mode':
+				return in_array( $value, array( 'google', 'local', 'system' ), true ) ? $value : 'local';
+			case 'image_format':
+				return in_array( $value, array( 'webp', 'avif' ), true ) ? $value : '';
 			case 'custom_css':
 				return str_ireplace( '</style', '', (string) $value );
+			case 'variables':
+				return Design\Variables::sanitize( $value );
+			case 'classes':
+				return Design\Classes::sanitize( $value );
 			case 'tokens':
 				$out = array(
 					'light' => array(),
@@ -268,6 +289,8 @@ final class Settings {
 
 		$css  = ':root{' . $root . '}';
 		$css .= '.dark{' . $vars( self::tokens( 'dark' ) ) . 'color-scheme:dark}';
+		// Design variables and global CSS classes come before custom CSS so it can override them.
+		$css .= Design\Variables::css() . Design\Classes::css();
 		$css .= (string) self::get( 'custom_css' );
 		return $css;
 	}

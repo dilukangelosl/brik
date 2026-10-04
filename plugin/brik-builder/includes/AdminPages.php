@@ -478,6 +478,8 @@ final class AdminPages {
 					</label>
 				</div>
 
+				<?php do_action( 'brik/settings_form' ); ?>
+
 				<p class="brik-form-actions"><button type="submit" class="button button-primary"><?php esc_html_e( 'Save settings', 'brik-builder' ); ?></button></p>
 			</form>
 		</div>
