@@ -96,8 +96,10 @@ final class PageCss {
 
 		$crit_usage = null;
 		if ( $opts['critical'] ) {
-			$crit_usage = new Usage();
-			$crit_usage->add_html( self::critical_html( $items ) )->add_classes( (array) $opts['body_classes'] );
+			// Classes that scripts add (effect layers, ready states) must be in the first paint too,
+			// or those elements jump when the full stylesheet arrives.
+			$crit_html  = self::critical_html( $items );
+			$crit_usage = self::usage( $crit_html, Scripts::needed( $crit_html, $opts['woo'] ), Scripts::fx_in( array_unique( $fx ), $crit_html ), $opts );
 		}
 
 		// Inputs only, never raw markup: nonces and timestamps must not change the file name.
@@ -368,6 +370,10 @@ final class PageCss {
 		}
 		if ( ! file_exists( $path . '/index.php' ) ) {
 			self::write( $path . '/index.php', "<?php\n// Silence is golden.\n" );
+		}
+		// File names carry a content hash, so Apache/LiteSpeed may cache them for a year.
+		if ( ! file_exists( $path . '/.htaccess' ) ) {
+			self::write( $path . '/.htaccess', "<IfModule mod_headers.c>\n\tHeader set Cache-Control \"public, max-age=31536000, immutable\"\n</IfModule>\n" );
 		}
 		$dir = array(
 			'path' => $path,

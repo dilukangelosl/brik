@@ -196,15 +196,16 @@ function brik_3d_media( $image, $video, array $args = array() ) {
 		$poster = brik_image_url( $image, $args['size'] );
 		return '<video' . brik_attrs(
 			array(
-				'class'       => $class,
-				'src'         => $info['url'],
-				'poster'      => $poster ? esc_url_raw( $poster ) : null,
-				'autoplay'    => true,
-				'muted'       => true,
-				'loop'        => true,
-				'playsinline' => true,
-				'preload'     => 'metadata',
-				'aria-hidden' => 'true',
+				'class'              => $class,
+				'src'                => $info['url'],
+				'poster'             => $poster ? esc_url_raw( $poster ) : null,
+				// Played by fx-ui.js only while on screen, so off-screen loops are never downloaded.
+				'data-brik-autoplay' => true,
+				'muted'              => true,
+				'loop'               => true,
+				'playsinline'        => true,
+				'preload'            => 'none',
+				'aria-hidden'        => 'true',
 			)
 		) . '></video>';
 	}

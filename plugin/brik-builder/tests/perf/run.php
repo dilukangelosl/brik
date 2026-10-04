@@ -278,7 +278,7 @@ $t->section( 'Per-page assets' );
 $tabs_page = $make_page(
 	'Perf tabs',
 	array(
-		$section( array( array( 'type' => 'heading', 'attrs' => array( 'text' => 'Fast page', 'level' => 'h1' ) ), array( 'type' => 'tabs' ) ) ),
+		$section( array( array( 'type' => 'heading', 'attrs' => array( 'text' => 'Fast page', 'level' => 'h1', 'animation' => 'fade' ) ), array( 'type' => 'tabs' ) ) ),
 		$section( array( array( 'type' => 'text' ) ) ),
 		$section( array( array( 'type' => 'button', 'attrs' => array( 'text' => 'Below the fold' ) ) ) ),
 		// Plenty below the fold, so inlining the first screen is worth it.
@@ -330,6 +330,7 @@ if ( null === $page_html ) {
 	preg_match( '/<style id="brik-critical-css">(.*?)<\/style>/s', $page_html, $cm );
 	$critical = isset( $cm[1] ) ? $cm[1] : '';
 	$t->has( '.brik-section{', $critical, 'critical CSS covers the first sections' );
+	$t->has( '.brik-anim-ready', $critical, 'critical CSS keeps classes scripts add (entrance animations), so nothing jumps when the page stylesheet lands' );
 	$t->lacks( '.brik-progress-bar', $critical, 'critical CSS leaves out what is far below the fold' );
 	$t->lacks( '.brik-accordion', $critical, 'critical CSS leaves out below-the-fold modules' );
 }

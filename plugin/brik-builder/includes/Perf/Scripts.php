@@ -120,6 +120,29 @@ final class Scripts {
 	 *
 	 * @return array [ tokens, prefixes ]
 	 */
+	/**
+	 * The effect scripts whose markup appears in $html: one of their own brik-* classes is
+	 * present. Shared state classes (is-in, is-active…) would match every script.
+	 */
+	public static function fx_in( array $fx, $html ) {
+		$m     = self::manifest();
+		$core  = isset( $m['core']['tokens'] ) ? array_flip( $m['core']['tokens'] ) : array();
+		$usage = ( new Usage( false ) )->add_html( $html );
+		return array_values(
+			array_filter(
+				$fx,
+				static function ( $name ) use ( $m, $core, $usage ) {
+					foreach ( isset( $m['fx'][ $name ]['tokens'] ) ? $m['fx'][ $name ]['tokens'] : array() as $token ) {
+						if ( 0 === strpos( $token, 'brik-' ) && ! isset( $core[ $token ] ) && $usage->has_token( $token ) ) {
+							return true;
+						}
+					}
+					return false;
+				}
+			)
+		);
+	}
+
 	public static function tokens( array $modules, array $fx = array() ) {
 		$m        = self::manifest();
 		$tokens   = isset( $m['core']['tokens'] ) ? $m['core']['tokens'] : array();

@@ -15,7 +15,10 @@
 
 /* Paused while off screen (set by frontend/modules/fx-ui.js). */
 [data-brik-fx-pause].is-offscreen,
-[data-brik-fx-pause].is-offscreen * {
+[data-brik-fx-pause].is-offscreen *,
+.brik-bg-effect.is-offscreen *,
+.brik-section.is-offscreen,
+.brik-section.is-offscreen * {
   animation-play-state: paused !important;
 }
 

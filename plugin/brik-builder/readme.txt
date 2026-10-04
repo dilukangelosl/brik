@@ -4,7 +4,7 @@ Tags: page builder, visual editor, drag and drop, theme builder, mcp
 Requires at least: 6.3
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.2.0
+Stable tag: 1.2.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -98,6 +98,13 @@ Yes. A module is a single PHP file that returns its definition. Register it on t
 Under Brik → Submissions, visible to administrators.
 
 == Changelog ==
+
+= 1.2.1 =
+* Critical CSS includes the classes scripts add above the fold, fixing layout shift while the page stylesheet loads on slow connections.
+* Off-screen sections and animated backgrounds pause their CSS animations.
+* The aurora background animates on the GPU instead of repainting every frame.
+* Device mockup videos load and play only while visible.
+* Generated page stylesheets are served with a one-year cache header on Apache and LiteSpeed.
 
 = 1.2.0 =
 * Performance: per-page optimized CSS with critical CSS inlined, per-element JavaScript, self-hosted fonts, WebP/AVIF uploads, a performance score with savings suggestions and a one-click page cleaner.
