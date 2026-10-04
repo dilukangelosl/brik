@@ -773,6 +773,12 @@ a.brik-mega-feature:hover .brik-mega-feature-button svg {
   .brik-menu--bp-tablet .brik-menu-toggle {
     display: inline-flex;
   }
+
+  /* Collapsed, the button sits at the end of the bar: a centered desktop menu should not
+     leave it in the middle of the header. */
+  .brik-menu--bp-tablet.brik-menu--horizontal .brik-menu-bar {
+    justify-content: flex-end;
+  }
 }
 
 @media (max-width: 767px) {
@@ -782,6 +788,12 @@ a.brik-mega-feature:hover .brik-mega-feature-button svg {
 
   .brik-menu--bp-mobile .brik-menu-toggle {
     display: inline-flex;
+  }
+
+  /* Collapsed, the button sits at the end of the bar: a centered desktop menu should not
+     leave it in the middle of the header. */
+  .brik-menu--bp-mobile.brik-menu--horizontal .brik-menu-bar {
+    justify-content: flex-end;
   }
 }
 
@@ -1429,12 +1441,16 @@ html:has(.brik-mobile-menu[open]) {
   opacity: 1;
   translate: 0 0;
   transition: opacity 0.4s ease-out, translate 0.5s var(--brik-mm-ease);
-  transition-delay: calc(0.12s + var(--i, 0) * 0.045s);
+  transition-delay: calc(var(--brik-mm-lead, 0s) + var(--i, 0) * 0.045s);
 }
 
 .brik-mobile-menu--stagger.is-open .brik-sheet-footer > * {
-  transition-delay: 0.3s;
+  transition-delay: calc(var(--brik-mm-lead, 0s) + 0.18s);
 }
+
+/* Sliding panels reveal their own content, so links start with the panel instead of leaving
+   an empty strip on screen; only the full-screen cover waits for its background first. */
+.brik-mobile-menu--fullscreen { --brik-mm-lead: 0.12s; }
 
 .brik-mobile-menu--fullscreen.brik-mobile-menu--stagger :is(.brik-mm-root > li) {
   translate: 0 1rem;
