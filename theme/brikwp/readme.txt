@@ -1,9 +1,9 @@
-=== Brik ===
+=== BrikWP ===
 Contributors: dilukangelo
 Requires at least: 6.3
-Tested up to: 6.8
+Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.2.0
+Stable tag: 1.2.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Tags: blog, one-column, two-columns, right-sidebar, grid-layout, custom-logo, custom-menu, featured-images, footer-widgets, threaded-comments, translation-ready, wide-blocks, block-styles, editor-style, accessibility-ready, sticky-post
@@ -60,6 +60,10 @@ Install Brik Builder and edit the global design tokens. The theme picks them up 
 
 == Changelog ==
 
+= 1.2.1 =
+* Renamed to BrikWP (slug brikwp) for the WordPress.org directory.
+* New screenshot without third-party images.
+
 = 1.2.0 =
 * Compatibility with Brik Builder 1.2.
 
@@ -71,8 +75,8 @@ Install Brik Builder and edit the global design tokens. The theme picks them up 
 
 == Copyright ==
 
-Brik WordPress Theme, (C) 2026 Diluk Angelo.
-Brik is distributed under the terms of the GNU GPL v2 or later.
+BrikWP WordPress Theme, (C) 2026 Diluk Angelo.
+BrikWP is distributed under the terms of the GNU GPL v2 or later.
 
 This theme bundles the following third-party resources:
 
@@ -80,6 +84,5 @@ Lucide icons, Copyright (c) Lucide Contributors
 License: ISC
 Source: https://lucide.dev
 
-Screenshot photos from Picsum Photos (Unsplash images)
-License: Unsplash License, https://unsplash.com/license
-Source: https://picsum.photos
+Screenshot
+License: GPLv2 or later. Created by Diluk Angelo for this theme; contains no third-party images.

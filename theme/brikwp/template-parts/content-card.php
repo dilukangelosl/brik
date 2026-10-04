@@ -25,7 +25,7 @@ $brik_theme_featured = is_home() && ! is_paged() && 0 === $wp_query->current_pos
 
 	<div class="post-card-body">
 		<?php if ( is_sticky() && is_home() && ! is_paged() ) : ?>
-			<span class="badge badge--default post-card-sticky"><?php brik_theme_the_icon( 'pin' ); ?><?php esc_html_e( 'Featured', 'brik' ); ?></span>
+			<span class="badge badge--default post-card-sticky"><?php brik_theme_the_icon( 'pin' ); ?><?php esc_html_e( 'Featured', 'brikwp' ); ?></span>
 		<?php endif; ?>
 		<?php brik_theme_category_badges( 2 ); ?>
 

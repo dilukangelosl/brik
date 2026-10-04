@@ -23,7 +23,7 @@ if ( class_exists( 'WooCommerce' ) ) {
  * Theme supports, menus and editor styles.
  */
 function brik_theme_setup() {
-	load_theme_textdomain( 'brik', get_template_directory() . '/languages' );
+	load_theme_textdomain( 'brikwp', get_template_directory() . '/languages' );
 
 	add_theme_support( 'title-tag' );
 	add_theme_support( 'automatic-feed-links' );
@@ -55,8 +55,8 @@ function brik_theme_setup() {
 
 	register_nav_menus(
 		array(
-			'primary' => __( 'Primary menu', 'brik' ),
-			'footer'  => __( 'Footer menu', 'brik' ),
+			'primary' => __( 'Primary menu', 'brikwp' ),
+			'footer'  => __( 'Footer menu', 'brikwp' ),
 		)
 	);
 
@@ -87,9 +87,9 @@ function brik_theme_widgets_init() {
 		array_merge(
 			$shared,
 			array(
-				'name'        => __( 'Sidebar', 'brik' ),
+				'name'        => __( 'Sidebar', 'brikwp' ),
 				'id'          => 'sidebar',
-				'description' => __( 'Shown next to single posts.', 'brik' ),
+				'description' => __( 'Shown next to single posts.', 'brikwp' ),
 			)
 		)
 	);
@@ -100,9 +100,9 @@ function brik_theme_widgets_init() {
 				$shared,
 				array(
 					/* translators: %d: footer column number. */
-					'name'        => sprintf( __( 'Footer column %d', 'brik' ), $i ),
+					'name'        => sprintf( __( 'Footer column %d', 'brikwp' ), $i ),
 					'id'          => 'footer-' . $i,
-					'description' => __( 'Shown in the site footer.', 'brik' ),
+					'description' => __( 'Shown in the site footer.', 'brikwp' ),
 				)
 			)
 		);
@@ -178,10 +178,10 @@ function brik_theme_scripts() {
 		'brikTheme',
 		array(
 			'i18n' => array(
-				'expand'   => __( 'Expand submenu', 'brik' ),
-				'collapse' => __( 'Collapse submenu', 'brik' ),
-				'dark'     => __( 'Switch to dark mode', 'brik' ),
-				'light'    => __( 'Switch to light mode', 'brik' ),
+				'expand'   => __( 'Expand submenu', 'brikwp' ),
+				'collapse' => __( 'Collapse submenu', 'brikwp' ),
+				'dark'     => __( 'Switch to dark mode', 'brikwp' ),
+				'light'    => __( 'Switch to light mode', 'brikwp' ),
 			),
 		)
 	);

@@ -1,20 +1,20 @@
 /*
-Theme Name: Brik
-Theme URI: https://github.com/dilukangelosl/brik
+Theme Name: BrikWP
+Theme URI: https://brikwp.com
 Author: Diluk Angelo
 Author URI: https://github.com/dilukangelosl
 Description: A clean, neutral base theme in the shadcn/ui style, made to pair with the Brik Builder plugin. It renders Brik theme-builder headers and footers natively, gives Brik-built pages the full width of the screen, and shares the builder's design tokens (colors, radius, fonts, container width, dark mode) so everything on the site looks like one system. Without the plugin it is a complete blog theme with a sticky header, card grid archives, readable single posts, styled blocks and comments, and a dark mode toggle.
-Version: 1.2.0
+Version: 1.2.1
 Requires at least: 6.3
-Tested up to: 6.8
+Tested up to: 7.1
 Requires PHP: 7.4
 License: GNU General Public License v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
-Text Domain: brik
+Text Domain: brikwp
 Tags: blog, one-column, two-columns, right-sidebar, grid-layout, custom-logo, custom-menu, featured-images, footer-widgets, threaded-comments, translation-ready, wide-blocks, block-styles, editor-style, accessibility-ready, sticky-post
 
-Brik WordPress Theme, (C) 2026 Diluk Angelo.
-Brik is distributed under the terms of the GNU GPL.
+BrikWP WordPress Theme, (C) 2026 Diluk Angelo.
+BrikWP is distributed under the terms of the GNU GPL.
 
 Styles live in assets/css/theme.css (site chrome and templates) and
 assets/css/content.css (post content, shared with the block editor).

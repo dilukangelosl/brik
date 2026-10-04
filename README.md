@@ -255,9 +255,9 @@ the same validation and sanitization as the visual builder. See [docs/MCP.md](do
 
 ## 🚀 Quick start
 
-1. Download `brik-builder.zip` and `brik.zip` from the [latest release](https://github.com/dilukangelosl/brik/releases/latest).
+1. Download `brik-builder.zip` and `brikwp.zip` from the [latest release](https://github.com/dilukangelosl/brik/releases/latest).
 2. In WordPress go to **Plugins → Add New → Upload** and install `brik-builder.zip`.
-3. *(Optional)* **Appearance → Themes → Upload** `brik.zip` — the companion theme renders Brik headers
+3. *(Optional)* **Appearance → Themes → Upload** `brikwp.zip` — the companion theme renders Brik headers
    and footers natively and shares the design tokens. Brik works with any theme.
 4. Open any page and click **Edit with Brik**.
 
@@ -295,7 +295,7 @@ plugin/brik-builder/   the plugin
   modules/             one file per element — see docs/MODULES.md to write your own
   layouts/             bundled sections
   assets/src/          builder app, front-end scripts, effects, Tailwind sources
-theme/brik/            the companion theme
+theme/brikwp/          the companion theme (BrikWP)
 docs/                  architecture, module API, MCP and content docs
 dev/                   Docker environment and helper scripts
 tools/                 build scripts

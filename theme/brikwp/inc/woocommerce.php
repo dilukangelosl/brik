@@ -88,7 +88,7 @@ add_filter( 'woocommerce_output_related_products_args', 'brik_theme_woocommerce_
 function brik_theme_cart_link_html() {
 	$count = WC()->cart ? (int) WC()->cart->get_cart_contents_count() : 0;
 	/* translators: %d: number of items in the cart */
-	$label = sprintf( _n( 'Cart, %d item', 'Cart, %d items', $count, 'brik' ), $count );
+	$label = sprintf( _n( 'Cart, %d item', 'Cart, %d items', $count, 'brikwp' ), $count );
 	$icon  = '<svg class="icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 10a4 4 0 0 1-8 0"/><path d="M3.103 6.034h17.794"/><path d="M3.4 5.467a2 2 0 0 0-.4 1.2V20a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6.667a2 2 0 0 0-.4-1.2l-2-2.667A2 2 0 0 0 17 2H7a2 2 0 0 0-1.6.8z"/></svg>';
 	return sprintf(
 		'<a class="icon-button site-cart" href="%1$s" aria-label="%2$s">%3$s<span class="site-cart-count" data-count="%4$d"%5$s>%4$d</span></a>',

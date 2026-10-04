@@ -16,7 +16,7 @@ plugin/brik-builder/     WordPress plugin
   assets/src/            builder app (React via wp.element), canvas + frontend JS, Tailwind input
   assets/build/          compiled assets (committed, so the plugin runs without a build step)
   resources/shadcn/      shadcn registry snapshot used as the styling reference
-theme/brik/              base theme
+theme/brikwp/            base theme (BrikWP)
 tools/                   build helpers (shadcn fetch, packaging)
 dev/                     docker-compose for a local WordPress
 ```

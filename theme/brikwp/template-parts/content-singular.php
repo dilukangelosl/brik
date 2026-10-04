@@ -24,14 +24,14 @@ defined( 'ABSPATH' ) || exit;
 		the_content(
 			sprintf(
 				/* translators: %s: post title, only visible to screen readers. */
-				esc_html__( 'Continue reading %s', 'brik' ),
+				esc_html__( 'Continue reading %s', 'brikwp' ),
 				'<span class="screen-reader-text">' . get_the_title() . '</span>'
 			)
 		);
 
 		wp_link_pages(
 			array(
-				'before'      => '<nav class="page-links" aria-label="' . esc_attr__( 'Pages', 'brik' ) . '"><span class="page-links-title">' . esc_html__( 'Pages:', 'brik' ) . '</span>',
+				'before'      => '<nav class="page-links" aria-label="' . esc_attr__( 'Pages', 'brikwp' ) . '"><span class="page-links-title">' . esc_html__( 'Pages:', 'brikwp' ) . '</span>',
 				'after'       => '</nav>',
 				'link_before' => '<span class="page-number">',
 				'link_after'  => '</span>',
@@ -47,5 +47,5 @@ defined( 'ABSPATH' ) || exit;
 		</footer>
 	<?php endif; ?>
 
-	<?php edit_post_link( __( 'Edit', 'brik' ), '<p class="edit-link">', '</p>' ); ?>
+	<?php edit_post_link( __( 'Edit', 'brikwp' ), '<p class="edit-link">', '</p>' ); ?>
 </article>

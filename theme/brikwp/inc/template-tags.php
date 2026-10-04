@@ -93,7 +93,7 @@ function brik_theme_entry_meta( $context = 'single' ) {
 	if ( ! $is_card && post_type_supports( get_post_type(), 'author' ) ) {
 		$items[] = sprintf(
 			'<span class="byline"><span class="screen-reader-text">%1$s </span><span class="author vcard"><a class="url fn n" href="%2$s">%3$s</a></span></span>',
-			esc_html__( 'By', 'brik' ),
+			esc_html__( 'By', 'brikwp' ),
 			esc_url( get_author_posts_url( (int) get_the_author_meta( 'ID' ) ) ),
 			esc_html( get_the_author() )
 		);
@@ -104,7 +104,7 @@ function brik_theme_entry_meta( $context = 'single' ) {
 	$minutes = brik_theme_reading_time();
 	$items[] = '<span class="reading-time">' . brik_theme_icon( 'clock' ) . esc_html(
 		/* translators: %d: minutes. */
-		sprintf( _n( '%d min read', '%d min read', $minutes, 'brik' ), $minutes )
+		sprintf( _n( '%d min read', '%d min read', $minutes, 'brikwp' ), $minutes )
 	) . '</span>';
 
 	if ( ! $is_card && ! post_password_required() && ( comments_open() || get_comments_number() ) ) {
@@ -116,8 +116,8 @@ function brik_theme_entry_meta( $context = 'single' ) {
 			esc_html(
 				$count
 					/* translators: %s: number of comments. */
-					? sprintf( _n( '%s comment', '%s comments', $count, 'brik' ), number_format_i18n( $count ) )
-					: __( 'Leave a comment', 'brik' )
+					? sprintf( _n( '%s comment', '%s comments', $count, 'brikwp' ), number_format_i18n( $count ) )
+					: __( 'Leave a comment', 'brikwp' )
 			)
 		);
 	}
@@ -151,7 +151,7 @@ function brik_theme_entry_tags() {
 	if ( ! $tags || is_wp_error( $tags ) ) {
 		return;
 	}
-	echo '<div class="entry-tags"><span class="screen-reader-text">' . esc_html__( 'Tags:', 'brik' ) . '</span>';
+	echo '<div class="entry-tags"><span class="screen-reader-text">' . esc_html__( 'Tags:', 'brikwp' ) . '</span>';
 	foreach ( $tags as $tag ) {
 		printf(
 			'<a class="badge badge--outline" href="%1$s" rel="tag">#%2$s</a>',
@@ -172,10 +172,10 @@ function brik_theme_author_box() {
 	}
 	$id = (int) get_the_author_meta( 'ID' );
 	?>
-	<aside class="author-box card" aria-label="<?php esc_attr_e( 'About the author', 'brik' ); ?>">
+	<aside class="author-box card" aria-label="<?php esc_attr_e( 'About the author', 'brikwp' ); ?>">
 		<?php echo get_avatar( $id, 56 ); ?>
 		<div class="author-box-body">
-			<p class="author-box-label"><?php esc_html_e( 'Written by', 'brik' ); ?></p>
+			<p class="author-box-label"><?php esc_html_e( 'Written by', 'brikwp' ); ?></p>
 			<p class="author-box-name"><a href="<?php echo esc_url( get_author_posts_url( $id ) ); ?>"><?php echo esc_html( get_the_author() ); ?></a></p>
 			<p class="author-box-bio"><?php echo wp_kses_post( $bio ); ?></p>
 		</div>
@@ -189,9 +189,9 @@ function brik_theme_author_box() {
 function brik_theme_post_navigation() {
 	the_post_navigation(
 		array(
-			'prev_text'          => '<span class="nav-label">' . brik_theme_icon( 'arrow-left' ) . esc_html__( 'Previous', 'brik' ) . '</span><span class="nav-title">%title</span>',
-			'next_text'          => '<span class="nav-label">' . esc_html__( 'Next', 'brik' ) . brik_theme_icon( 'arrow-right' ) . '</span><span class="nav-title">%title</span>',
-			'screen_reader_text' => __( 'Post navigation', 'brik' ),
+			'prev_text'          => '<span class="nav-label">' . brik_theme_icon( 'arrow-left' ) . esc_html__( 'Previous', 'brikwp' ) . '</span><span class="nav-title">%title</span>',
+			'next_text'          => '<span class="nav-label">' . esc_html__( 'Next', 'brikwp' ) . brik_theme_icon( 'arrow-right' ) . '</span><span class="nav-title">%title</span>',
+			'screen_reader_text' => __( 'Post navigation', 'brikwp' ),
 		)
 	);
 }
@@ -203,9 +203,9 @@ function brik_theme_pagination() {
 	the_posts_pagination(
 		array(
 			'mid_size'           => 1,
-			'prev_text'          => brik_theme_icon( 'chevron-left' ) . '<span>' . esc_html__( 'Previous', 'brik' ) . '</span>',
-			'next_text'          => '<span>' . esc_html__( 'Next', 'brik' ) . '</span>' . brik_theme_icon( 'chevron-right' ),
-			'screen_reader_text' => __( 'Posts navigation', 'brik' ),
+			'prev_text'          => brik_theme_icon( 'chevron-left' ) . '<span>' . esc_html__( 'Previous', 'brikwp' ) . '</span>',
+			'next_text'          => '<span>' . esc_html__( 'Next', 'brikwp' ) . '</span>' . brik_theme_icon( 'chevron-right' ),
+			'screen_reader_text' => __( 'Posts navigation', 'brikwp' ),
 		)
 	);
 }
@@ -214,7 +214,7 @@ function brik_theme_pagination() {
  * Footer copyright line. Supports {year} and {site} placeholders.
  */
 function brik_theme_copyright() {
-	$default = '&copy; {year} {site}';
+	$default = '© {year} {site}';
 	$text    = get_theme_mod( 'brik_theme_copyright', $default );
 	if ( '' === trim( (string) $text ) ) {
 		$text = $default;
@@ -253,24 +253,24 @@ function brik_theme_archive_header() {
 	$title   = get_the_archive_title();
 
 	if ( is_category() ) {
-		$eyebrow = __( 'Category', 'brik' );
+		$eyebrow = __( 'Category', 'brikwp' );
 		$title   = single_cat_title( '', false );
 	} elseif ( is_tag() ) {
-		$eyebrow = __( 'Tag', 'brik' );
+		$eyebrow = __( 'Tag', 'brikwp' );
 		$title   = single_tag_title( '', false );
 	} elseif ( is_author() ) {
-		$eyebrow = __( 'Author', 'brik' );
+		$eyebrow = __( 'Author', 'brikwp' );
 		$title   = get_the_author();
 	} elseif ( is_tax() ) {
 		$tax     = get_taxonomy( get_queried_object()->taxonomy );
 		$eyebrow = $tax ? $tax->labels->singular_name : '';
 		$title   = single_term_title( '', false );
 	} elseif ( is_post_type_archive() ) {
-		$eyebrow = __( 'Archive', 'brik' );
+		$eyebrow = __( 'Archive', 'brikwp' );
 		$title   = post_type_archive_title( '', false );
 	} elseif ( is_date() ) {
-		$eyebrow = __( 'Archive', 'brik' );
-		$title   = is_year() ? get_the_date( _x( 'Y', 'yearly archives date format', 'brik' ) ) : ( is_month() ? get_the_date( _x( 'F Y', 'monthly archives date format', 'brik' ) ) : get_the_date() );
+		$eyebrow = __( 'Archive', 'brikwp' );
+		$title   = is_year() ? get_the_date( _x( 'Y', 'yearly archives date format', 'brikwp' ) ) : ( is_month() ? get_the_date( _x( 'F Y', 'monthly archives date format', 'brikwp' ) ) : get_the_date() );
 	}
 	?>
 	<header class="page-header">
@@ -299,14 +299,14 @@ function brik_theme_comment( $comment, $args, $depth ) {
 						<time datetime="<?php comment_time( 'c' ); ?>">
 							<?php
 							/* translators: 1: comment date, 2: comment time. */
-							printf( esc_html__( '%1$s at %2$s', 'brik' ), esc_html( get_comment_date( '', $comment ) ), esc_html( get_comment_time() ) );
+							printf( esc_html__( '%1$s at %2$s', 'brikwp' ), esc_html( get_comment_date( '', $comment ) ), esc_html( get_comment_time() ) );
 							?>
 						</time>
 					</a>
-					<?php edit_comment_link( __( 'Edit', 'brik' ), '<span class="comment-edit">', '</span>' ); ?>
+					<?php edit_comment_link( __( 'Edit', 'brikwp' ), '<span class="comment-edit">', '</span>' ); ?>
 				</header>
 				<?php if ( '0' === $comment->comment_approved ) : ?>
-					<p class="comment-awaiting-moderation"><?php esc_html_e( 'Your comment is awaiting moderation.', 'brik' ); ?></p>
+					<p class="comment-awaiting-moderation"><?php esc_html_e( 'Your comment is awaiting moderation.', 'brikwp' ); ?></p>
 				<?php endif; ?>
 				<div class="comment-content"><?php comment_text(); ?></div>
 				<?php
@@ -316,7 +316,7 @@ function brik_theme_comment( $comment, $args, $depth ) {
 						array(
 							'depth'      => $depth,
 							'max_depth'  => $args['max_depth'],
-							'reply_text' => brik_theme_icon( 'corner-reply' ) . esc_html__( 'Reply', 'brik' ),
+							'reply_text' => brik_theme_icon( 'corner-reply' ) . esc_html__( 'Reply', 'brikwp' ),
 							'before'     => '<div class="comment-reply">',
 							'after'      => '</div>',
 						)

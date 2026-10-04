@@ -22,7 +22,7 @@ get_header();
 		</header>
 	<?php elseif ( is_home() ) : ?>
 		<header class="page-header">
-			<h2 class="page-title"><?php esc_html_e( 'Latest posts', 'brik' ); ?></h2>
+			<h2 class="page-title"><?php esc_html_e( 'Latest posts', 'brikwp' ); ?></h2>
 			<?php if ( get_bloginfo( 'description' ) ) : ?>
 				<div class="page-description"><p><?php bloginfo( 'description' ); ?></p></div>
 			<?php endif; ?>

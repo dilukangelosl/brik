@@ -16,7 +16,7 @@ function brik_theme_customize_register( $wp_customize ) {
 	$wp_customize->add_section(
 		'brik_theme_options',
 		array(
-			'title'    => __( 'Theme options', 'brik' ),
+			'title'    => __( 'Theme options', 'brikwp' ),
 			'priority' => 130,
 		)
 	);
@@ -33,14 +33,14 @@ function brik_theme_customize_register( $wp_customize ) {
 		array(
 			'type'    => 'checkbox',
 			'section' => 'brik_theme_options',
-			'label'   => __( 'Show dark mode toggle', 'brik' ),
+			'label'   => __( 'Show dark mode toggle', 'brikwp' ),
 		)
 	);
 
 	$wp_customize->add_setting(
 		'brik_theme_copyright',
 		array(
-			'default'           => '&copy; {year} {site}',
+			'default'           => '© {year} {site}',
 			'sanitize_callback' => 'brik_theme_sanitize_copyright',
 		)
 	);
@@ -49,8 +49,8 @@ function brik_theme_customize_register( $wp_customize ) {
 		array(
 			'type'        => 'text',
 			'section'     => 'brik_theme_options',
-			'label'       => __( 'Footer copyright text', 'brik' ),
-			'description' => __( 'Use {year} for the current year and {site} for the site title. Links are allowed.', 'brik' ),
+			'label'       => __( 'Footer copyright text', 'brikwp' ),
+			'description' => __( 'Use {year} for the current year and {site} for the site title. Links are allowed.', 'brikwp' ),
 		)
 	);
 }

@@ -41,7 +41,7 @@ else :
 			?>
 		</main>
 		<?php if ( brik_theme_has_sidebar() ) : ?>
-			<aside id="secondary" class="widget-area sidebar" aria-label="<?php esc_attr_e( 'Sidebar', 'brik' ); ?>">
+			<aside id="secondary" class="widget-area sidebar" aria-label="<?php esc_attr_e( 'Sidebar', 'brikwp' ); ?>">
 				<?php dynamic_sidebar( 'sidebar' ); ?>
 			</aside>
 		<?php endif; ?>

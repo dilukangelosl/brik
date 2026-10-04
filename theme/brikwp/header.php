@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
 
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
-<a class="skip-link screen-reader-text" href="#content"><?php esc_html_e( 'Skip to content', 'brik' ); ?></a>
+<a class="skip-link screen-reader-text" href="#content"><?php esc_html_e( 'Skip to content', 'brikwp' ); ?></a>
 
 <div id="page" class="site">
 <?php
@@ -28,11 +28,11 @@ if ( ! brik_theme_location( 'header' ) ) :
 			<?php brik_theme_site_branding(); ?>
 
 			<div class="site-header-actions">
-				<nav id="site-navigation" class="site-nav" aria-label="<?php esc_attr_e( 'Primary', 'brik' ); ?>">
+				<nav id="site-navigation" class="site-nav" aria-label="<?php esc_attr_e( 'Primary', 'brikwp' ); ?>">
 					<div class="site-nav-panel" id="site-nav-panel">
 						<div class="site-nav-panel-head">
 							<?php brik_theme_site_branding( false ); ?>
-							<button type="button" class="icon-button menu-close" aria-label="<?php esc_attr_e( 'Close menu', 'brik' ); ?>">
+							<button type="button" class="icon-button menu-close" aria-label="<?php esc_attr_e( 'Close menu', 'brikwp' ); ?>">
 								<?php brik_theme_the_icon( 'x' ); ?>
 							</button>
 						</div>
@@ -47,13 +47,13 @@ if ( ! brik_theme_location( 'header' ) ) :
 				?>
 
 				<?php if ( brik_theme_show_mode_toggle() ) : ?>
-					<button type="button" class="icon-button mode-toggle" aria-label="<?php esc_attr_e( 'Toggle dark mode', 'brik' ); ?>" aria-pressed="false">
+					<button type="button" class="icon-button mode-toggle" aria-label="<?php esc_attr_e( 'Toggle dark mode', 'brikwp' ); ?>" aria-pressed="false">
 						<?php brik_theme_the_icon( 'sun' ); ?>
 						<?php brik_theme_the_icon( 'moon' ); ?>
 					</button>
 				<?php endif; ?>
 
-				<button type="button" class="icon-button menu-toggle" aria-controls="site-nav-panel" aria-expanded="false" aria-label="<?php esc_attr_e( 'Open menu', 'brik' ); ?>">
+				<button type="button" class="icon-button menu-toggle" aria-controls="site-nav-panel" aria-expanded="false" aria-label="<?php esc_attr_e( 'Open menu', 'brikwp' ); ?>">
 					<?php brik_theme_the_icon( 'menu' ); ?>
 				</button>
 			</div>

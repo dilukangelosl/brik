@@ -30,7 +30,7 @@ if ( ! brik_theme_location( 'footer' ) ) :
 		<div class="wrap site-info">
 			<p class="site-copyright"><?php echo brik_theme_copyright(); // phpcs:ignore WordPress.Security.EscapeOutput -- kses'd in brik_theme_copyright(). ?></p>
 			<?php if ( has_nav_menu( 'footer' ) ) : ?>
-				<nav class="footer-nav" aria-label="<?php esc_attr_e( 'Footer', 'brik' ); ?>">
+				<nav class="footer-nav" aria-label="<?php esc_attr_e( 'Footer', 'brikwp' ); ?>">
 					<?php
 					wp_nav_menu(
 						array(

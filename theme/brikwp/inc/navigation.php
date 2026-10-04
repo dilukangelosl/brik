@@ -21,7 +21,7 @@ function brik_theme_submenu_toggle( $output, $item, $depth, $args ) {
 	}
 	$label = sprintf(
 		/* translators: %s: menu item title. */
-		__( 'Show submenu for %s', 'brik' ),
+		__( 'Show submenu for %s', 'brikwp' ),
 		wp_strip_all_tags( $item->title )
 	);
 	return $output . sprintf(

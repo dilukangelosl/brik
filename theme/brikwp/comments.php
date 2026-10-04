@@ -17,7 +17,7 @@ if ( post_password_required() ) {
 			<?php
 			$brik_theme_count = (int) get_comments_number();
 			/* translators: %s: number of comments. */
-			echo esc_html( sprintf( _n( '%s comment', '%s comments', $brik_theme_count, 'brik' ), number_format_i18n( $brik_theme_count ) ) );
+			echo esc_html( sprintf( _n( '%s comment', '%s comments', $brik_theme_count, 'brikwp' ), number_format_i18n( $brik_theme_count ) ) );
 			?>
 		</h2>
 
@@ -37,14 +37,14 @@ if ( post_password_required() ) {
 		<?php
 		the_comments_navigation(
 			array(
-				'prev_text' => brik_theme_icon( 'chevron-left' ) . esc_html__( 'Older comments', 'brik' ),
-				'next_text' => esc_html__( 'Newer comments', 'brik' ) . brik_theme_icon( 'chevron-right' ),
+				'prev_text' => brik_theme_icon( 'chevron-left' ) . esc_html__( 'Older comments', 'brikwp' ),
+				'next_text' => esc_html__( 'Newer comments', 'brikwp' ) . brik_theme_icon( 'chevron-right' ),
 			)
 		);
 		?>
 
 		<?php if ( ! comments_open() ) : ?>
-			<p class="no-comments"><?php esc_html_e( 'Comments are closed.', 'brik' ); ?></p>
+			<p class="no-comments"><?php esc_html_e( 'Comments are closed.', 'brikwp' ); ?></p>
 		<?php endif; ?>
 	<?php endif; ?>
 
@@ -54,10 +54,10 @@ if ( post_password_required() ) {
 			'class_container'    => 'comment-respond card',
 			'class_form'         => 'comment-form',
 			'class_submit'       => 'btn submit',
-			'title_reply'        => __( 'Leave a comment', 'brik' ),
+			'title_reply'        => __( 'Leave a comment', 'brikwp' ),
 			'title_reply_before' => '<h2 id="reply-title" class="comment-reply-title">',
 			'title_reply_after'  => '</h2>',
-			'label_submit'       => __( 'Post comment', 'brik' ),
+			'label_submit'       => __( 'Post comment', 'brikwp' ),
 		)
 	);
 	?>
