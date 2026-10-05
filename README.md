@@ -1,33 +1,36 @@
 <p align="center">
-  <img src=".github/assets/banner.jpg" alt="Brik — the open-source visual builder for WordPress" width="100%">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset=".github/assets/brand/lockup-dark.png">
+    <img src=".github/assets/brand/lockup-light.png" alt="Brik" width="220">
+  </picture>
 </p>
 
 <p align="center">
-  <a href="https://github.com/dilukangelosl/brik/releases/latest"><img alt="Release" src="https://img.shields.io/github/v/release/dilukangelosl/brik?style=flat-square&color=8b5cf6"></a>
-  <a href="LICENSE"><img alt="License: GPL-2.0-or-later" src="https://img.shields.io/badge/license-GPL--2.0--or--later-22d3ee?style=flat-square"></a>
-  <img alt="WordPress 6.3+" src="https://img.shields.io/badge/WordPress-6.3%2B-3858e9?style=flat-square&logo=wordpress&logoColor=white">
-  <img alt="PHP 7.4+" src="https://img.shields.io/badge/PHP-7.4%2B-777bb4?style=flat-square&logo=php&logoColor=white">
-  <img alt="MCP server" src="https://img.shields.io/badge/MCP-server%20included-111?style=flat-square">
+  <b>A free, open-source visual builder for WordPress.</b><br>
+  Drag in sections, type straight onto the page, and publish pages that ship about 2&nbsp;KB of JavaScript.<br>
+  No account, no pro tier, no lock-in.
 </p>
 
 <p align="center">
-  <b>Design any WordPress site visually — or let your AI assistant build it for you.</b><br>
-  Drag &amp; drop builder · shadcn/ui-quality components · animated 3D sections · theme builder ·<br>
-  custom post types &amp; fields · WooCommerce · built-in MCP server · 100% open source
+  <a href="https://github.com/dilukangelosl/brik/releases/latest"><img alt="Release" src="https://img.shields.io/github/v/release/dilukangelosl/brik?style=flat-square&color=B4442C"></a>
+  <a href="LICENSE"><img alt="License: GPL-2.0-or-later" src="https://img.shields.io/badge/license-GPL--2.0--or--later-1A1715?style=flat-square"></a>
+  <img alt="WordPress 6.3+" src="https://img.shields.io/badge/WordPress-6.3%2B-1A1715?style=flat-square&logo=wordpress&logoColor=white">
+  <img alt="PHP 7.4+" src="https://img.shields.io/badge/PHP-7.4%2B-1A1715?style=flat-square&logo=php&logoColor=white">
 </p>
 
 <p align="center">
-  <a href="#-quick-start">Quick start</a> ·
-  <a href="#-features">Features</a> ·
-  <a href="#-build-with-ai-mcp">MCP</a> ·
+  <a href="https://brikwp.com">Website</a> ·
+  <a href="#quick-start">Quick start</a> ·
+  <a href="#features">Features</a> ·
+  <a href="#build-with-ai-mcp">MCP</a> ·
   <a href="docs/">Docs</a> ·
-  <a href="#-development">Development</a>
+  <a href="#development">Development</a>
 </p>
 
 <br>
 
 <p align="center">
-  <img src=".github/assets/builder.jpg" alt="The Brik builder editing a landing page" width="100%">
+  <img src=".github/assets/site/hero.jpg" alt="The Brik editor with brikwp.com open" width="100%">
 </p>
 
 ## Why Brik
@@ -35,20 +38,20 @@
 Page builders are either powerful but closed, or open but dated. Brik is a modern, fully open-source
 alternative to Divi and Elementor:
 
-- **It looks great by default.** Every component follows the [shadcn/ui](https://ui.shadcn.com) design
-  language and a real token-based design system (colors, radius, fonts, light &amp; dark).
+- **Clean components out of the box.** Every element follows the [shadcn/ui](https://ui.shadcn.com) conventions and
+  a token-based design system (colours, radius, fonts, light and dark).
 - **What you see is what ships.** The canvas is your actual page, rendered by the same PHP that
   serves visitors — no separate preview engine, no shortcode soup.
 - **No lock-in.** Pages are stored as JSON *and* as clean HTML in the post, so content stays readable
   even if you switch the plugin off.
-- **AI-native.** A built-in [Model Context Protocol](https://modelcontextprotocol.io) server lets
+- **Works with your tools.** A built-in [Model Context Protocol](https://modelcontextprotocol.io) server lets
   Claude, Cursor, VS Code or any MCP client create pages, headers, menus and content types for you.
 - **Fast by default.** Every page gets one optimized stylesheet with only the rules it uses, critical CSS
   inlined, and JavaScript only for the elements on it. A typical page ships 37–89% less CSS and 45–97% less JS.
-- **Honest about quality.** Built-in performance, accessibility, SEO and responsive audits tell you what's
+- **Checks its own work.** Built-in performance, accessibility, SEO and responsive audits tell you what's
   wrong in plain language and fix most of it in one click.
 
-## ✨ Features
+## Features
 
 ### A visual builder that feels like a design tool
 
@@ -227,7 +230,7 @@ entire site, front page, blog, post types, specific posts, archives, taxonomy te
 - A visual query builder for listings that reads like a sentence — and shows the equivalent `WP_Query`
 - Display conditions with nested AND/OR groups: user role, login state, post fields, URL parameters, dates, device, cart total, past purchases, language and more
 
-## 🤖 Build with AI (MCP)
+## Build with AI (MCP)
 
 <img src=".github/assets/mcp.jpg" alt="Connect AI screen" width="100%">
 
@@ -253,7 +256,7 @@ components, presets, the library, media, content types and entries, queries, aud
 staging and WooCommerce products — plus a building guide, and every change goes through
 the same validation and sanitization as the visual builder. See [docs/MCP.md](docs/MCP.md).
 
-## 🚀 Quick start
+## Quick start
 
 1. Download `brik-builder.zip` and `brikwp.zip` from the [latest release](https://github.com/dilukangelosl/brik/releases/latest).
 2. In WordPress go to **Plugins → Add New → Upload** and install `brik-builder.zip`.
@@ -263,7 +266,7 @@ the same validation and sanitization as the visual builder. See [docs/MCP.md](do
 
 Requirements: WordPress 6.3+, PHP 7.4+.
 
-## 🛠 Development
+## Development
 
 ```bash
 git clone https://github.com/dilukangelosl/brik.git && cd brik
@@ -315,7 +318,7 @@ add_action( 'brik/register_modules', function () {
 Read [docs/MODULES.md](docs/MODULES.md), [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) and
 [docs/CONTENT.md](docs/CONTENT.md).
 
-## 🗺 Roadmap
+## Roadmap
 
 - Role-based element access
 - A/B testing

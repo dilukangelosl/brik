@@ -49,7 +49,7 @@
   --border: oklch(0.92 0.004 286.32);
   --input: oklch(0.92 0.004 286.32);
   --ring: oklch(0.708 0 0);
-  --brand: oklch(0.541 0.231 276.9);
+  --brand: oklch(0.548 0.153 33.8);
   --surface: oklch(0.985 0.002 286);
 
   /* Bleed over the admin's content padding so the header spans the page. */

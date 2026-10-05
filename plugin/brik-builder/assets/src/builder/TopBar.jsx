@@ -32,8 +32,8 @@ export function TopBar() {
           width={220}
           trigger={
             <button type="button" className="flex h-8 items-center gap-2 rounded-md px-2 hover:bg-accent cursor-pointer" title="Menu">
-              <span className="flex size-6 items-center justify-center rounded-md bg-foreground text-background">
-                <Icon name="blocks" size={14} />
+              <span className="flex size-6 items-center justify-center rounded-md bg-brand text-white">
+                <svg viewBox="0 0 12 12" width="13" height="13" aria-hidden="true"><path fill="currentColor" d="M0.00 0.25h4.00v1.50h-4.00zM0.00 2.25h4.00v1.50h-4.00zM0.00 4.25h12.00v1.50h-12.00zM0.00 6.25h4.00v1.50h-4.00zM8.00 6.25h4.00v1.50h-4.00zM0.00 8.25h4.00v1.50h-4.00zM8.00 8.25h4.00v1.50h-4.00zM0.00 10.25h12.00v1.50h-12.00z" /></svg>
               </span>
               <Icon name="chevron-down" size={14} className="text-muted-foreground" />
             </button>

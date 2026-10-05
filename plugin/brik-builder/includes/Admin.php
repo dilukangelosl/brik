@@ -33,7 +33,7 @@ final class Admin {
 	 * A simple brick-wall mark, drawn in the menu's own gray so it matches core icons.
 	 */
 	private static function icon() {
-		$svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path fill="#a7aaad" d="M2 3h7v4H2zM11 3h7v4h-7zM2 9h3v4H2zM7 9h6v4H7zM15 9h3v4h-3zM2 15h7v3H2zM11 15h7v3h-7z"/></svg>';
+		$svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path fill="#a7aaad" d="M1.00 1.40h6.00v2.20h-6.00zM1.00 4.40h6.00v2.20h-6.00zM1.00 7.40h18.00v2.20h-18.00zM1.00 10.40h6.00v2.20h-6.00zM13.00 10.40h6.00v2.20h-6.00zM1.00 13.40h6.00v2.20h-6.00zM13.00 13.40h6.00v2.20h-6.00zM1.00 16.40h18.00v2.20h-18.00z"/></svg>';
 		return 'data:image/svg+xml;base64,' . base64_encode( $svg ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode
 	}
 

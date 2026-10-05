@@ -3,7 +3,7 @@
  * Plugin Name:       Brik Builder
  * Plugin URI:        https://github.com/dilukangelosl/brik
  * Description:       Visual drag & drop site builder with a shadcn-inspired component library, theme builder and a built-in MCP server.
- * Version:           1.2.2
+ * Version:           1.2.3
  * Requires at least: 6.3
  * Requires PHP:      7.4
  * Author:            Diluk Angelo
@@ -18,7 +18,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'BRIK_VERSION', '1.2.2' );
+define( 'BRIK_VERSION', '1.2.3' );
 define( 'BRIK_FILE', __FILE__ );
 define( 'BRIK_DIR', plugin_dir_path( __FILE__ ) );
 define( 'BRIK_URL', plugin_dir_url( __FILE__ ) );
