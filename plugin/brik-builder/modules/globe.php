@@ -33,7 +33,7 @@ return array(
 		'tilt'        => Fields::field( 'range', __( 'Tilt', 'brik-builder' ), 'content', array( 'default' => 18, 'min' => -45, 'max' => 45, 'unit' => 'deg' ) ),
 		'center_lng'  => Fields::field( 'number', __( 'Start longitude', 'brik-builder' ), 'content', array( 'default' => 10, 'min' => -180, 'max' => 180, 'description' => __( 'Longitude facing the viewer when the globe appears.', 'brik-builder' ) ) ),
 		'label'       => Fields::field( 'text', __( 'Accessible description', 'brik-builder' ), 'content', array( 'default' => __( 'Globe with arcs connecting cities around the world', 'brik-builder' ) ) ),
-		'size'        => Fields::field( 'unit', __( 'Size', 'brik-builder' ), 'globe_style', array( 'tab' => 'design', 'group_label' => __( 'Globe', 'brik-builder' ), 'default' => '600px', 'responsive' => true, 'css' => array( Fields::WRAP . ' .brik-globe-stage', 'max-width' ) ) ),
+		'size'        => Fields::field( 'unit', __( 'Size', 'brik-builder' ), 'globe_style', array( 'tab' => 'design', 'group_label' => __( 'Globe', 'brik-builder' ), 'default' => '600px', 'responsive' => true, 'css' => array( Fields::WRAP . ' .brik-globe-stage', 'width' ) ) ),
 		'dot_color'   => Fields::field( 'color', __( 'Dot color', 'brik-builder' ), 'globe_style', array( 'tab' => 'design', 'group_label' => __( 'Globe', 'brik-builder' ), 'description' => __( 'Defaults to the text color, so it adapts to light and dark sections.', 'brik-builder' ) ) ),
 		'dot_size'    => Fields::field( 'range', __( 'Dot size', 'brik-builder' ), 'globe_style', array( 'tab' => 'design', 'group_label' => __( 'Globe', 'brik-builder' ), 'default' => 1, 'min' => 0.5, 'max' => 2, 'step' => 0.05 ) ),
 		'ocean'       => Fields::field( 'toggle', __( 'Ocean dots', 'brik-builder' ), 'globe_style', array( 'tab' => 'design', 'group_label' => __( 'Globe', 'brik-builder' ) ) ),
@@ -63,7 +63,7 @@ return array(
 		$label = '' !== (string) $a['label'] ? wp_strip_all_tags( $a['label'] ) : __( 'Globe', 'brik-builder' );
 
 		return sprintf(
-			'<div class="brik-globe-stage relative mx-auto aspect-square w-full max-w-[600px]%1$s" data-config="%2$s" data-mask="%3$s"%4$s><div class="brik-globe-glow" aria-hidden="true"></div><canvas class="brik-globe-canvas" role="img" aria-label="%5$s"></canvas></div>',
+			'<div class="brik-globe-stage relative mx-auto aspect-square w-[600px] max-w-full%1$s" data-config="%2$s" data-mask="%3$s"%4$s><div class="brik-globe-glow" aria-hidden="true"></div><canvas class="brik-globe-canvas" role="img" aria-label="%5$s"></canvas></div>',
 			$config['interactive'] ? ' is-interactive' : '',
 			esc_attr( wp_json_encode( $config ) ),
 			esc_attr( brik_3d_land_mask() ),

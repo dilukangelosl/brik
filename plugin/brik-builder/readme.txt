@@ -4,7 +4,7 @@ Tags: page builder, visual editor, drag and drop, theme builder, mcp
 Requires at least: 6.3
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.2.3
+Stable tag: 1.2.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -98,6 +98,9 @@ Yes. A module is a single PHP file that returns its definition. Register it on t
 Under Brik → Submissions, visible to administrators.
 
 == Changelog ==
+
+= 1.2.4 =
+* Globe: keeps its size inside centred columns instead of collapsing to zero width.
 
 = 1.2.3 =
 * New Brik logo in the admin menu and the builder, and brick red as the builder's accent colour.
