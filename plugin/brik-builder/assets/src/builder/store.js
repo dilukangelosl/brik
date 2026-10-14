@@ -10,6 +10,7 @@ let state = {
   tree: config.post.tree || [],
   page: config.post.page || {},
   title: config.post.title,
+  thumbnail: config.post.thumbnail, // undefined when the post type has no featured image
   status: config.post.status,
   conditions: config.post.conditions || [],
   area: config.post.area || null,

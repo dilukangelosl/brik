@@ -36,6 +36,7 @@ export async function save(status) {
   try {
     const data = { tree: s.tree, page: s.page, title: s.title };
     if (status) data.status = status;
+    if (s.thumbnail !== undefined) data.thumbnail = s.thumbnail ? s.thumbnail.id : 0;
     if (s.area) {
       data.area = s.area;
       data.conditions = s.conditions;

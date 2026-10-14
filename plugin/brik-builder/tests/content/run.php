@@ -1170,6 +1170,29 @@ Registry::delete_group( $recipe_group );
 Registry::delete_taxonomy( 'bt_cuisine', true );
 
 /* -------------------------------------------------------------------------
+ * Featured image from the builder's page settings.
+ * ---------------------------------------------------------------------- */
+
+$fp   = wp_insert_post( array( 'post_title' => 'Thumb test', 'post_status' => 'draft' ) );
+$save = function ( $body ) use ( $fp ) {
+	$req = new WP_REST_Request( 'POST', '/brik/v1/posts/' . $fp );
+	$req->set_url_params( array( 'id' => $fp ) );
+	$req->set_header( 'Content-Type', 'application/json' );
+	$req->set_body( wp_json_encode( $body ) );
+	return \Brik\Rest::save_post( $req );
+};
+$t->ok( array_key_exists( 'thumbnail', \Brik\Rest::post_payload( $fp ) ) && null === \Brik\Rest::post_payload( $fp )['thumbnail'], 'payload has empty thumbnail' );
+$res = $save( array( 'thumbnail' => $img1 ) );
+$t->ok( $img1 === (int) get_post_thumbnail_id( $fp ) && $img1 === $res['thumbnail']['id'], 'builder save sets featured image' );
+$save( array( 'thumbnail' => $pdf ) );
+$t->ok( $img1 === (int) get_post_thumbnail_id( $fp ), 'non-image attachment ignored' );
+$save( array( 'title' => 'Thumb test' ) );
+$t->ok( $img1 === (int) get_post_thumbnail_id( $fp ), 'save without thumbnail keeps it' );
+$save( array( 'thumbnail' => 0 ) );
+$t->ok( ! get_post_thumbnail_id( $fp ), 'builder save removes featured image' );
+wp_delete_post( $fp, true );
+
+/* -------------------------------------------------------------------------
  * Done.
  * ---------------------------------------------------------------------- */
 

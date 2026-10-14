@@ -175,6 +175,13 @@ final class Rest {
 		if ( $library ) {
 			$payload['library'] = $library;
 		}
+		if ( post_type_supports( $post->post_type, 'thumbnail' ) && ! ThemeBuilder::is_template( $post->ID ) ) {
+			$thumb                = (int) get_post_thumbnail_id( $post );
+			$payload['thumbnail'] = $thumb ? array(
+				'id'  => $thumb,
+				'url' => (string) wp_get_attachment_image_url( $thumb, 'medium' ),
+			) : null;
+		}
 		if ( ThemeBuilder::is_template( $post->ID ) ) {
 			$payload['area']       = ThemeBuilder::area( $post->ID );
 			$payload['conditions'] = ThemeBuilder::conditions( $post->ID );
@@ -209,6 +216,14 @@ final class Rest {
 		}
 		if ( count( $update ) > 1 ) {
 			wp_update_post( $update );
+		}
+		if ( isset( $body['thumbnail'] ) && post_type_supports( $post->post_type, 'thumbnail' ) ) {
+			$thumb = absint( $body['thumbnail'] );
+			if ( $thumb && wp_attachment_is_image( $thumb ) ) {
+				set_post_thumbnail( $id, $thumb );
+			} elseif ( ! $thumb ) {
+				delete_post_thumbnail( $id );
+			}
 		}
 
 		if ( isset( $body['tree'] ) ) {

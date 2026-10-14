@@ -592,7 +592,7 @@ function ShadowControl({ value, onChange, placeholder }) {
  * Media.
  * ---------------------------------------------------------------------- */
 
-function mediaFrame({ title, type = 'image', multiple = false, onSelect }) {
+export function mediaFrame({ title, type = 'image', multiple = false, onSelect }) {
   const frame = window.wp.media({ title, multiple, library: { type }, button: { text: 'Use selected' } });
   frame.on('select', () => {
     const items = frame

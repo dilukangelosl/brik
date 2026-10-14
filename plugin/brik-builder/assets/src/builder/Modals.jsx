@@ -5,7 +5,7 @@ import { saveToLibrary, saveSettings, search } from './api.js';
 import { reload } from './canvas.js';
 import { Icon } from './icons.js';
 import { ModuleGrid, useLibrary, insertLibraryItem, insertBundled } from './LeftPanel.jsx';
-import { StructurePreview, ColorControl, Control } from './fields.jsx';
+import { StructurePreview, ColorControl, Control, mediaFrame } from './fields.jsx';
 import { getModal } from './registry.js';
 import { cn, Dialog, Button, Input, Textarea, Select, Switch, Tabs, Label, IconButton, Empty } from './ui.jsx';
 
@@ -252,6 +252,7 @@ function PageSettings() {
           <Label>Title</Label>
           <Input value={s.title} onChange={(e) => setState({ title: e.target.value, dirty: true })} />
         </div>
+        {s.thumbnail !== undefined && <FeaturedImage />}
         {isTemplate && (
           <>
             <div className="space-y-1.5">
@@ -289,6 +290,29 @@ function PageSettings() {
         <ImportExport />
       </div>
     </Dialog>
+  );
+}
+
+/** The post's featured image, saved with the page. */
+function FeaturedImage() {
+  const thumb = useStore((st) => st.thumbnail);
+  const set = (v) => setState({ thumbnail: v, dirty: true });
+  const choose = () => mediaFrame({ title: 'Featured image', onSelect: (a) => set({ id: a.id, url: a.url }) });
+  return (
+    <div className="space-y-1.5">
+      <Label>Featured image</Label>
+      {thumb ? (
+        <div className="flex items-center gap-3">
+          <img src={thumb.url} alt="" className="h-20 w-32 rounded-md border border-border object-cover" />
+          <div className="flex gap-2">
+            <Button size="sm" variant="outline" icon="replace" onClick={choose}>Replace</Button>
+            <Button size="sm" variant="ghost" icon="trash-2" onClick={() => set(null)}>Remove</Button>
+          </div>
+        </div>
+      ) : (
+        <Button size="sm" variant="outline" icon="image-plus" onClick={choose}>Set featured image</Button>
+      )}
+    </div>
   );
 }
 
