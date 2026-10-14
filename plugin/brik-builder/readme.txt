@@ -4,7 +4,7 @@ Tags: page builder, visual editor, drag and drop, theme builder, mcp
 Requires at least: 6.3
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.2.5
+Stable tag: 1.2.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -98,6 +98,9 @@ Yes. A module is a single PHP file that returns its definition. Register it on t
 Under Brik → Submissions, visible to administrators.
 
 == Changelog ==
+
+= 1.2.6 =
+* Media library in the builder: screen-reader labels no longer show on screen and overlap the title.
 
 = 1.2.5 =
 * Fix: the WordPress media library could not be clicked inside the builder (its backdrop sat on top of it), so images could not be uploaded or chosen.

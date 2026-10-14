@@ -207,6 +207,21 @@ body.brik-app-body {
 }
 
 /* WordPress media modal sits above the builder. */
+/* The builder doesn't load wp-admin's common.css, which is where WordPress hides the media
+   modal's screen-reader labels ("Select media actions", "Close dialog", "Deselect"...). */
+.media-modal .screen-reader-text,
+.media-frame .screen-reader-text {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  border: 0;
+  word-wrap: normal !important;
+}
+
 /* The backdrop must stay one layer under the modal, or it swallows every click inside it. */
 .media-modal {
   z-index: 160000 !important;
