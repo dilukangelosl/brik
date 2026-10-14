@@ -207,7 +207,11 @@ body.brik-app-body {
 }
 
 /* WordPress media modal sits above the builder. */
-.media-modal,
-.media-modal-backdrop {
+/* The backdrop must stay one layer under the modal, or it swallows every click inside it. */
+.media-modal {
   z-index: 160000 !important;
+}
+
+.media-modal-backdrop {
+  z-index: 159999 !important;
 }

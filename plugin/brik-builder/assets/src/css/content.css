@@ -269,7 +269,11 @@ body.bk-is-dragging * {
 }
 
 /* The WordPress media modal and admin bar sit above the app; our dialogs sit above both. */
-.media-modal,
-.media-modal-backdrop {
+/* The backdrop must stay one layer under the modal, or it swallows every click inside it. */
+.media-modal {
   z-index: 160000 !important;
+}
+
+.media-modal-backdrop {
+  z-index: 159999 !important;
 }
